@@ -199,7 +199,6 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             } else {
                 this.answerLabel.setText("Wrong!");
             }
-            System.out.println(e.getActionCommand());
 
         } catch (NullPointerException exception) {
             System.out.println("It is not possible to show the questions");
