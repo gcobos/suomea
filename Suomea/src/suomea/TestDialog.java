@@ -115,7 +115,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         jPanel3.setMinimumSize(new java.awt.Dimension(378, 40));
         jPanel3.setName("jPanel3"); // NOI18N
         jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel3.setLayout(new java.awt.BorderLayout());
 
         nextButton.setText(resourceMap.getString("nextButton.text")); // NOI18N
         nextButton.setName("nextButton"); // NOI18N
@@ -124,7 +124,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                 nextButtonActionPerformed(evt);
             }
         });
-        jPanel3.add(nextButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 130, 40));
+        jPanel3.add(nextButton, java.awt.BorderLayout.CENTER);
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
