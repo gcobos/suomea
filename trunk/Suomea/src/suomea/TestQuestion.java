@@ -28,6 +28,6 @@ public class TestQuestion {
 
     public String word;
     
-    public ArrayList options;
+    public ArrayList<String> options;
 
 }
