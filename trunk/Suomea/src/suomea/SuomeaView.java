@@ -104,6 +104,10 @@ public class SuomeaView extends FrameView {
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
+        exercisesMenu = new javax.swing.JMenu();
+        vtestMenuItem = new javax.swing.JMenuItem();
+        statisticsMenu = new javax.swing.JMenu();
+        vStatisticsMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
         statusPanel = new javax.swing.JPanel();
@@ -122,7 +126,7 @@ public class SuomeaView extends FrameView {
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 252, Short.MAX_VALUE)
+            .addGap(0, 246, Short.MAX_VALUE)
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -137,6 +141,34 @@ public class SuomeaView extends FrameView {
         fileMenu.add(exitMenuItem);
 
         menuBar.add(fileMenu);
+
+        exercisesMenu.setText(resourceMap.getString("exercisesMenu.text")); // NOI18N
+        exercisesMenu.setName("exercisesMenu"); // NOI18N
+
+        vtestMenuItem.setText(resourceMap.getString("vtestMenuItem.text")); // NOI18N
+        vtestMenuItem.setName("vtestMenuItem"); // NOI18N
+        vtestMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vtestMenuItemActionPerformed(evt);
+            }
+        });
+        exercisesMenu.add(vtestMenuItem);
+
+        menuBar.add(exercisesMenu);
+
+        statisticsMenu.setText(resourceMap.getString("statisticsMenu.text")); // NOI18N
+        statisticsMenu.setName("statisticsMenu"); // NOI18N
+        statisticsMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statisticsMenuActionPerformed(evt);
+            }
+        });
+
+        vStatisticsMenuItem.setText(resourceMap.getString("vStatisticsMenuItem.text")); // NOI18N
+        vStatisticsMenuItem.setName("vStatisticsMenuItem"); // NOI18N
+        statisticsMenu.add(vStatisticsMenuItem);
+
+        menuBar.add(statisticsMenu);
 
         helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
         helpMenu.setName("helpMenu"); // NOI18N
@@ -166,7 +198,7 @@ public class SuomeaView extends FrameView {
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusAnimationLabel)
@@ -189,13 +221,25 @@ public class SuomeaView extends FrameView {
         setStatusBar(statusPanel);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void vtestMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vtestMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_vtestMenuItemActionPerformed
+
+    private void statisticsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_statisticsMenuActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu exercisesMenu;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JProgressBar progressBar;
+    private javax.swing.JMenu statisticsMenu;
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
+    private javax.swing.JMenuItem vStatisticsMenuItem;
+    private javax.swing.JMenuItem vtestMenuItem;
     // End of variables declaration//GEN-END:variables
 
     private final Timer messageTimer;
