@@ -21,22 +21,26 @@
  *
  * Created on 10-oct-2010, 17:18:44
  */
-
 package suomea;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JLabel;
 
 /**
  *
  * @author bicha
  */
-public class TestDialog extends javax.swing.JDialog {
+public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
-
+    private int questionID = 0;
+    List<TestQuestion> questions;
 
     /** Creates new form TestDialog */
     public TestDialog(java.awt.Frame parent, boolean modal, List<TestQuestion> questions) {
         super(parent, modal);
+        this.questions = questions;
         initComponents();
         createNextQuestion();
     }
@@ -52,6 +56,8 @@ public class TestDialog extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         textPanel = new javax.swing.JPanel();
+        mainWordPanel = new javax.swing.JPanel();
+        possibilitiesPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         nextButton = new javax.swing.JButton();
 
@@ -64,17 +70,37 @@ public class TestDialog extends javax.swing.JDialog {
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
 
         textPanel.setName("textPanel"); // NOI18N
+        textPanel.setLayout(new javax.swing.BoxLayout(textPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        javax.swing.GroupLayout textPanelLayout = new javax.swing.GroupLayout(textPanel);
-        textPanel.setLayout(textPanelLayout);
-        textPanelLayout.setHorizontalGroup(
-            textPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 378, Short.MAX_VALUE)
+        mainWordPanel.setName("mainWordPanel"); // NOI18N
+
+        javax.swing.GroupLayout mainWordPanelLayout = new javax.swing.GroupLayout(mainWordPanel);
+        mainWordPanel.setLayout(mainWordPanelLayout);
+        mainWordPanelLayout.setHorizontalGroup(
+            mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 189, Short.MAX_VALUE)
         );
-        textPanelLayout.setVerticalGroup(
-            textPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 197, Short.MAX_VALUE)
+        mainWordPanelLayout.setVerticalGroup(
+            mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 185, Short.MAX_VALUE)
         );
+
+        textPanel.add(mainWordPanel);
+
+        possibilitiesPanel.setName("possibilitiesPanel"); // NOI18N
+
+        javax.swing.GroupLayout possibilitiesPanelLayout = new javax.swing.GroupLayout(possibilitiesPanel);
+        possibilitiesPanel.setLayout(possibilitiesPanelLayout);
+        possibilitiesPanelLayout.setHorizontalGroup(
+            possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 189, Short.MAX_VALUE)
+        );
+        possibilitiesPanelLayout.setVerticalGroup(
+            possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 185, Short.MAX_VALUE)
+        );
+
+        textPanel.add(possibilitiesPanel);
 
         jPanel1.add(textPanel);
 
@@ -82,7 +108,7 @@ public class TestDialog extends javax.swing.JDialog {
         jPanel3.setMaximumSize(new java.awt.Dimension(1000, 40000));
         jPanel3.setMinimumSize(new java.awt.Dimension(378, 40));
         jPanel3.setName("jPanel3"); // NOI18N
-        jPanel3.setPreferredSize(new java.awt.Dimension(378, 40));
+        jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(TestDialog.class);
@@ -103,20 +129,30 @@ public class TestDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-        // TODO add your handling code here:
+        createNextQuestion();
     }//GEN-LAST:event_nextButtonActionPerformed
 
-    private void createNextQuestion(){
+    private void createNextQuestion() {
+        TestQuestion question = this.questions.get(questionID);
 
+        this.mainWordPanel.removeAll();
+        this.mainWordPanel.add(new JLabel(question.word));
+
+        for(String option : question.options){
+
+        }
+
+        questionID++;
     }
-
-   
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel mainWordPanel;
     private javax.swing.JButton nextButton;
+    private javax.swing.JPanel possibilitiesPanel;
     private javax.swing.JPanel textPanel;
     // End of variables declaration//GEN-END:variables
 
+    public void actionPerformed(ActionEvent e) {
+    }
 }
