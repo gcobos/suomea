@@ -40,6 +40,16 @@ public class SuomeaView extends FrameView {
 
         initComponents();
 
+        /*
+        Dictionary dict = new Dictionary();
+        try {
+            String[] res = dict.getRandomWord();
+            System.out.println("Esto?"+res[0]);
+        } catch (Exception e) {
+            System.out.println("Algo ha fallado "+e.toString());
+            System.exit(0);
+        }*/
+
         // status bar initialization - message timeout, idle icon and busy animation, etc
         ResourceMap resourceMap = getResourceMap();
         int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
