@@ -74,7 +74,13 @@ public class TestExercise {
     public void finish ()
     {
         Dictionary dict = Dictionary.getInstance();
-        dict.updateUsedWords();
+        Vector<String> learnt = new Vector<String>();
+        for (TestQuestion question : questions ) {
+            if (question.isCorrect && question.fails==0) {
+                learnt.add(question.word);
+            }
+        }
+        dict.updateUsedWords(learnt);
     }
     // Tools for correcting the exercise
 }
