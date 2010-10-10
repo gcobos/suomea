@@ -65,6 +65,8 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         nextButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(TestDialog.class);
+        setTitle(resourceMap.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
@@ -81,7 +83,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         mainWordPanel.setLayout(mainWordPanelLayout);
         mainWordPanelLayout.setHorizontalGroup(
             mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 283, Short.MAX_VALUE)
+            .addGap(0, 330, Short.MAX_VALUE)
         );
         mainWordPanelLayout.setVerticalGroup(
             mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,7 +105,6 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(TestDialog.class);
         nextButton.setText(resourceMap.getString("nextButton.text")); // NOI18N
         nextButton.setName("nextButton"); // NOI18N
         nextButton.addActionListener(new java.awt.event.ActionListener() {
