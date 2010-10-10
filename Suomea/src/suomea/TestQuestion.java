@@ -18,7 +18,7 @@
 
 package suomea;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -28,6 +28,7 @@ public class TestQuestion {
 
     public String word;
     
-    public ArrayList<String> options;
+    public List<String> options;
 
+    public int correct;
 }
