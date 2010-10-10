@@ -158,6 +158,11 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
 
+    /**
+     * Creates the components for one question:
+     * - label with the main word
+     * - radio buttons with the possible meanings
+     */
     private void createNextQuestion() {
         if (questionID == exercise.getNumberOfQuestions() - 1) {
             this.exercise.finish();
@@ -176,9 +181,11 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                     // Removes all the components from the panel where the possible answers are writen
                     this.possibilitiesPanel.removeAll();
                     this.possibilitiesPanel.setLayout(new GridLayout(0, 1));
+
                     // Adds a new group of possibilities
                     ButtonGroup group = new ButtonGroup();
 
+                    // Creates the radio buttons and adds them to the group and to the panel
                     for (String option : question.options) {
                         if (option.length() > 50) {
                             option = "<html>" + option.substring(0, 50) + "-<br>" + option.substring(50, option.length()) + "</html>";
@@ -191,7 +198,9 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                         this.possibilitiesPanel.add(opt);
                     }
 
+                    // Increments the question ID
                     questionID++;
+
                     this.validate();
                 } catch (NullPointerException exception) {
                     System.out.println("It is not possible to show the questions");
@@ -219,8 +228,10 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             return;
         }
         try {
+            // Checks whether the answer is correct or not
             String correctAnswer = question.options.get(question.correct);
             String givenAnswer = e.getActionCommand();
+            // Changes the radio button string if it has html labels
             givenAnswer = givenAnswer.replace("<html>", "");
             givenAnswer = givenAnswer.replace("</html>", "");
             givenAnswer = givenAnswer.replace("-<br>", "");
@@ -229,14 +240,13 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                 this.createNextQuestion();
                 question.isCorrect = true;
                 correctCount++;
-
             } else {
                 this.answerLabel.setText("Wrong!");
                 question.fails++;
                 failCount++;
             }
 
-
+            // Writes the statistics of the current test in the main windows using the text area givem in the class arguments
             String statistics = "Test Results \nCorrect Answers: " + correctCount + "\nWrong Answers: " + failCount;
             this.results.setText(statistics);
 
