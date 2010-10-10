@@ -6,6 +6,10 @@
 package suomea;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  *
@@ -30,7 +34,7 @@ public class Database {
             try {
                 ref = new Database();
             } catch (Exception e) {
-                System.out.println("getInstance dice "+e.toString());
+                System.out.println("getInstance says "+e.toString());
                 return null;
             }
         }
@@ -76,8 +80,39 @@ public class Database {
             ResultSet rs = stat.executeQuery(queryString);
             return rs;
         } catch (Exception e) {
-            System.out.println("El query dice "+e.toString());
+            System.out.println("Query says "+e.toString());
             return null;
+        }
+    }
+
+    public void update (String table, Hashtable<String, String> vars, String where)
+    {
+        String query = "UPDATE \""+table+"\" SET ";
+        
+        Set<String> set = vars.keySet();
+        Iterator<String> itr = set.iterator();
+        String str;
+        StringBuffer buffer = new StringBuffer();
+        while (itr.hasNext()) {
+            str = itr.next();
+            // Use carefully, no quotes!
+            buffer.append(str + "=" + vars.get(str));
+            if (itr.hasNext()) {
+                buffer.append(",");
+            }
+        }
+        query.concat(buffer.toString());
+        if (where.length()>0) {
+            query.concat("WHERE "+where);
+        }
+        
+        try {
+            PreparedStatement prep = conn.prepareStatement(query);
+            conn.setAutoCommit(false);
+            prep.execute();
+            conn.setAutoCommit(true);
+        } catch (Exception e) {
+            System.err.println("Error updating 'use' of the words" + e.toString());
         }
     }
 

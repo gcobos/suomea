@@ -36,7 +36,7 @@ public class TestExercise {
         // Reset the previous exercise
         Random rand = new Random();
         questions = new Vector<TestQuestion>();
-        Dictionary dict = new Dictionary();
+        Dictionary dict = Dictionary.getInstance();
 
         for (int i = 0; i < numQuestions; i++) {
             TestQuestion question = new TestQuestion();
@@ -68,6 +68,13 @@ public class TestExercise {
 
     public int getNumberOfQuestions() {
         return numQuestions;
+    }
+
+    // Closes the exersize and update statistics
+    public void finish ()
+    {
+        Dictionary dict = Dictionary.getInstance();
+        dict.updateUsedWords();
     }
     // Tools for correcting the exercise
 }

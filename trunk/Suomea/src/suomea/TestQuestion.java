@@ -31,4 +31,8 @@ public class TestQuestion {
     public List<String> options;
 
     public int correct;
+
+    public int fails = 0;
+
+    public boolean isCorrect = false;
 }
