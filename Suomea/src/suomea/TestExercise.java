@@ -15,7 +15,6 @@
  * Guineu; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
-
 package suomea;
 
 import java.util.Vector;
@@ -30,22 +29,19 @@ public class TestExercise {
     private Vector<TestQuestion> questions = null;
 
     // Generates the exercise and retur a vector
-    public Vector<TestQuestion> getExercise ()
-    {
+    public TestExercise() {
         // Reset the previous exercise
-        questions = new Vector<TestQuestion>(numQuestions);
-        for (int i = 0; i<numQuestions; i++) {
+        questions = new Vector<TestQuestion>();
+        for (int i = 0; i < numQuestions; i++) {
             TestQuestion question = new TestQuestion();
 
             // Fill the question
-            questions.set(i, question);
+            questions.addElement(question);
         }
-
-        return questions;
     }
 
+    public TestQuestion getQuestion(int ID) {
+        return this.questions.get(ID);
+    }
     // Tools for correcting the exercise
-
-    
-
 }
