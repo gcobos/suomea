@@ -242,7 +242,9 @@ public class SuomeaView extends FrameView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void vtestMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vtestMenuItemActionPerformed
-        // TODO add your handling code here:
+        TestExercise exercise = new TestExercise();
+        TestDialog tDialog = new TestDialog(this.getFrame(), false, exercise);
+        tDialog.setVisible(true);
     }//GEN-LAST:event_vtestMenuItemActionPerformed
 
     private void statisticsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuActionPerformed

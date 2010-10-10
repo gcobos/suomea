@@ -25,7 +25,6 @@ package suomea;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
@@ -37,13 +36,13 @@ import javax.swing.JRadioButton;
 public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
     private int questionID = 0;
-    private List<TestQuestion> questions;
+    private TestExercise exercise;
     private ButtonGroup group;
-    
+
     /** Creates new form TestDialog */
-    public TestDialog(java.awt.Frame parent, boolean modal, List<TestQuestion> questions) {
+    public TestDialog(java.awt.Frame parent, boolean modal, TestExercise exercise) {
         super(parent, modal);
-        this.questions = questions;
+        this.exercise = exercise;
         initComponents();
         createNextQuestion();
     }
@@ -83,11 +82,11 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         mainWordPanel.setLayout(mainWordPanelLayout);
         mainWordPanelLayout.setHorizontalGroup(
             mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 330, Short.MAX_VALUE)
+            .addGap(0, 365, Short.MAX_VALUE)
         );
         mainWordPanelLayout.setVerticalGroup(
             mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 185, Short.MAX_VALUE)
+            .addGap(0, 187, Short.MAX_VALUE)
         );
 
         textPanel.add(mainWordPanel);
@@ -99,7 +98,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         jPanel1.add(textPanel);
 
         jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanel3.setMaximumSize(new java.awt.Dimension(1000, 40000));
+        jPanel3.setMaximumSize(new java.awt.Dimension(378, 40));
         jPanel3.setMinimumSize(new java.awt.Dimension(378, 40));
         jPanel3.setName("jPanel3"); // NOI18N
         jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -122,29 +121,39 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-
         createNextQuestion();
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void createNextQuestion() {
-        if (questions != null && questions.size() > 0) {
-            TestQuestion question = this.questions.get(questionID);
 
-            this.mainWordPanel.removeAll();
-            this.mainWordPanel.add(new JLabel(question.word));
+        if (exercise != null) {
+            TestQuestion question = exercise.getQuestion(questionID);
 
+            if (exercise.getQuestion(questionID) != null) {
+                try {
+                    // Removes all the components from the main word panel to write the word of the new exercise
+                    this.mainWordPanel.removeAll();
+                    this.mainWordPanel.add(new JLabel(question.word));
 
-            this.possibilitiesPanel.removeAll();
-            group = new ButtonGroup();
+                    // Removes all the components from the panel where the possible answers are writen
+                    this.possibilitiesPanel.removeAll();
 
-            for (String option : question.options) {
-                JRadioButton opt = new JRadioButton(option);
-                opt.addActionListener(this);
-                group.add(opt);
-                this.possibilitiesPanel.add(opt);
+                    // Adds a new group of possibilities
+                    group = new ButtonGroup();
+
+                    for (String option : question.options) {
+                        JRadioButton opt = new JRadioButton(option);
+                        opt.addActionListener(this);
+                        group.add(opt);
+                        this.possibilitiesPanel.add(opt);
+                    }
+
+                    questionID++;
+                } catch (NullPointerException exception) {
+                    System.out.println("It is not possible to show the questions");
+                    exception.printStackTrace();
+                }
             }
-
-            questionID++;
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
