@@ -17,6 +17,7 @@
  */
 package suomea;
 
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -26,16 +27,34 @@ import java.util.Vector;
 public class TestExercise {
 
     private int numQuestions = 20;
+    private int numOptions = 4;  // Always greater than 1
     private Vector<TestQuestion> questions = null;
 
     // Generates the exercise and retur a vector
     public TestExercise() {
         // Reset the previous exercise
+        Random rand = new Random();
         questions = new Vector<TestQuestion>();
+        Dictionary dict = new Dictionary();
+
         for (int i = 0; i < numQuestions; i++) {
             TestQuestion question = new TestQuestion();
 
             // Fill the question
+            question.correct = rand.nextInt(numOptions);
+            for (int j = 0; j < numOptions; j++ ) {
+                try {
+                    String[] res = dict.getRandomWord();
+                    if (j == question.correct) {
+                        question.word = res[0];
+                    }
+                    question.options.add(res[1]);
+                } catch (Exception e) {
+                    System.out.println("Algo ha fallado sacando la palabra "+e.toString());
+                    System.exit(0);
+                }
+            }
+
             questions.addElement(question);
         }
     }
