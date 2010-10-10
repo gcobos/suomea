@@ -159,7 +159,11 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                     ButtonGroup group = new ButtonGroup();
 
                     for (String option : question.options) {
+                        if (option.length() > 50) {
+                            option = "<html>" + option.substring(0, 50) + "-<br>" + option.substring(50, option.length()) + "</html>";
+                        }
                         JRadioButton opt = new JRadioButton(option);
+
                         opt.addActionListener(this);
                         group.add(opt);
 
@@ -170,7 +174,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                     this.validate();
                 } catch (NullPointerException exception) {
                     System.out.println("It is not possible to show the questions");
-                    exception.printStackTrace();
+                    dispose();
                 }
             }
         }
@@ -193,8 +197,12 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         }
         try {
             String correctAnswer = question.options.get(question.correct);
-           
-            if (correctAnswer.equals(e.getActionCommand())) {
+            String givenAnswer = e.getActionCommand();
+            givenAnswer = givenAnswer.replace("<html>", "");
+            givenAnswer = givenAnswer.replace("</html>", "");
+            givenAnswer = givenAnswer.replace("-<br>", "");
+      
+            if (correctAnswer.equals(givenAnswer)) {
                 this.createNextQuestion();
             } else {
                 this.answerLabel.setText("Wrong!");
