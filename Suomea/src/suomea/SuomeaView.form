@@ -15,7 +15,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="252" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="246" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -50,6 +50,40 @@
                 <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
               </AuxValues>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="exercisesMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="exercisesMenu.text"/>
+            <Property name="name" type="java.lang.String" value="exercisesMenu" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="vtestMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="vtestMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="vtestMenuItem" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="vtestMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="statisticsMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="statisticsMenu.text"/>
+            <Property name="name" type="java.lang.String" value="statisticsMenu" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="statisticsMenuActionPerformed"/>
+          </Events>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="vStatisticsMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="vStatisticsMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="vStatisticsMenuItem" noResource="true"/>
+              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -91,7 +125,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="statusMessageLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="226" max="32767" attributes="0"/>
+                  <EmptySpace pref="214" max="32767" attributes="0"/>
                   <Component id="progressBar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="statusAnimationLabel" min="-2" max="-2" attributes="0"/>
