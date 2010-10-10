@@ -64,6 +64,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         possibilitiesPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         nextButton = new javax.swing.JButton();
+        closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(TestDialog.class);
@@ -115,7 +116,6 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         jPanel3.setMinimumSize(new java.awt.Dimension(378, 40));
         jPanel3.setName("jPanel3"); // NOI18N
         jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
-        jPanel3.setLayout(new java.awt.BorderLayout());
 
         nextButton.setText(resourceMap.getString("nextButton.text")); // NOI18N
         nextButton.setName("nextButton"); // NOI18N
@@ -124,7 +124,16 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                 nextButtonActionPerformed(evt);
             }
         });
-        jPanel3.add(nextButton, java.awt.BorderLayout.CENTER);
+        jPanel3.add(nextButton);
+
+        closeButton.setText(resourceMap.getString("closeButton.text")); // NOI18N
+        closeButton.setName("closeButton"); // NOI18N
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeButtonActionPerformed(evt);
+            }
+        });
+        jPanel3.add(closeButton);
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
@@ -137,8 +146,13 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         createNextQuestion();
     }//GEN-LAST:event_nextButtonActionPerformed
 
+    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+        this.exercise.finish();
+    }//GEN-LAST:event_closeButtonActionPerformed
+
     private void createNextQuestion() {
         if (questionID == exercise.getNumberOfQuestions() - 1) {
+            this.exercise.finish();
             this.dispose();
             return;
         }
@@ -181,6 +195,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel answerLabel;
+    private javax.swing.JButton closeButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel mainWordPanel;
@@ -192,6 +207,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (questionID == exercise.getNumberOfQuestions() - 1) {
+            this.exercise.finish();
             this.dispose();
             return;
         }
@@ -201,11 +217,13 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             givenAnswer = givenAnswer.replace("<html>", "");
             givenAnswer = givenAnswer.replace("</html>", "");
             givenAnswer = givenAnswer.replace("-<br>", "");
-      
+
             if (correctAnswer.equals(givenAnswer)) {
                 this.createNextQuestion();
+                question.isCorrect = true;
             } else {
                 this.answerLabel.setText("Wrong!");
+                question.fails++;
             }
 
         } catch (NullPointerException exception) {
