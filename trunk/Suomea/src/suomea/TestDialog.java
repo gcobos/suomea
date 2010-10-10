@@ -27,7 +27,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 
 /**
@@ -38,7 +37,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
     private int questionID = 0;
     private TestExercise exercise;
-    private ButtonGroup group;
+    private TestQuestion question;
 
     /** Creates new form TestDialog */
     public TestDialog(java.awt.Frame parent, boolean modal, TestExercise exercise) {
@@ -60,6 +59,8 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         jPanel1 = new javax.swing.JPanel();
         textPanel = new javax.swing.JPanel();
         mainWordPanel = new javax.swing.JPanel();
+        wordLabel = new javax.swing.JLabel();
+        answerLabel = new javax.swing.JLabel();
         possibilitiesPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         nextButton = new javax.swing.JButton();
@@ -67,54 +68,54 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(TestDialog.class);
         setTitle(resourceMap.getString("Form.title")); // NOI18N
+        setMinimumSize(new java.awt.Dimension(500, 200));
         setName("Form"); // NOI18N
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel1.setName("jPanel1"); // NOI18N
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
         textPanel.setName("textPanel"); // NOI18N
-        textPanel.setLayout(new javax.swing.BoxLayout(textPanel, javax.swing.BoxLayout.LINE_AXIS));
 
+        mainWordPanel.setMaximumSize(new java.awt.Dimension(100, 100));
         mainWordPanel.setName("mainWordPanel"); // NOI18N
+        mainWordPanel.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout mainWordPanelLayout = new javax.swing.GroupLayout(mainWordPanel);
-        mainWordPanel.setLayout(mainWordPanelLayout);
-        mainWordPanelLayout.setHorizontalGroup(
-            mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 298, Short.MAX_VALUE)
-        );
-        mainWordPanelLayout.setVerticalGroup(
-            mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 187, Short.MAX_VALUE)
-        );
+        wordLabel.setText(resourceMap.getString("wordLabel.text")); // NOI18N
+        wordLabel.setName("wordLabel"); // NOI18N
+        mainWordPanel.add(wordLabel, java.awt.BorderLayout.PAGE_START);
+
+        answerLabel.setText(resourceMap.getString("answerLabel.text")); // NOI18N
+        answerLabel.setName("answerLabel"); // NOI18N
+        mainWordPanel.add(answerLabel, java.awt.BorderLayout.PAGE_END);
 
         textPanel.add(mainWordPanel);
 
+        possibilitiesPanel.setMaximumSize(new java.awt.Dimension(400, 32767));
         possibilitiesPanel.setName("possibilitiesPanel"); // NOI18N
 
         javax.swing.GroupLayout possibilitiesPanelLayout = new javax.swing.GroupLayout(possibilitiesPanel);
         possibilitiesPanel.setLayout(possibilitiesPanelLayout);
         possibilitiesPanelLayout.setHorizontalGroup(
             possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 79, Short.MAX_VALUE)
+            .addGap(0, 248, Short.MAX_VALUE)
         );
         possibilitiesPanelLayout.setVerticalGroup(
             possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 187, Short.MAX_VALUE)
+            .addGap(0, 244, Short.MAX_VALUE)
         );
 
         textPanel.add(possibilitiesPanel);
 
-        jPanel1.add(textPanel);
+        jPanel1.add(textPanel, java.awt.BorderLayout.CENTER);
 
         jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel3.setMaximumSize(new java.awt.Dimension(378, 40));
         jPanel3.setMinimumSize(new java.awt.Dimension(378, 40));
         jPanel3.setName("jPanel3"); // NOI18N
         jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
-        jPanel3.setLayout(new java.awt.BorderLayout());
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         nextButton.setText(resourceMap.getString("nextButton.text")); // NOI18N
         nextButton.setName("nextButton"); // NOI18N
@@ -123,9 +124,9 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                 nextButtonActionPerformed(evt);
             }
         });
-        jPanel3.add(nextButton, java.awt.BorderLayout.CENTER);
+        jPanel3.add(nextButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 130, 40));
 
-        jPanel1.add(jPanel3);
+        jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         getContentPane().add(jPanel1);
 
@@ -137,31 +138,36 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void createNextQuestion() {
+        if (questionID == exercise.getNumberOfQuestions() - 1) {
+            this.dispose();
+            return;
+        }
+
+        this.answerLabel.setText("");
 
         if (exercise != null) {
-            TestQuestion question = exercise.getQuestion(questionID);
+            question = exercise.getQuestion(questionID);
 
             if (exercise.getQuestion(questionID) != null) {
                 try {
-                    // Removes all the components from the main word panel to write the word of the new exercise
-                    this.mainWordPanel.removeAll();
-                    this.mainWordPanel.add(new JLabel(question.word));
+                    this.wordLabel.setText(question.word);
 
                     // Removes all the components from the panel where the possible answers are writen
                     this.possibilitiesPanel.removeAll();
-                    this.possibilitiesPanel.setLayout(new GridLayout(0, 2));
+                    this.possibilitiesPanel.setLayout(new GridLayout(0, 1));
                     // Adds a new group of possibilities
-                    group = new ButtonGroup();
+                    ButtonGroup group = new ButtonGroup();
 
                     for (String option : question.options) {
                         JRadioButton opt = new JRadioButton(option);
                         opt.addActionListener(this);
                         group.add(opt);
+
                         this.possibilitiesPanel.add(opt);
-                        this.possibilitiesPanel.add(new JLabel("?"));
                     }
 
                     questionID++;
+                    this.validate();
                 } catch (NullPointerException exception) {
                     System.out.println("It is not possible to show the questions");
                     exception.printStackTrace();
@@ -169,30 +175,35 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             }
         }
     }
-
-    private void setAnswer() {
-        if (exercise != null) {
-            TestQuestion question = exercise.getQuestion(questionID);
-
-            if (exercise.getQuestion(questionID) != null) {
-                for (String option : question.options) {
-                }
-            }
-        }
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel answerLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel mainWordPanel;
     private javax.swing.JButton nextButton;
     private javax.swing.JPanel possibilitiesPanel;
     private javax.swing.JPanel textPanel;
+    private javax.swing.JLabel wordLabel;
     // End of variables declaration//GEN-END:variables
 
     public void actionPerformed(ActionEvent e) {
-        // ButtonModel model = group.getSelection();
-        System.out.println(e.getActionCommand());
+        if (questionID == exercise.getNumberOfQuestions() - 1) {
+            this.dispose();
+            return;
+        }
+        try {
+            String correctAnswer = question.options.get(question.correct);
+           
+            if (correctAnswer.equals(e.getActionCommand())) {
+                this.createNextQuestion();
+            } else {
+                this.answerLabel.setText("Wrong!");
+            }
+            System.out.println(e.getActionCommand());
 
-
+        } catch (NullPointerException exception) {
+            System.out.println("It is not possible to show the questions");
+            exception.printStackTrace();
+        }
     }
 }
