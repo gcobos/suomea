@@ -65,5 +65,9 @@ public class TestExercise {
     public TestQuestion getQuestion(int ID) {
         return this.questions.get(ID);
     }
+
+    public int getNumberOfQuestions() {
+        return numQuestions;
+    }
     // Tools for correcting the exercise
 }
