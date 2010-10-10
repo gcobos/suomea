@@ -23,6 +23,7 @@
  */
 package suomea;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
@@ -82,7 +83,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         mainWordPanel.setLayout(mainWordPanelLayout);
         mainWordPanelLayout.setHorizontalGroup(
             mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 365, Short.MAX_VALUE)
+            .addGap(0, 298, Short.MAX_VALUE)
         );
         mainWordPanelLayout.setVerticalGroup(
             mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,7 +93,18 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         textPanel.add(mainWordPanel);
 
         possibilitiesPanel.setName("possibilitiesPanel"); // NOI18N
-        possibilitiesPanel.setLayout(new java.awt.GridLayout());
+
+        javax.swing.GroupLayout possibilitiesPanelLayout = new javax.swing.GroupLayout(possibilitiesPanel);
+        possibilitiesPanel.setLayout(possibilitiesPanelLayout);
+        possibilitiesPanelLayout.setHorizontalGroup(
+            possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 79, Short.MAX_VALUE)
+        );
+        possibilitiesPanelLayout.setVerticalGroup(
+            possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 187, Short.MAX_VALUE)
+        );
+
         textPanel.add(possibilitiesPanel);
 
         jPanel1.add(textPanel);
@@ -137,7 +149,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
                     // Removes all the components from the panel where the possible answers are writen
                     this.possibilitiesPanel.removeAll();
-
+                    this.possibilitiesPanel.setLayout(new GridLayout(0, 2));
                     // Adds a new group of possibilities
                     group = new ButtonGroup();
 
@@ -146,12 +158,24 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                         opt.addActionListener(this);
                         group.add(opt);
                         this.possibilitiesPanel.add(opt);
+                        this.possibilitiesPanel.add(new JLabel("?"));
                     }
 
                     questionID++;
                 } catch (NullPointerException exception) {
                     System.out.println("It is not possible to show the questions");
                     exception.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void setAnswer() {
+        if (exercise != null) {
+            TestQuestion question = exercise.getQuestion(questionID);
+
+            if (exercise.getQuestion(questionID) != null) {
+                for (String option : question.options) {
                 }
             }
         }
@@ -166,5 +190,9 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
     // End of variables declaration//GEN-END:variables
 
     public void actionPerformed(ActionEvent e) {
+        // ButtonModel model = group.getSelection();
+        System.out.println(e.getActionCommand());
+
+
     }
 }
