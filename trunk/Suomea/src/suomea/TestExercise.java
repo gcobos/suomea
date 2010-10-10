@@ -17,6 +17,7 @@
  */
 package suomea;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
 
@@ -30,7 +31,7 @@ public class TestExercise {
     private int numOptions = 4;  // Always greater than 1
     private Vector<TestQuestion> questions = null;
 
-    // Generates the exercise and retur a vector
+    // Generates the exercise and return a vector
     public TestExercise() {
         // Reset the previous exercise
         Random rand = new Random();
@@ -42,15 +43,17 @@ public class TestExercise {
 
             // Fill the question
             question.correct = rand.nextInt(numOptions);
+            question.options = new ArrayList<String>();
             for (int j = 0; j < numOptions; j++ ) {
                 try {
                     String[] res = dict.getRandomWord();
                     if (j == question.correct) {
-                        question.word = res[0];
+                        question.word = new String(res[0]);
                     }
+                    //System.out.println("The word "+res[1]);
                     question.options.add(res[1]);
                 } catch (Exception e) {
-                    System.out.println("Algo ha fallado sacando la palabra "+e.toString());
+                    System.out.println("Something is wrong with the word "+e.toString());
                     System.exit(0);
                 }
             }
