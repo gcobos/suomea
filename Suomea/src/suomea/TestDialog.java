@@ -26,7 +26,9 @@ package suomea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
 
 /**
  *
@@ -35,8 +37,9 @@ import javax.swing.JLabel;
 public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
     private int questionID = 0;
-    List<TestQuestion> questions;
-
+    private List<TestQuestion> questions;
+    private ButtonGroup group;
+    
     /** Creates new form TestDialog */
     public TestDialog(java.awt.Frame parent, boolean modal, List<TestQuestion> questions) {
         super(parent, modal);
@@ -78,7 +81,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         mainWordPanel.setLayout(mainWordPanelLayout);
         mainWordPanelLayout.setHorizontalGroup(
             mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 189, Short.MAX_VALUE)
+            .addGap(0, 283, Short.MAX_VALUE)
         );
         mainWordPanelLayout.setVerticalGroup(
             mainWordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,18 +91,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         textPanel.add(mainWordPanel);
 
         possibilitiesPanel.setName("possibilitiesPanel"); // NOI18N
-
-        javax.swing.GroupLayout possibilitiesPanelLayout = new javax.swing.GroupLayout(possibilitiesPanel);
-        possibilitiesPanel.setLayout(possibilitiesPanelLayout);
-        possibilitiesPanelLayout.setHorizontalGroup(
-            possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 189, Short.MAX_VALUE)
-        );
-        possibilitiesPanelLayout.setVerticalGroup(
-            possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 185, Short.MAX_VALUE)
-        );
-
+        possibilitiesPanel.setLayout(new java.awt.GridLayout());
         textPanel.add(possibilitiesPanel);
 
         jPanel1.add(textPanel);
@@ -129,20 +121,30 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+
         createNextQuestion();
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void createNextQuestion() {
-        TestQuestion question = this.questions.get(questionID);
+        if (questions != null && questions.size() > 0) {
+            TestQuestion question = this.questions.get(questionID);
 
-        this.mainWordPanel.removeAll();
-        this.mainWordPanel.add(new JLabel(question.word));
+            this.mainWordPanel.removeAll();
+            this.mainWordPanel.add(new JLabel(question.word));
 
-        for(String option : question.options){
 
+            this.possibilitiesPanel.removeAll();
+            group = new ButtonGroup();
+
+            for (String option : question.options) {
+                JRadioButton opt = new JRadioButton(option);
+                opt.addActionListener(this);
+                group.add(opt);
+                this.possibilitiesPanel.add(opt);
+            }
+
+            questionID++;
         }
-
-        questionID++;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
