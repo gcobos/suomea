@@ -101,9 +101,10 @@ public class Database {
                 buffer.append(",");
             }
         }
-        query.concat(buffer.toString());
+        System.out.println("El buffer "+buffer.toString());
+        query = query.concat(buffer.toString());
         if (where.length()>0) {
-            query.concat("WHERE "+where);
+            query = query.concat(" WHERE "+where+";");
         }
         
         try {

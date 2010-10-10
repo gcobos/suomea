@@ -10,6 +10,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
+import java.util.Vector;
 
 
 
@@ -57,7 +58,7 @@ public class Dictionary {
                         result[1] = rs.getString("translation");
                         if (result[0].length()>0 && result[1].length()>0) {
                             isOk=true;
-                            //usedWords.put(rowid,1);
+                            usedWords.put(rowid,1);
                         }
                     }
                 }
@@ -72,18 +73,14 @@ public class Dictionary {
     }
     
     /* Increments the 'used' column in the words used in the exercises */
-    public void updateUsedWords ()
+    public void updateUsedWords (Vector<String> words)
     {
         Database db = Database.getInstance();
 
-        Set<Integer> set = usedWords.keySet();
-        Iterator<Integer> itr = set.iterator();
-        Integer key;
-        while (itr.hasNext()) {
-            key = itr.next();
+        for (String word : words) {
             Hashtable<String,String> vars = new Hashtable<String,String>();
-            vars.put("used","used + " + usedWords.get(key).toString());
-            db.update("words", vars, "rowid = "+ key.toString());
+            vars.put("used","used + 1");
+            db.update("words", vars, "original = '"+ word + "'");
         }
 
     }
