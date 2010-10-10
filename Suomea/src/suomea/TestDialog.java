@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -38,13 +39,19 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
     private int questionID = 0;
     private TestExercise exercise;
     private TestQuestion question;
+    private JTextArea results;
+    private int failCount = 0;
+    private int correctCount = 0;
 
     /** Creates new form TestDialog */
-    public TestDialog(java.awt.Frame parent, boolean modal, TestExercise exercise) {
+    public TestDialog(java.awt.Frame parent, boolean modal, TestExercise exercise, JTextArea results) {
         super(parent, modal);
         this.exercise = exercise;
         initComponents();
         createNextQuestion();
+        this.results = results;
+        results.setText("Test Results \n");
+
     }
 
     /** This method is called from within the constructor to
@@ -148,13 +155,13 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         this.exercise.finish();
+        this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
 
     private void createNextQuestion() {
         if (questionID == exercise.getNumberOfQuestions() - 1) {
             this.exercise.finish();
             this.dispose();
-            return;
         }
 
         this.answerLabel.setText("");
@@ -221,10 +228,17 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             if (correctAnswer.equals(givenAnswer)) {
                 this.createNextQuestion();
                 question.isCorrect = true;
+                correctCount++;
+
             } else {
                 this.answerLabel.setText("Wrong!");
                 question.fails++;
+                failCount++;
             }
+
+
+            String statistics = "Test Results \nCorrect Answers: " + correctCount + "\nWrong Answers: " + failCount;
+            this.results.setText(statistics);
 
         } catch (NullPointerException exception) {
             System.out.println("It is not possible to show the questions");
