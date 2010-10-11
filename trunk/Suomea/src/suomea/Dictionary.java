@@ -20,10 +20,12 @@ import java.util.Vector;
  */
 public class Dictionary {
 
+    private int dictionaryId;
     private Hashtable<Integer,Integer> usedWords;       // word id => number of times used
 
     private Dictionary()
     {
+        dictionaryId = 1;
         usedWords = new Hashtable<Integer,Integer>();
     }
 
@@ -34,6 +36,11 @@ public class Dictionary {
             ref = new Dictionary();
         }
         return ref;
+    }
+
+    public int getId ()
+    {
+        return dictionaryId;
     }
 
     public String[] getRandomWord ()
@@ -49,7 +56,7 @@ public class Dictionary {
         while (!isOk) {
             try {
 
-                rs = db.query("SELECT rowid, original, translation FROM words ORDER BY used,random() LIMIT 1;");
+                rs = db.query("SELECT rowid, original, translation FROM words WHERE dictionaryId="+ this.getId() +" ORDER BY used,random() LIMIT 1;");
                 if (rs.next()) {
                     // Check if the word is ok
                     rowid=rs.getInt("rowid");
@@ -79,10 +86,9 @@ public class Dictionary {
 
         for (String word : words) {
             Hashtable<String,String> vars = new Hashtable<String,String>();
-            vars.put("used","used + 1");
+            vars.put("used","(used + 1)");
             db.update("words", vars, "original = '"+ word + "'");
         }
-
     }
 
     private static Dictionary ref;
