@@ -164,9 +164,10 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
      * - radio buttons with the possible meanings
      */
     private void createNextQuestion() {
-        if (questionID == exercise.getNumberOfQuestions() - 1) {
+        if (questionID == exercise.getNumberOfQuestions()) {
             this.exercise.finish();
             this.dispose();
+            return;
         }
 
         this.answerLabel.setText("");
@@ -174,7 +175,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         if (exercise != null) {
             question = exercise.getQuestion(questionID);
 
-            if (exercise.getQuestion(questionID) != null) {
+            if (question != null) {
                 try {
                     this.wordLabel.setText(question.word);
 
@@ -222,11 +223,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
     // End of variables declaration//GEN-END:variables
 
     public void actionPerformed(ActionEvent e) {
-        if (questionID == exercise.getNumberOfQuestions() - 1) {
-            this.exercise.finish();
-            this.dispose();
-            return;
-        }
+
         try {
             // Checks whether the answer is correct or not
             String correctAnswer = question.options.get(question.correct);
@@ -237,7 +234,6 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             givenAnswer = givenAnswer.replace("-<br>", "");
 
             if (correctAnswer.equals(givenAnswer)) {
-                this.createNextQuestion();
                 question.isCorrect = true;
                 correctCount++;
             } else {
@@ -254,5 +250,9 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             System.out.println("It is not possible to show the questions");
             exception.printStackTrace();
         }
+
+        // To get the last stats printed before closing the test window
+        if (question.isCorrect) this.createNextQuestion();
+
     }
 }

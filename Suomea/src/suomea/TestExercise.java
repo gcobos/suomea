@@ -32,6 +32,11 @@ public class TestExercise {
     private int numOptions = 4;  // Always greater than 1
     private Vector<TestQuestion> questions = null;
 
+    // Evaluation
+    private int numCorrects = 0;
+    private int numFails = 0;
+    private double evaluation = 0.0;
+
     // Generates the exercise and return a vector
     public TestExercise() {
         // Reset the previous exercise
@@ -84,9 +89,19 @@ public class TestExercise {
         }
         dict.updateUsedWords(learnt);
 
-        // Register the results for this exercise
-        int numCorrects = 0;
-        int numFails = 0;
+        // Calcule evaluation results
+        this.doEvaluation();
+
+        // Register those results
+        this.registerResults();
+    }
+
+    // Tools for correcting the exercise
+    public void doEvaluation ()
+    {
+        numCorrects = 0;
+        numFails = 0;
+        evaluation = 0.0;
         for (TestQuestion question : questions) {
             if (question.isCorrect || question.fails > 0) {
                 if (question.isCorrect && question.fails==0) {
@@ -96,19 +111,17 @@ public class TestExercise {
                 }
             }
         }
-        registerResults(numCorrects, numFails);
+        evaluation = 10.0 * numCorrects / (double)(numCorrects + numFails);
     }
-
-    // Tools for correcting the exercise
     
-    public void registerResults (int numCorrects, int numFails)
+    // Write evaluation results in the database
+    public void registerResults ()
     {
         Database db = Database.getInstance();
         Dictionary dict = Dictionary.getInstance();
-        double evaluation = 10.0 * numCorrects / (double)(numCorrects + numFails);
         Hashtable<String,String> vars = new Hashtable<String,String>();
         String[] columns = {"type", "questions", "corrects", "fails", "evaluation","dictionaryId"};
-        String[] values =  {"1", new Integer(this.numQuestions).toString(), new Integer(numCorrects).toString(),
+        String[] values =  {"1", new Integer(numQuestions).toString(), new Integer(numCorrects).toString(),
                             new Integer(numFails).toString(), new Float(evaluation).toString(), 
                             new Integer(dict.getId()).toString() };
         for (int i = 0; i < columns.length; i++) {
