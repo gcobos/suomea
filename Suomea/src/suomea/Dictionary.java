@@ -7,9 +7,7 @@ package suomea;
 
 import java.sql.ResultSet;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Random;
-import java.util.Set;
 import java.util.Vector;
 
 
@@ -43,6 +41,7 @@ public class Dictionary {
         return dictionaryId;
     }
 
+    // Retrieves a non-used word from the selected dictionary
     public String[] getRandomWord ()
     {
         Database db = Database.getInstance();
@@ -79,14 +78,14 @@ public class Dictionary {
         return result;
     }
     
-    /* Increments the 'used' column in the words used in the exercises */
+    // Increments the 'used' column in the words used in the exercises
     public void updateUsedWords (Vector<String> words)
     {
         Database db = Database.getInstance();
 
         for (String word : words) {
             Hashtable<String,String> vars = new Hashtable<String,String>();
-            vars.put("used","(used + 1)");
+            vars.put("used","(used + 1)");      // Sqlite doesn't get the previous value, so always reach only 1
             db.update("words", vars, "original = '"+ word + "'");
         }
     }
