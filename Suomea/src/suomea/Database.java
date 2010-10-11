@@ -85,6 +85,40 @@ public class Database {
         }
     }
 
+    public void insert (String table, Hashtable<String, String> vars)
+    {
+        String query = "INSERT INTO \""+table+"\" ";
+
+        Set<String> set = vars.keySet();
+        Iterator<String> itr = set.iterator();
+        String str;
+        StringBuffer bufferColumns = new StringBuffer();
+        StringBuffer bufferValues = new StringBuffer();
+        while (itr.hasNext()) {
+            str = itr.next();
+            bufferColumns.append("'" + str + "'");
+            bufferValues.append("'" + vars.get(str) + "'");
+            if (itr.hasNext()) {
+                bufferColumns.append(",");
+                bufferValues.append(",");
+            }
+        }
+        query = query.concat("("+bufferColumns.toString()+")");
+        query = query.concat("VALUES ("+bufferValues.toString()+")");
+        /*if (where.length()>0) {
+            query = query.concat(" WHERE "+where+";");
+        }*/
+
+        try {
+            PreparedStatement prep = conn.prepareStatement(query);
+            conn.setAutoCommit(false);
+            prep.execute();
+            conn.setAutoCommit(true);
+        } catch (Exception e) {
+            System.err.println("Error on insert " + e.toString());
+        }
+    }
+
     public void update (String table, Hashtable<String, String> vars, String where)
     {
         String query = "UPDATE \""+table+"\" SET ";
@@ -112,7 +146,7 @@ public class Database {
             prep.execute();
             conn.setAutoCommit(true);
         } catch (Exception e) {
-            System.err.println("Error updating 'use' of the words" + e.toString());
+            System.err.println("Error on update " + e.toString());
         }
     }
 
