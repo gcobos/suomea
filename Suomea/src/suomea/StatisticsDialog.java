@@ -4,22 +4,30 @@
  */
 
 /*
- * statisticsDialog.java
+ * StatisticsDialog.java
  *
  * Created on 10-oct-2010, 23:03:42
  */
 
 package suomea;
 
+import java.util.List;
+
 /**
  *
  * @author bicha
  */
-public class statisticsDialog extends javax.swing.JDialog {
+public class StatisticsDialog extends javax.swing.JDialog {
 
-    /** Creates new form statisticsDialog */
-    public statisticsDialog(java.awt.Frame parent, boolean modal) {
+    Statistics statistics;
+
+    /** Creates new form StatisticsDialog */
+    public StatisticsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+
+        statistics = new Statistics();
+        List result = statistics.retrieveStatistics();        // Testing with default params
+        System.out.println("Output stats: "+result.toString());
         initComponents();
     }
 
@@ -55,7 +63,7 @@ public class statisticsDialog extends javax.swing.JDialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                statisticsDialog dialog = new statisticsDialog(new javax.swing.JFrame(), true);
+                StatisticsDialog dialog = new StatisticsDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);

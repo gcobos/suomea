@@ -35,6 +35,7 @@ import javax.swing.JFrame;
 public class SuomeaView extends FrameView {
 
     private TestExercise exercise;
+    private Statistics stats;
 
     public SuomeaView(SingleFrameApplication app) {
         super(app);
@@ -160,7 +161,7 @@ public class SuomeaView extends FrameView {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         mainPanel.add(jPanel1);
@@ -194,14 +195,14 @@ public class SuomeaView extends FrameView {
 
         statisticsMenu.setText(resourceMap.getString("statisticsMenu.text")); // NOI18N
         statisticsMenu.setName("statisticsMenu"); // NOI18N
-        statisticsMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statisticsMenuActionPerformed(evt);
-            }
-        });
 
         vStatisticsMenuItem.setText(resourceMap.getString("vStatisticsMenuItem.text")); // NOI18N
         vStatisticsMenuItem.setName("vStatisticsMenuItem"); // NOI18N
+        vStatisticsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vStatisticsMenuItemActionPerformed(evt);
+            }
+        });
         statisticsMenu.add(vStatisticsMenuItem);
 
         menuBar.add(statisticsMenu);
@@ -234,7 +235,7 @@ public class SuomeaView extends FrameView {
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 450, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 454, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusAnimationLabel)
@@ -264,9 +265,12 @@ public class SuomeaView extends FrameView {
         tDialog.setVisible(true);
     }//GEN-LAST:event_vtestMenuItemActionPerformed
 
-    private void statisticsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_statisticsMenuActionPerformed
+    private void vStatisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vStatisticsMenuItemActionPerformed
+        this.resultTextArea.setText("");
+        StatisticsDialog stats = new StatisticsDialog(this.getFrame(), false);
+        stats.setVisible(true);
+}//GEN-LAST:event_vStatisticsMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu exercisesMenu;
     private javax.swing.JPanel jPanel1;
