@@ -6,11 +6,10 @@
 package suomea;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 import java.util.Vector;
-
-
 
 /**
  *
@@ -39,6 +38,34 @@ public class Dictionary {
     public int getId ()
     {
         return dictionaryId;
+    }
+
+    public ArrayList<String[]> getDictionaryList ()
+    {
+        ArrayList<String[]> list = new ArrayList<String[]>();
+        Database db = Database.getInstance();
+        Integer id;
+        ResultSet rs;
+
+        try {
+            rs = db.query("SELECT id, original || '->' || translation as name FROM dictionary ORDER BY id;");
+            while (rs.next()) {
+                // Check if the word is ok
+                id = rs.getInt("id");
+                String[] option = { id.toString(), rs.getString("name") };
+                list.add(option);
+            }
+            rs.close();
+        } catch (Exception e) {
+            System.err.println("Error retrieving list of dictionaries");
+        }
+        return list;
+    }
+
+    // Changes the default dictionary
+    public void setDictionary (int dictionaryId)
+    {
+        this.dictionaryId = dictionaryId;
     }
 
     // Retrieves a non-used word from the selected dictionary
@@ -71,7 +98,7 @@ public class Dictionary {
                 rs.close();
 
             } catch (Exception e) {
-                System.out.println("Fallo en el query "+e.toString());
+                System.out.println("Error in query "+e.toString());
             }
         }
 
