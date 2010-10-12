@@ -12,7 +12,7 @@
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * Guineu; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
+ * Sumea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -188,9 +188,9 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
                     // Creates the radio buttons and adds them to the group and to the panel
                     for (String option : question.options) {
-                        if (option.length() > 50) {
+                        /*if (option.length() > 50) {
                             option = "<html>" + option.substring(0, 50) + "-<br>" + option.substring(50, option.length()) + "</html>";
-                        }
+                        }*/
                         JRadioButton opt = new JRadioButton(option);
 
                         opt.addActionListener(this);
@@ -243,7 +243,12 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             }
 
             // Writes the statistics of the current test in the main windows using the text area givem in the class arguments
-            String statistics = "Test Results \nCorrect Answers: " + correctCount + "\nWrong Answers: " + failCount;
+            String statistics = "Test Results:\n Correct Answers: " + correctCount +
+                    "\n Wrong Answers: " + failCount;
+            //if (questionID == exercise.getNumberOfQuestions()) {
+                exercise.doEvaluation();
+                statistics = statistics.concat("\n Test score: " + exercise.getScore());
+            //}
             this.results.setText(statistics);
 
         } catch (NullPointerException exception) {

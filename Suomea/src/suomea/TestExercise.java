@@ -12,7 +12,7 @@
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * Guineu; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
+ * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
 package suomea;
@@ -35,7 +35,8 @@ public class TestExercise {
     // Evaluation
     private int numCorrects = 0;
     private int numFails = 0;
-    private double evaluation = 0.0;
+    private int notAnswered = numQuestions;
+    private double score = 0.0;
 
     // Generates the exercise and return a vector
     public TestExercise() {
@@ -76,6 +77,10 @@ public class TestExercise {
         return numQuestions;
     }
 
+    public double getScore () {
+        return score;
+    }
+
     // Closes the exersize and update statistics
     public void finish() {
         Dictionary dict = Dictionary.getInstance();
@@ -101,7 +106,7 @@ public class TestExercise {
     {
         numCorrects = 0;
         numFails = 0;
-        evaluation = 0.0;
+        notAnswered = 0;
         for (TestQuestion question : questions) {
             if (question.isCorrect || question.fails > 0) {
                 if (question.isCorrect && question.fails==0) {
@@ -109,9 +114,12 @@ public class TestExercise {
                 } else {
                     numFails++;
                 }
+            } else {
+                notAnswered++;
             }
         }
-        evaluation = 10.0 * numCorrects / (double)(numCorrects + numFails);
+        score = 10.0 * (numCorrects - notAnswered/2 ) / (double)(numCorrects + numFails);
+        if (score<0) score=0;
     }
     
     // Write evaluation results in the database
@@ -122,7 +130,7 @@ public class TestExercise {
         Hashtable<String,String> vars = new Hashtable<String,String>();
         String[] columns = {"type", "questions", "corrects", "fails", "evaluation","dictionaryId"};
         String[] values =  {"1", new Integer(numQuestions).toString(), new Integer(numCorrects).toString(),
-                            new Integer(numFails).toString(), new Float(evaluation).toString(), 
+                            new Integer(numFails).toString(), new Float(score).toString(),
                             new Integer(dict.getId()).toString() };
         for (int i = 0; i < columns.length; i++) {
             vars.put(columns[i],values[i]);
