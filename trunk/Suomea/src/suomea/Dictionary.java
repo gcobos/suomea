@@ -1,6 +1,19 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2007-2010
+ * This file is part of Suomea.
+ *
+ * Suomea is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * Suomea is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * Sumea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
+ * Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 package suomea;
@@ -9,6 +22,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 /**
@@ -88,7 +102,14 @@ public class Dictionary {
                     rowid=rs.getInt("rowid");
                     if (!usedWords.containsKey(rowid)) {
                         result[0] = rs.getString("original");
-                        result[1] = rs.getString("translation");
+                        StringTokenizer st = new StringTokenizer(rs.getString("translation"), ";");
+                        result[1] = st.nextToken();
+                        while (st.hasMoreTokens()) {
+                            result[1] = result[1] + "; " + st.nextToken();
+                            if (result[1].length()>40) {
+                                break;
+                            }
+                        }
                         if (result[0].length()>0 && result[1].length()>0) {
                             isOk=true;
                             usedWords.put(rowid,1);
