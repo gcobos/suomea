@@ -28,7 +28,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author drone
  */
-public class Statistics extends AbstractTableModel {
+public class StatisticsDataModel extends AbstractTableModel {
 
     public Date dateFrom = null;
     public Date dateTo = null;
@@ -46,7 +46,7 @@ public class Statistics extends AbstractTableModel {
         "Evaluation"};
 
 
-    public Statistics ()
+    public StatisticsDataModel ()
     {
         retrieveStatistics();
 
@@ -97,6 +97,7 @@ public class Statistics extends AbstractTableModel {
         //System.out.println("Query: "+query);
 
         try {
+            int contt = 0;
             rs = db.query(query);
             while (rs.next()) {
                 Object[] row = new Object[5];
@@ -105,7 +106,9 @@ public class Statistics extends AbstractTableModel {
                 row[2] = rs.getInt("corrects");
                 row[3] = rs.getInt("fails");
                 row[4] = rs.getFloat("evaluation");
+                System.out.println(row[1]);
                 data.add(row);
+                System.out.println(contt++);
             }
             rs.close();
         } catch (Exception e) {
