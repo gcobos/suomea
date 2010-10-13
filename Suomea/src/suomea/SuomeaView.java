@@ -35,7 +35,7 @@ import javax.swing.JFrame;
 public class SuomeaView extends FrameView {
 
     private TestExercise exercise;
-    private Statistics stats;
+    private StatisticsDataModel stats;
 
     public SuomeaView(SingleFrameApplication app) {
         super(app);
