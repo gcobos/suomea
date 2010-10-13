@@ -12,7 +12,7 @@
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * Sumea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
+ * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -22,12 +22,13 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author drone
  */
-public class Statistics {
+public class Statistics extends AbstractTableModel {
 
     public Date dateFrom = null;
     public Date dateTo = null;
@@ -36,18 +37,29 @@ public class Statistics {
     public enum GroupBy { EXERCISE, DAY, WEEK, MONTH, YEAR };
     public GroupBy groupBy = GroupBy.EXERCISE;
 
+    private List<Object[]> data = null;
+
+    private static String[] columnNames = {"Exercises",
+        "Date",
+        "Correct Answers",
+        "Failed answers",
+        "Evaluation"};
+
+
     public Statistics ()
     {
+        retrieveStatistics();
+
     }
 
     // Retrieves statistics table grouping by day
-    public List retrieveStatistics ()
+    public boolean retrieveStatistics ()
     {
-        List table = new ArrayList<Object[]>();
+        data = new ArrayList<Object[]>();
         Database db = Database.getInstance();
         ResultSet rs;
 
-        String query = "SELECT MIN(cdate) as date,AVG(evaluation) evaluation,SUM(corrects) as corrects,SUM(fails) as fails FROM statistics WHERE 1=1 ";
+        String query = "SELECT COUNT(rowid) exercises, MIN(cdate) as date,SUM(corrects) as corrects,SUM(fails) as fails,AVG(evaluation) evaluation FROM statistics WHERE 1=1 ";
 
         if (exerciseType!=0) {  // Select only a exercise
             query = query.concat("AND type=" + exerciseType);
@@ -87,18 +99,63 @@ public class Statistics {
         try {
             rs = db.query(query);
             while (rs.next()) {
-                Object[] row = new Object[4];
-                row[0] = rs.getString("date");
-                row[1] = rs.getFloat("evaluation");
+                Object[] row = new Object[5];
+                row[0] = rs.getInt("exercises");
+                row[1] = rs.getString("date");
                 row[2] = rs.getInt("corrects");
                 row[3] = rs.getInt("fails");
-                table.add(row);
+                row[4] = rs.getFloat("evaluation");
+                data.add(row);
             }
             rs.close();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
-        return table;
+        return true;
+    }
+
+    @Override
+    public String getColumnName (int col)
+    {
+        return columnNames[col].toString();
+    }
+
+    public int getRowCount()
+    {
+    	return data.size();
+    }
+
+    public int getColumnCount()
+    {
+    	return columnNames.length;
+    }
+
+    public Object getValueAt (int row, int col)
+    {
+    	Object value = data.get(row)[col];
+    	return value;
+    }
+
+    public Object[] getElementAt (int row)
+    {
+    	return data.get(row);
+    }
+
+    @Override
+    public boolean isCellEditable (int row, int col)
+    {
+    	return false;
+    }
+
+    public void addElement (Object[] row)
+    {
+    	data.add(row);
+    	fireTableRowsInserted(0,data.size()-1);
+    }
+
+    @Override
+    public void setValueAt (Object value, int row, int col)
+    {
     }
 
 }

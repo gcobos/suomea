@@ -118,8 +118,9 @@ public class TestExercise {
                 notAnswered++;
             }
         }
-        score = 10.0 * (numCorrects - notAnswered/2 ) / (double)(numCorrects + numFails);
-        if (score<0) score=0;
+        score = 10.0 * numCorrects / (double)(numQuestions);
+        //score = score - 5.0 * notAnswered / (double)numQuestions;
+        //if (score<0) score=0;
     }
     
     // Write evaluation results in the database
