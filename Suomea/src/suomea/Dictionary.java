@@ -20,6 +20,7 @@ package suomea;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -50,9 +51,10 @@ public class Dictionary {
     public int getId() {
         return dictionaryId;
     }
-
-    public ArrayList<String[]> getDictionaryList() {
-        ArrayList<String[]> list = new ArrayList<String[]>();
+    
+    public List<String[]> getDictionaryList ()
+    {
+        List<String[]> list = new ArrayList<String[]>();
         Database db = Database.getInstance();
         Integer id;
         ResultSet rs;
