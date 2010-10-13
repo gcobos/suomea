@@ -97,7 +97,7 @@ public class StatisticsDataModel extends AbstractTableModel {
         //System.out.println("Query: "+query);
 
         try {
-            int contt = 0;
+           
             rs = db.query(query);
             while (rs.next()) {
                 Object[] row = new Object[5];
@@ -106,9 +106,9 @@ public class StatisticsDataModel extends AbstractTableModel {
                 row[2] = rs.getInt("corrects");
                 row[3] = rs.getInt("fails");
                 row[4] = rs.getFloat("evaluation");
-                System.out.println(row[1]);
+               
                 data.add(row);
-                System.out.println(contt++);
+               
             }
             rs.close();
         } catch (Exception e) {
