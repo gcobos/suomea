@@ -234,7 +234,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
     private void dictionaryIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dictionaryIdActionPerformed
         int index = this.dictionaryId.getSelectedIndex();
         String dictionaryID = this.dictionaryList.get(index)[0];
-        this.dictionary.setDictionary(Integer.parseInt(dictionaryID));
+      
         this.statistics.dictionaryId = Integer.parseInt(dictionaryID);
     }//GEN-LAST:event_dictionaryIdActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
