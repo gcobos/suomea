@@ -23,6 +23,10 @@
  */
 package suomea;
 
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+
 /**
  *
  * @author bicha
@@ -30,15 +34,28 @@ package suomea;
 public class StatisticsDialog extends javax.swing.JDialog {
 
     StatisticsDataModel statistics;
+    List<String[]> dictionaryList;
+    Dictionary dictionary;
 
     /** Creates new form StatisticsDialog */
     public StatisticsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
 
         statistics = new StatisticsDataModel();
+        dictionary = Dictionary.getInstance();
+        dictionaryList = dictionary.getDictionaryList();
+        String[] dictionaries = new String[dictionaryList.size()];
+
+        for (int i = 0; i < dictionaryList.size(); i++) {
+            dictionaries[i] = dictionaryList.get(i)[1];
+        }
 
         initComponents();
+
+        this.dictionaryId.setModel(new DefaultComboBoxModel(dictionaries));
         this.jTable1.setModel(statistics);
+
+
     }
 
     /** This method is called from within the constructor to
@@ -105,6 +122,11 @@ public class StatisticsDialog extends javax.swing.JDialog {
 
         dictionaryId.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         dictionaryId.setName("dictionaryId"); // NOI18N
+        dictionaryId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dictionaryIdActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setName("jLabel5"); // NOI18N
@@ -208,6 +230,13 @@ public class StatisticsDialog extends javax.swing.JDialog {
 
         jTable1.revalidate();
     }//GEN-LAST:event_RefreshStatActionPerformed
+
+    private void dictionaryIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dictionaryIdActionPerformed
+        int index = this.dictionaryId.getSelectedIndex();
+        String dictionaryID = this.dictionaryList.get(index)[0];
+        this.dictionary.setDictionary(Integer.parseInt(dictionaryID));
+        this.statistics.dictionaryId = Integer.parseInt(dictionaryID);
+    }//GEN-LAST:event_dictionaryIdActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RefreshStat;
     private javax.swing.JFormattedTextField dateFrom;

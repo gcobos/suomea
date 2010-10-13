@@ -15,7 +15,6 @@
  * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
-
 package suomea;
 
 import java.sql.ResultSet;
@@ -32,16 +31,15 @@ import java.util.Vector;
 public class Dictionary {
 
     private int dictionaryId;
-    private Hashtable<Integer,Integer> usedWords;       // word id => number of times used
+    private Hashtable<Integer, Integer> usedWords;       // word id => number of times used
+    private static Dictionary ref;
 
-    private Dictionary()
-    {
+    private Dictionary() {
         dictionaryId = 1;
-        usedWords = new Hashtable<Integer,Integer>();
+        usedWords = new Hashtable<Integer, Integer>();
     }
 
-    public static Dictionary getInstance ()
-    {
+    public static Dictionary getInstance() {
         if (ref == null) {
             // it's ok, we can call this constructor
             ref = new Dictionary();
@@ -49,13 +47,11 @@ public class Dictionary {
         return ref;
     }
 
-    public int getId ()
-    {
+    public int getId() {
         return dictionaryId;
     }
 
-    public ArrayList<String[]> getDictionaryList ()
-    {
+    public ArrayList<String[]> getDictionaryList() {
         ArrayList<String[]> list = new ArrayList<String[]>();
         Database db = Database.getInstance();
         Integer id;
@@ -66,7 +62,7 @@ public class Dictionary {
             while (rs.next()) {
                 // Check if the word is ok
                 id = rs.getInt("id");
-                String[] option = { id.toString(), rs.getString("name") };
+                String[] option = {id.toString(), rs.getString("name")};
                 list.add(option);
             }
             rs.close();
@@ -77,66 +73,61 @@ public class Dictionary {
     }
 
     // Changes the default dictionary
-    public void setDictionary (int dictionaryId)
-    {
+    public void setDictionary(int dictionaryId) {
         this.dictionaryId = dictionaryId;
     }
 
     // Retrieves a non-used word from the selected dictionary
-    public String[] getRandomWord ()
-    {
+    public String[] getRandomWord() {
         Database db = Database.getInstance();
 
         ResultSet rs;
         String[] result = new String[2];
         Random rand;
-        boolean isOk =false;
+        boolean isOk = false;
         int rowid;
 
         while (!isOk) {
             try {
 
-                rs = db.query("SELECT rowid, original, translation FROM words WHERE dictionaryId="+ this.getId() +" ORDER BY used,random() LIMIT 1;");
+                rs = db.query("SELECT rowid, original, translation FROM words WHERE dictionaryId=" + this.getId() + " ORDER BY used,random() LIMIT 1;");
                 if (rs.next()) {
                     // Check if the word is ok
-                    rowid=rs.getInt("rowid");
+                    rowid = rs.getInt("rowid");
                     if (!usedWords.containsKey(rowid)) {
                         result[0] = rs.getString("original");
                         StringTokenizer st = new StringTokenizer(rs.getString("translation"), ";");
                         result[1] = st.nextToken();
                         while (st.hasMoreTokens()) {
                             result[1] = result[1] + "; " + st.nextToken();
-                            if (result[1].length()>40) {
+                            if (result[1].length() > 40) {
                                 break;
                             }
                         }
-                        if (result[0].length()>0 && result[1].length()>0) {
-                            isOk=true;
-                            usedWords.put(rowid,1);
+                        if (result[0].length() > 0 && result[1].length() > 0) {
+                            isOk = true;
+                            usedWords.put(rowid, 1);
                         }
                     }
                 }
                 rs.close();
 
             } catch (Exception e) {
-                System.out.println("Error in query "+e.toString());
+                System.out.println("Error in query " + e.toString());
             }
         }
 
         return result;
     }
-    
+
     // Increments the 'used' column in the words used in the exercises
-    public void updateUsedWords (Vector<String> words)
-    {
+    public void updateUsedWords(Vector<String> words) {
         Database db = Database.getInstance();
 
         for (String word : words) {
-            Hashtable<String,String> vars = new Hashtable<String,String>();
-            vars.put("used","(used + 1)");      // Sqlite doesn't get the previous value, so always reach only 1
-            db.update("words", vars, "original = '"+ word + "'");
+            Hashtable<String, String> vars = new Hashtable<String, String>();
+            vars.put("used", "(used + 1)");      // Sqlite doesn't get the previous value, so always reach only 1
+            db.update("words", vars, "original = '" + word + "'");
         }
     }
-
-    private static Dictionary ref;
 }
