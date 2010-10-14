@@ -23,6 +23,11 @@
  */
 package suomea;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 
@@ -35,25 +40,37 @@ public class StatisticsDialog extends javax.swing.JDialog {
     StatisticsDataModel statistics;
     List<String[]> dictionaryList;
     Dictionary dictionary;
+    Calendar cal;
+    DateFormat df;
 
     /** Creates new form StatisticsDialog */
     public StatisticsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
 
         statistics = new StatisticsDataModel();
+        cal = GregorianCalendar.getInstance();
+        df = new SimpleDateFormat("dd/MM/yyyy");
+        cal.set(Calendar.YEAR, cal.get(Calendar.YEAR)-1);
+        statistics.setDateFrom(cal.getTime());
+
+        cal.set(Calendar.YEAR, cal.get(Calendar.YEAR)+1);
+        statistics.setDateTo(cal.getTime());
+
         dictionary = Dictionary.getInstance();
         dictionaryList = dictionary.getDictionaryList();
-        String[] dictionaries = new String[dictionaryList.size()];
-
+        String[] dictionaries = new String[dictionaryList.size()+1];
+        dictionaries[0] = "All dictionaries";
         for (int i = 0; i < dictionaryList.size(); i++) {
-            dictionaries[i] = dictionaryList.get(i)[1];
+            dictionaries[i + 1] = dictionaryList.get(i)[1];
         }
 
         initComponents();
 
+        dateFrom.setText(df.format(statistics.getDateFrom()));
+        dateTo.setText(df.format(statistics.getDateTo()));
+
         this.dictionaryId.setModel(new DefaultComboBoxModel(dictionaries));
         this.jTable1.setModel(statistics);
-
 
     }
 
@@ -103,9 +120,19 @@ public class StatisticsDialog extends javax.swing.JDialog {
 
         dateFrom.setText(resourceMap.getString("dateFrom.text")); // NOI18N
         dateFrom.setName("dateFrom"); // NOI18N
+        dateFrom.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateFromPropertyChange(evt);
+            }
+        });
 
         dateTo.setText(resourceMap.getString("dateTo.text")); // NOI18N
         dateTo.setName("dateTo"); // NOI18N
+        dateTo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateToPropertyChange(evt);
+            }
+        });
 
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
         jLabel3.setName("jLabel3"); // NOI18N
@@ -254,6 +281,24 @@ public class StatisticsDialog extends javax.swing.JDialog {
     private void groupByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupByActionPerformed
         this.statistics.setGroupBy(StatisticsDataModel.GroupBy.values()[this.groupBy.getSelectedIndex()]);
     }//GEN-LAST:event_groupByActionPerformed
+
+    private void dateFromPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateFromPropertyChange
+        try {
+            statistics.setDateFrom(this.df.parse(dateFrom.getText()));
+
+        } catch (ParseException e) {
+            //e.printStackTrace();
+        }
+    }//GEN-LAST:event_dateFromPropertyChange
+
+    private void dateToPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateToPropertyChange
+        try {
+            statistics.setDateTo(this.df.parse(dateTo.getText()));
+
+        } catch (ParseException e) {
+            //e.printStackTrace();
+        }
+    }//GEN-LAST:event_dateToPropertyChange
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RefreshStat;

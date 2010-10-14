@@ -19,6 +19,8 @@
 package suomea;
 
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +66,8 @@ public class StatisticsDataModel extends AbstractTableModel {
 
     public StatisticsDataModel ()
     {
-        retrieveStatistics();
+
+        data = new ArrayList<Object[]>();
     }
 
     public Date getDateFrom ()
@@ -124,6 +127,7 @@ public class StatisticsDataModel extends AbstractTableModel {
         data = new ArrayList<Object[]>();
         Database db = Database.getInstance();
         ResultSet rs;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
         String query = "SELECT COUNT(rowid) exercises, MIN(cdate) as date,SUM(corrects) as corrects," +
                 "SUM(fails) as fails,AVG(evaluation) evaluation FROM statistics WHERE 1=1";
@@ -137,11 +141,11 @@ public class StatisticsDataModel extends AbstractTableModel {
         }
 
         if (dateFrom!=null) {  // Select a range beginning from selected date
-            query = query.concat(" AND cdate>='" + dateFrom.toString() + "'");
+            query = query.concat(" AND Date(cdate)>='" + df.format(dateFrom) + "'");
         }
 
         if (dateTo!=null) {  // Select a range beginning from selected date
-            query = query.concat(" AND cdate>='" + dateFrom.toString() + "'");
+            query = query.concat(" AND Date(cdate)<='" + df.format(dateTo) + "'");
         }
 
         switch (this.groupBy) {
