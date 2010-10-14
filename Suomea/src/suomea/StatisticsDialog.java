@@ -25,7 +25,6 @@ package suomea;
 
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 
 /**
  *
@@ -116,9 +115,19 @@ public class StatisticsDialog extends javax.swing.JDialog {
 
         exerciseType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All types", "Vocabulary test" }));
         exerciseType.setName("exerciseType"); // NOI18N
+        exerciseType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exerciseTypeActionPerformed(evt);
+            }
+        });
 
         groupBy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Exercise", "Day", "Week", "Month", "Year" }));
         groupBy.setName("groupBy"); // NOI18N
+        groupBy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                groupByActionPerformed(evt);
+            }
+        });
 
         dictionaryId.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         dictionaryId.setName("dictionaryId"); // NOI18N
@@ -164,10 +173,10 @@ public class StatisticsDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(dictionaryId, 0, 149, Short.MAX_VALUE))
+                        .addComponent(dictionaryId, 0, 155, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(141, 141, 141)
-                        .addComponent(RefreshStat, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)))
+                        .addComponent(RefreshStat, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -235,8 +244,17 @@ public class StatisticsDialog extends javax.swing.JDialog {
         int index = this.dictionaryId.getSelectedIndex();
         String dictionaryID = this.dictionaryList.get(index)[0];
       
-        this.statistics.dictionaryId = Integer.parseInt(dictionaryID);
+        this.statistics.setDictionaryId(Integer.parseInt(dictionaryID));
     }//GEN-LAST:event_dictionaryIdActionPerformed
+
+    private void exerciseTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exerciseTypeActionPerformed
+        this.statistics.setExerciseType(this.exerciseType.getSelectedIndex());
+    }//GEN-LAST:event_exerciseTypeActionPerformed
+
+    private void groupByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupByActionPerformed
+        this.statistics.setGroupBy(StatisticsDataModel.GroupBy.values()[this.groupBy.getSelectedIndex()]);
+    }//GEN-LAST:event_groupByActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RefreshStat;
     private javax.swing.JFormattedTextField dateFrom;

@@ -30,12 +30,28 @@ import javax.swing.table.AbstractTableModel;
  */
 public class StatisticsDataModel extends AbstractTableModel {
 
-    public Date dateFrom = null;
-    public Date dateTo = null;
-    public int exerciseType = 0;
-    public int dictionaryId = 0;
-    public enum GroupBy { EXERCISE, DAY, WEEK, MONTH, YEAR };
-    public GroupBy groupBy = GroupBy.EXERCISE;
+    private Date dateFrom = null;
+    private Date dateTo = null;
+    private int exerciseType = 0;
+    private int dictionaryId = 0;
+    public enum GroupBy { 
+        EXERCISE (0), DAY (1), WEEK (2), MONTH (3), YEAR (4);
+        
+        private int value;
+
+        GroupBy (int value)
+        {
+            this.value = value;
+        }
+
+        public int getValue ()
+        {
+            return value;
+        }
+
+    }
+
+    private GroupBy groupBy = GroupBy.EXERCISE;
 
     private List<Object[]> data = null;
 
@@ -49,8 +65,58 @@ public class StatisticsDataModel extends AbstractTableModel {
     public StatisticsDataModel ()
     {
         retrieveStatistics();
-
     }
+
+    public Date getDateFrom ()
+    {
+        return dateFrom;
+    }
+
+    public void setDateFrom (Date from)
+    {
+        dateFrom = from;
+    }
+
+    public Date getDateTo ()
+    {
+        return dateTo;
+    }
+    
+    public void setDateTo (Date to)
+    {
+        dateTo = to;
+    }
+
+    public int getExerciseType ()
+    {
+        return exerciseType;
+    }
+
+    public void setExerciseType (int exerciseType)
+    {
+        this.exerciseType = exerciseType;
+    }
+
+    public int getDictionaryId ()
+    {
+        return dictionaryId;
+    }
+
+    public void setDictionaryId (int dictionaryId)
+    {
+        this.dictionaryId = dictionaryId;
+    }
+
+    public GroupBy getGroupBy ()
+    {
+        return groupBy;
+    }
+
+    public void setGroupBy (GroupBy groupBy)
+    {
+        this.groupBy = groupBy;
+    }
+
 
     // Retrieves statistics table grouping by day
     public boolean retrieveStatistics ()
@@ -59,22 +125,23 @@ public class StatisticsDataModel extends AbstractTableModel {
         Database db = Database.getInstance();
         ResultSet rs;
 
-        String query = "SELECT COUNT(rowid) exercises, MIN(cdate) as date,SUM(corrects) as corrects,SUM(fails) as fails,AVG(evaluation) evaluation FROM statistics WHERE 1=1 ";
+        String query = "SELECT COUNT(rowid) exercises, MIN(cdate) as date,SUM(corrects) as corrects," +
+                "SUM(fails) as fails,AVG(evaluation) evaluation FROM statistics WHERE 1=1";
 
         if (exerciseType!=0) {  // Select only a exercise
-            query = query.concat("AND type=" + exerciseType);
+            query = query.concat(" AND type=" + exerciseType);
         }
 
         if (dictionaryId!=0) {  // Select only a type of exercise?
-            query = query.concat("AND dictionaryId=" + dictionaryId);
+            query = query.concat(" AND dictionaryId=" + dictionaryId);
         }
 
         if (dateFrom!=null) {  // Select a range beginning from selected date
-            query = query.concat("AND cdate>='" + dateFrom.toString() + "'");
+            query = query.concat(" AND cdate>='" + dateFrom.toString() + "'");
         }
 
         if (dateTo!=null) {  // Select a range beginning from selected date
-            query = query.concat("AND cdate>='" + dateFrom.toString() + "'");
+            query = query.concat(" AND cdate>='" + dateFrom.toString() + "'");
         }
 
         switch (this.groupBy) {
