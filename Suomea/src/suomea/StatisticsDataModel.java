@@ -61,8 +61,9 @@ public class StatisticsDataModel extends AbstractTableModel {
         "Date",
         "Correct Answers",
         "Failed answers",
-        "Evaluation"};
-
+        "Evaluation",
+        "Dictionary",
+    };
 
     public StatisticsDataModel ()
     {
@@ -129,40 +130,41 @@ public class StatisticsDataModel extends AbstractTableModel {
         ResultSet rs;
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-        String query = "SELECT COUNT(rowid) exercises, MIN(cdate) as date,SUM(corrects) as corrects," +
-                "SUM(fails) as fails,AVG(evaluation) evaluation FROM statistics WHERE 1=1";
+        String query = "SELECT COUNT(s.rowid) exercises, MIN(s.cdate) as date,SUM(s.corrects) as corrects," +
+                "SUM(s.fails) as fails,AVG(s.evaluation) as evaluation, d.original || '->' || d.translation as dictionary " +
+                "FROM statistics as s, dictionary as d WHERE d.id = s.dictionaryId";
 
         if (exerciseType!=0) {  // Select only a exercise
-            query = query.concat(" AND type=" + exerciseType);
+            query = query.concat(" AND s.type=" + exerciseType);
         }
 
         if (dictionaryId!=0) {  // Select only a type of exercise?
-            query = query.concat(" AND dictionaryId=" + dictionaryId);
+            query = query.concat(" AND s.dictionaryId=" + dictionaryId);
         }
 
         if (dateFrom!=null) {  // Select a range beginning from selected date
-            query = query.concat(" AND Date(cdate)>='" + df.format(dateFrom) + "'");
+            query = query.concat(" AND Date(s.cdate)>='" + df.format(dateFrom) + "'");
         }
 
         if (dateTo!=null) {  // Select a range beginning from selected date
-            query = query.concat(" AND Date(cdate)<='" + df.format(dateTo) + "'");
+            query = query.concat(" AND Date(s.cdate)<='" + df.format(dateTo) + "'");
         }
 
         switch (this.groupBy) {
             case EXERCISE:
-                query = query.concat(" GROUP BY rowid ORDER BY cdate;");
+                query = query.concat(" GROUP BY s.rowid,s.dictionaryId ORDER BY s.cdate, s.dictionaryId;");
                 break;
             case DAY:
-                query = query.concat(" GROUP BY Date(cdate) ORDER BY Date(cdate);");
+                query = query.concat(" GROUP BY Date(s.cdate),s.dictionaryId ORDER BY Date(s.cdate), s.dictionaryId;");
                 break;
             case WEEK:
-                query = query.concat(" GROUP BY strftime('%Y-%W',cdate) ORDER BY strftime('%Y-%W',cdate);");
+                query = query.concat(" GROUP BY strftime('%Y-%W',s.cdate),s.dictionaryId ORDER BY strftime('%Y-%W',s.cdate), s.dictionaryId;");
                 break;
             case MONTH:
-                query = query.concat(" GROUP BY strftime('%Y-%m',cdate) ORDER BY strftime('%Y-%m',cdate);");
+                query = query.concat(" GROUP BY strftime('%Y-%m',s.cdate),s.dictionaryId ORDER BY strftime('%Y-%m',s.cdate), s.dictionaryId;");
                 break;
             default:
-                query = query.concat(" GROUP BY strftime('%Y',cdate) ORDER BY strftime('%Y',cdate);");
+                query = query.concat(" GROUP BY strftime('%Y',s.cdate),s.dictionaryId ORDER BY strftime('%Y',s.cdate), s.dictionaryId;");
         }
 
         //System.out.println("Query: "+query);
@@ -171,12 +173,13 @@ public class StatisticsDataModel extends AbstractTableModel {
            
             rs = db.query(query);
             while (rs.next()) {
-                Object[] row = new Object[5];
+                Object[] row = new Object[6];
                 row[0] = rs.getInt("exercises");
                 row[1] = rs.getString("date");
                 row[2] = rs.getInt("corrects");
                 row[3] = rs.getInt("fails");
                 row[4] = rs.getFloat("evaluation");
+                row[5] = rs.getString("dictionary");
                
                 data.add(row);
                
