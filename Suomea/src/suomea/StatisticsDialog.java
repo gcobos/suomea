@@ -23,8 +23,6 @@
  */
 package suomea;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,12 +31,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import org.jfree.chart.*;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
@@ -86,6 +79,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
 
         chart = createChart(statistics.createDataset());
         chartPanel = new ChartPanel(chart, false);
+        chartPanel.setPreferredSize(null);
         graphPane.setViewportView(chartPanel);
     }
 
@@ -130,7 +124,10 @@ public class StatisticsDialog extends javax.swing.JDialog {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(StatisticsDialog.class);
         jPanel1.setBackground(resourceMap.getColor("jPanel1.background")); // NOI18N
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        jPanel1.setMaximumSize(new java.awt.Dimension(846, 70));
+        jPanel1.setMinimumSize(null);
         jPanel1.setName("jPanel1"); // NOI18N
+        jPanel1.setPreferredSize(null);
         jPanel1.setLayout(new java.awt.GridLayout(2, 20, 8, 8));
 
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
@@ -220,7 +217,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
 
         jPanel2.setMinimumSize(null);
         jPanel2.setName("jPanel2"); // NOI18N
-        jPanel2.setPreferredSize(null);
+        jPanel2.setPreferredSize(new java.awt.Dimension(0, 350));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.PAGE_AXIS));
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 1, 1, 1));
@@ -302,6 +299,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
         
         chart = createChart(statistics.createDataset());
         chartPanel = new ChartPanel(chart, false);
+        chartPanel.setPreferredSize(null);
         graphPane.setViewportView(chartPanel);
         chartPanel.revalidate();
         jTable1.revalidate();
@@ -311,7 +309,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
     private JFreeChart createChart (XYSeriesCollection dataset) {
         // create the chart...
         chart = ChartFactory.createXYLineChart(
-                "Evolution chart", // chart title
+                null, // chart title
                 "Date/Exercise", // domain axis label
                 "Score", // range axis label
                 dataset, // data
@@ -320,7 +318,6 @@ public class StatisticsDialog extends javax.swing.JDialog {
                 true, // tooltips?
                 false // URLs?
                 );
-        
         return chart;
     }
 
