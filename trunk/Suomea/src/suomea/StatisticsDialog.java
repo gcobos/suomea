@@ -23,6 +23,9 @@
  */
 package suomea;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,6 +33,15 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import org.jfree.chart.*;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -37,11 +49,13 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class StatisticsDialog extends javax.swing.JDialog {
 
-    StatisticsDataModel statistics;
-    List<String[]> dictionaryList;
-    Dictionary dictionary;
-    Calendar cal;
-    DateFormat df;
+    private StatisticsDataModel statistics;
+    private List<String[]> dictionaryList;
+    private Dictionary dictionary;
+    private Calendar cal;
+    private DateFormat df;
+    private ChartPanel chartPanel;
+    private JFreeChart chart;
 
     /** Creates new form StatisticsDialog */
     public StatisticsDialog(java.awt.Frame parent, boolean modal) {
@@ -50,15 +64,15 @@ public class StatisticsDialog extends javax.swing.JDialog {
         statistics = new StatisticsDataModel();
         cal = GregorianCalendar.getInstance();
         df = new SimpleDateFormat("dd/MM/yyyy");
-        cal.set(Calendar.YEAR, cal.get(Calendar.YEAR)-1);
+        cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
         statistics.setDateFrom(cal.getTime());
 
-        cal.set(Calendar.YEAR, cal.get(Calendar.YEAR)+1);
+        cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + 1);
         statistics.setDateTo(cal.getTime());
 
         dictionary = Dictionary.getInstance();
         dictionaryList = dictionary.getDictionaryList();
-        String[] dictionaries = new String[dictionaryList.size()+1];
+        String[] dictionaries = new String[dictionaryList.size() + 1];
         dictionaries[0] = "All dictionaries";
         for (int i = 0; i < dictionaryList.size(); i++) {
             dictionaries[i + 1] = dictionaryList.get(i)[1];
@@ -72,6 +86,10 @@ public class StatisticsDialog extends javax.swing.JDialog {
         this.dictionaryId.setModel(new DefaultComboBoxModel(dictionaries));
         this.jTable1.setModel(statistics);
 
+        chart = createChart(statistics.createDataset());
+        chartPanel = new ChartPanel(chart, false);
+        //chartPanel.setPreferredSize(new Dimension(, 200));
+        graphPane.setViewportView(chartPanel);
     }
 
     /** This method is called from within the constructor to
@@ -86,155 +104,135 @@ public class StatisticsDialog extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         dateFrom = new javax.swing.JFormattedTextField();
-        dateTo = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
+        groupBy = new javax.swing.JComboBox();
+        jLabel5 = new javax.swing.JLabel();
+        dictionaryId = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        dateTo = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
         exerciseType = new javax.swing.JComboBox();
-        groupBy = new javax.swing.JComboBox();
-        dictionaryId = new javax.swing.JComboBox();
-        jLabel5 = new javax.swing.JLabel();
         RefreshStat = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        graphPane = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(null);
         setName("Form"); // NOI18N
-        getContentPane().setLayout(new java.awt.FlowLayout());
+        getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jPanel3.setName("jPanel3"); // NOI18N
+        jPanel3.setPreferredSize(null);
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(StatisticsDialog.class);
         jPanel1.setBackground(resourceMap.getColor("jPanel1.background")); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel1.setName("jPanel1"); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(700, 100));
+        jPanel1.setLayout(new java.awt.GridLayout(2, 20, 8, 8));
 
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setMinimumSize(null);
         jLabel1.setName("jLabel1"); // NOI18N
-
-        jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
-        jLabel2.setName("jLabel2"); // NOI18N
+        jPanel1.add(jLabel1);
 
         dateFrom.setText(resourceMap.getString("dateFrom.text")); // NOI18N
+        dateFrom.setMinimumSize(new java.awt.Dimension(50, 25));
         dateFrom.setName("dateFrom"); // NOI18N
+        dateFrom.setPreferredSize(null);
         dateFrom.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 dateFromPropertyChange(evt);
             }
         });
-
-        dateTo.setText(resourceMap.getString("dateTo.text")); // NOI18N
-        dateTo.setName("dateTo"); // NOI18N
-        dateTo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                dateToPropertyChange(evt);
-            }
-        });
+        jPanel1.add(dateFrom);
 
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         jLabel3.setName("jLabel3"); // NOI18N
-
-        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
-        jLabel4.setName("jLabel4"); // NOI18N
-
-        exerciseType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All types", "Vocabulary test" }));
-        exerciseType.setName("exerciseType"); // NOI18N
-        exerciseType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exerciseTypeActionPerformed(evt);
-            }
-        });
+        jPanel1.add(jLabel3);
 
         groupBy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Exercise", "Day", "Week", "Month", "Year" }));
         groupBy.setName("groupBy"); // NOI18N
+        groupBy.setPreferredSize(null);
         groupBy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 groupByActionPerformed(evt);
             }
         });
+        jPanel1.add(groupBy);
 
-        dictionaryId.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
+        jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jLabel5.setName("jLabel5"); // NOI18N
+        jPanel1.add(jLabel5);
+
         dictionaryId.setName("dictionaryId"); // NOI18N
         dictionaryId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dictionaryIdActionPerformed(evt);
             }
         });
+        jPanel1.add(dictionaryId);
 
-        jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
-        jLabel5.setName("jLabel5"); // NOI18N
+        jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
+        jLabel2.setName("jLabel2"); // NOI18N
+        jPanel1.add(jLabel2);
+
+        dateTo.setText(resourceMap.getString("dateTo.text")); // NOI18N
+        dateTo.setMinimumSize(new java.awt.Dimension(50, 25));
+        dateTo.setName("dateTo"); // NOI18N
+        dateTo.setPreferredSize(null);
+        dateTo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateToPropertyChange(evt);
+            }
+        });
+        jPanel1.add(dateTo);
+
+        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
+        jLabel4.setName("jLabel4"); // NOI18N
+        jPanel1.add(jLabel4);
+
+        exerciseType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All types", "Vocabulary test" }));
+        exerciseType.setName("exerciseType"); // NOI18N
+        exerciseType.setPreferredSize(null);
+        exerciseType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exerciseTypeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(exerciseType);
 
         RefreshStat.setText(resourceMap.getString("RefreshStat.text")); // NOI18N
+        RefreshStat.setHideActionText(true);
         RefreshStat.setName("RefreshStat"); // NOI18N
         RefreshStat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RefreshStatActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dateTo)
-                    .addComponent(dateFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(groupBy, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(exerciseType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(dictionaryId, 0, 155, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(141, 141, 141)
-                        .addComponent(RefreshStat, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(dateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(exerciseType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(dictionaryId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(dateTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(groupBy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addComponent(RefreshStat)))
-        );
+        jPanel1.add(RefreshStat);
 
         jPanel3.add(jPanel1);
 
+        jPanel2.setMinimumSize(null);
         jPanel2.setName("jPanel2"); // NOI18N
+        jPanel2.setPreferredSize(null);
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jTabbedPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 1, 1, 1));
+        jTabbedPane1.setName("jTabbedPane1"); // NOI18N
+        jTabbedPane1.setPreferredSize(null);
 
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setName("jScrollPane2"); // NOI18N
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(700, 200));
+        jScrollPane2.setPreferredSize(null);
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -249,47 +247,39 @@ public class StatisticsDialog extends javax.swing.JDialog {
         jTable1.setPreferredSize(null);
         jScrollPane2.setViewportView(jTable1);
 
-        jPanel2.add(jScrollPane2);
+        jTabbedPane1.addTab(resourceMap.getString("jScrollPane2.TabConstraints.tabTitle"), jScrollPane2); // NOI18N
+
+        graphPane.setName("graphPane"); // NOI18N
+        graphPane.setPreferredSize(null);
+        jTabbedPane1.addTab(resourceMap.getString("graphPane.TabConstraints.tabTitle"), graphPane); // NOI18N
+
+        jPanel2.add(jTabbedPane1);
 
         jPanel3.add(jPanel2);
 
-        getContentPane().add(jPanel3);
+        getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void RefreshStatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshStatActionPerformed
-        StatisticsDataModel statsModel = (StatisticsDataModel) jTable1.getModel();
-        statsModel.retrieveStatistics();
-
-        statsModel.fireTableDataChanged();
-
-        jTable1.revalidate();
-    }//GEN-LAST:event_RefreshStatActionPerformed
-
     private void dictionaryIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dictionaryIdActionPerformed
         int index = this.dictionaryId.getSelectedIndex();
-        String dictionaryID = this.dictionaryList.get(index)[0];
-      
-        this.statistics.setDictionaryId(Integer.parseInt(dictionaryID));
-    }//GEN-LAST:event_dictionaryIdActionPerformed
-
-    private void exerciseTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exerciseTypeActionPerformed
-        this.statistics.setExerciseType(this.exerciseType.getSelectedIndex());
-    }//GEN-LAST:event_exerciseTypeActionPerformed
+        int dictionaryIdSelected;
+        if (index == 0) {
+            dictionaryIdSelected = 0;
+        } else {
+            dictionaryIdSelected = Integer.parseInt(this.dictionaryList.get(index - 1)[0]);
+        }
+        this.statistics.setDictionaryId(dictionaryIdSelected);
+}//GEN-LAST:event_dictionaryIdActionPerformed
 
     private void groupByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupByActionPerformed
         this.statistics.setGroupBy(StatisticsDataModel.GroupBy.values()[this.groupBy.getSelectedIndex()]);
-    }//GEN-LAST:event_groupByActionPerformed
+}//GEN-LAST:event_groupByActionPerformed
 
-    private void dateFromPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateFromPropertyChange
-        try {
-            statistics.setDateFrom(this.df.parse(dateFrom.getText()));
-
-        } catch (ParseException e) {
-            //e.printStackTrace();
-        }
-    }//GEN-LAST:event_dateFromPropertyChange
+    private void exerciseTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exerciseTypeActionPerformed
+        this.statistics.setExerciseType(this.exerciseType.getSelectedIndex());
+}//GEN-LAST:event_exerciseTypeActionPerformed
 
     private void dateToPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateToPropertyChange
         try {
@@ -298,7 +288,74 @@ public class StatisticsDialog extends javax.swing.JDialog {
         } catch (ParseException e) {
             //e.printStackTrace();
         }
-    }//GEN-LAST:event_dateToPropertyChange
+}//GEN-LAST:event_dateToPropertyChange
+
+    private void dateFromPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateFromPropertyChange
+        try {
+            statistics.setDateFrom(this.df.parse(dateFrom.getText()));
+
+        } catch (ParseException e) {
+            //e.printStackTrace();
+        }
+}//GEN-LAST:event_dateFromPropertyChange
+
+    private void RefreshStatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshStatActionPerformed
+        statistics.retrieveStatistics();
+        statistics.fireTableDataChanged();
+        
+        chart = createChart(statistics.createDataset());
+        chartPanel = new ChartPanel(chart, false);
+        graphPane.setViewportView(chartPanel);
+        chartPanel.revalidate();
+
+        jTable1.revalidate();
+
+}//GEN-LAST:event_RefreshStatActionPerformed
+
+    private JFreeChart createChart (CategoryDataset dataset) {
+        // create the chart...
+        JFreeChart chart = ChartFactory.createLineChart(
+                "", // chart title
+                "Date", // domain axis label
+                "Score", // range axis label
+                dataset, // data
+                PlotOrientation.VERTICAL, // orientation
+                false, // include legend
+                false, // tooltips?
+                false // URLs?
+                );
+        /*
+        // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
+        // set the background color for the chart...
+        chart.setBackgroundPaint(Color.white);
+        // get a reference to the plot for further customisation...
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        plot.setBackgroundPaint(Color.lightGray);
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setDomainGridlinesVisible(true);
+        plot.setRangeGridlinePaint(Color.white);
+        // set the range axis to display integers only...
+        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        // disable bar outlines...
+        
+        Renderer renderer = () plot.getRenderer();
+        renderer.setDrawBarOutline(false);
+        // set up gradient paints for series...
+        GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, Color.blue,
+                0.0f, 0.0f, new Color(0, 0, 64));
+        GradientPaint gp1 = new GradientPaint(0.0f, 0.0f, Color.green,
+                0.0f, 0.0f, new Color(0, 64, 0));
+        renderer.setSeriesPaint(0, gp0);
+        renderer.setSeriesPaint(1, gp1);
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(
+                CategoryLabelPositions.createUpRotationLabelPositions(
+                Math.PI / 6.0));
+        */
+        // OPTIONAL CUSTOMISATION COMPLETED.
+        return chart;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RefreshStat;
@@ -306,6 +363,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField dateTo;
     private javax.swing.JComboBox dictionaryId;
     private javax.swing.JComboBox exerciseType;
+    private javax.swing.JScrollPane graphPane;
     private javax.swing.JComboBox groupBy;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -316,6 +374,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
