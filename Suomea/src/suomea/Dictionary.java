@@ -21,7 +21,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -51,9 +50,8 @@ public class Dictionary {
     public int getId() {
         return dictionaryId;
     }
-    
-    public List<String[]> getDictionaryList ()
-    {
+
+    public List<String[]> getDictionaryList() {
         List<String[]> list = new ArrayList<String[]>();
         Database db = Database.getInstance();
         Integer id;
@@ -85,7 +83,6 @@ public class Dictionary {
 
         ResultSet rs;
         String[] result = new String[2];
-        Random rand;
         boolean isOk = false;
         int rowid;
 
@@ -122,6 +119,29 @@ public class Dictionary {
         return result;
     }
 
+    // Retrieves a non-used word from the selected dictionary
+    public String[] getRandomCategory() {
+        Database db = Database.getInstance();
+
+        ResultSet rs;
+        String[] result = new String[3];
+
+        try {
+
+            rs = db.query("SELECT category FROM words WHERE dictionaryId=" + this.getId() + " ORDER BY used,random() LIMIT 1;");
+            if (rs.next()) {
+                result[0] = rs.getString("category");
+            }
+            rs.close();
+
+        } catch (Exception e) {
+            System.out.println("Error in query " + e.toString());
+        }
+
+
+        return result;
+    }
+
     // Increments the 'used' column in the words used in the exercises
     public void updateUsedWords(Vector<String> words) {
         Database db = Database.getInstance();
@@ -131,5 +151,30 @@ public class Dictionary {
             vars.put("used", "(used + 1)");      // Sqlite doesn't get the previous value, so always reach only 1
             db.update("words", vars, "original = '" + word + "'");
         }
+    }
+
+    public String getRandomWordFromCategory(String category, boolean isFromCategory) {
+        Database db = Database.getInstance();
+
+        ResultSet rs;
+        String result = "";
+
+        try {
+            if (isFromCategory) {
+                rs = db.query("SELECT rowid, original, category FROM words WHERE dictionaryId=" + this.getId() + " AND category = '" + category + "' ORDER BY used,random() LIMIT 1;");
+            } else {
+                rs = db.query("SELECT rowid, original, category FROM words WHERE dictionaryId=" + this.getId() + " AND NOT category = '" + category + "' ORDER BY used,random() LIMIT 1;");
+            }
+
+            if (rs.next()) {
+                result = rs.getString("original");
+            }
+            rs.close();
+
+        } catch (Exception e) {
+            System.out.println("Error in query " + e.toString());
+        }
+
+        return result;
     }
 }

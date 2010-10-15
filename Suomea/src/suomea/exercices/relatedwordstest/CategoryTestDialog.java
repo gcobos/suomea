@@ -1,57 +1,45 @@
 /*
- * Copyright 2007-2010
- * This file is part of Suomea.
- *
- * Suomea is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * Suomea is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with
- * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
- * Fifth Floor, Boston, MA 02110-1301 USA
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 
 /*
- * TestDialog.java
+ * CategoryTestDialog.java
  *
- * Created on 10-oct-2010, 17:18:44
+ * Created on 15-oct-2010, 23:03:04
  */
 package suomea.exercices.relatedwordstest;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ButtonGroup;
-import javax.swing.JRadioButton;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 
 /**
  *
  * @author bicha
  */
-public class TestDialog extends javax.swing.JDialog implements ActionListener {
+public class CategoryTestDialog extends javax.swing.JDialog implements ActionListener {
 
     private int questionID = 0;
-    private TestExercise exercise;
+    private CategoryTestExercise exercise;
     private TestQuestion question;
     private JTextArea results;
     private int failCount = 0;
     private int correctCount = 0;
+    private List<JCheckBox> checkboxes = new ArrayList<JCheckBox>();
 
-    /** Creates new form TestDialog */
-    public TestDialog(java.awt.Frame parent, boolean modal, TestExercise exercise, JTextArea results) {
+    /** Creates new form CategoryTestDialog */
+    public CategoryTestDialog(java.awt.Frame parent, boolean modal, CategoryTestExercise exercise, JTextArea results) {
         super(parent, modal);
         this.exercise = exercise;
         initComponents();
         createNextQuestion();
         this.results = results;
         results.setText("Test Results \n");
-
     }
 
     /** This method is called from within the constructor to
@@ -70,18 +58,18 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         answerLabel = new javax.swing.JLabel();
         possibilitiesPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(TestDialog.class);
-        setTitle(resourceMap.getString("Form.title")); // NOI18N
-        setMinimumSize(new java.awt.Dimension(500, 200));
         setName("Form"); // NOI18N
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
+        getContentPane().setLayout(new java.awt.FlowLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel1.setMinimumSize(new java.awt.Dimension(417, 300));
         jPanel1.setName("jPanel1"); // NOI18N
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 400));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         textPanel.setName("textPanel"); // NOI18N
@@ -90,28 +78,28 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         mainWordPanel.setName("mainWordPanel"); // NOI18N
         mainWordPanel.setLayout(new java.awt.BorderLayout());
 
-        wordLabel.setText(resourceMap.getString("wordLabel.text")); // NOI18N
         wordLabel.setName("wordLabel"); // NOI18N
         mainWordPanel.add(wordLabel, java.awt.BorderLayout.PAGE_START);
 
-        answerLabel.setText(resourceMap.getString("answerLabel.text")); // NOI18N
         answerLabel.setName("answerLabel"); // NOI18N
         mainWordPanel.add(answerLabel, java.awt.BorderLayout.PAGE_END);
 
         textPanel.add(mainWordPanel);
 
-        possibilitiesPanel.setMaximumSize(new java.awt.Dimension(400, 32767));
+        possibilitiesPanel.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        possibilitiesPanel.setMinimumSize(new java.awt.Dimension(390, 62));
         possibilitiesPanel.setName("possibilitiesPanel"); // NOI18N
+        possibilitiesPanel.setPreferredSize(new java.awt.Dimension(275, 316));
 
         javax.swing.GroupLayout possibilitiesPanelLayout = new javax.swing.GroupLayout(possibilitiesPanel);
         possibilitiesPanel.setLayout(possibilitiesPanelLayout);
         possibilitiesPanelLayout.setHorizontalGroup(
             possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 248, Short.MAX_VALUE)
+            .addGap(0, 275, Short.MAX_VALUE)
         );
         possibilitiesPanelLayout.setVerticalGroup(
             possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 244, Short.MAX_VALUE)
+            .addGap(0, 316, Short.MAX_VALUE)
         );
 
         textPanel.add(possibilitiesPanel);
@@ -123,6 +111,16 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         jPanel3.setMinimumSize(new java.awt.Dimension(378, 40));
         jPanel3.setName("jPanel3"); // NOI18N
         jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
+
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(CategoryTestDialog.class);
+        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
+        jButton1.setName("jButton1"); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1);
 
         nextButton.setText(resourceMap.getString("nextButton.text")); // NOI18N
         nextButton.setName("nextButton"); // NOI18N
@@ -151,12 +149,28 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         createNextQuestion();
-    }//GEN-LAST:event_nextButtonActionPerformed
+}//GEN-LAST:event_nextButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         this.exercise.finish();
         this.dispose();
-    }//GEN-LAST:event_closeButtonActionPerformed
+}//GEN-LAST:event_closeButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        List<Integer> correctAnswerIndexes = question.getCorrectAnswers();
+        for (int j = 0; j < this.checkboxes.size(); j++) {
+            for (Integer i : correctAnswerIndexes) {
+                if (i == j && this.checkboxes.get(j).isSelected()) {
+                    this.answerLabel.setText("Good!");
+                    correctCount++;
+                } else if (this.checkboxes.get(j).isSelected()) {
+                    this.answerLabel.setText("Wrong!");
+                    question.addFail();
+                    failCount++;
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * Creates the components for one question:
@@ -164,7 +178,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
      * - radio buttons with the possible meanings
      */
     private void createNextQuestion() {
-      /*  if (questionID == exercise.getNumberOfQuestions()) {
+        if (questionID == exercise.getNumberOfQuestions()) {
             this.exercise.finish();
             this.dispose();
             return;
@@ -172,29 +186,24 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
         this.answerLabel.setText("");
 
-        if (exercise != null) {
+        if (exercise != null) {for (int j = 0; j < this.checkboxes.size(); j++) {
             question = exercise.getQuestion(questionID);
 
             if (question != null) {
                 try {
-                    this.wordLabel.setText(question.word);
+                    this.wordLabel.setText(question.getWord());
 
                     // Removes all the components from the panel where the possible answers are writen
                     this.possibilitiesPanel.removeAll();
                     this.possibilitiesPanel.setLayout(new GridLayout(0, 1));
 
-                    // Adds a new group of possibilities
-                    ButtonGroup group = new ButtonGroup();
 
                     // Creates the radio buttons and adds them to the group and to the panel
-                    for (String option : question.options) {
-                       
-                        JRadioButton opt = new JRadioButton(option);
-
+                    for (String option : question.getOptions()) {
+                        JCheckBox opt = new JCheckBox(option);
                         opt.addActionListener(this);
-                        group.add(opt);
-
                         this.possibilitiesPanel.add(opt);
+                        this.checkboxes.add(opt);
                     }
 
                     // Increments the question ID
@@ -206,11 +215,12 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                     dispose();
                 }
             }
-        }*/
-    }
+        }
+    }}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel answerLabel;
     private javax.swing.JButton closeButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel mainWordPanel;
@@ -221,41 +231,25 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
     // End of variables declaration//GEN-END:variables
 
     public void actionPerformed(ActionEvent e) {
-
-      /*  try {
-            // Checks whether the answer is correct or not
-            String correctAnswer = question.options.get(question.correct);
-            String givenAnswer = e.getActionCommand();
-            // Changes the radio button string if it has html labels
-            givenAnswer = givenAnswer.replace("<html>", "");
-            givenAnswer = givenAnswer.replace("</html>", "");
-            givenAnswer = givenAnswer.replace("-<br>", "");
-
-            if (correctAnswer.equals(givenAnswer)) {
-                question.isCorrect = true;
-                correctCount++;
-            } else {
-                this.answerLabel.setText("Wrong!");
-                question.fails++;
-                failCount++;
-            }
-
-            // Writes the statistics of the current test in the main windows using the text area givem in the class arguments
-            String statistics = "Test Results:\n Correct Answers: " + correctCount +
-                    "\n Wrong Answers: " + failCount;
-            //if (questionID == exercise.getNumberOfQuestions()) {
-                exercise.doEvaluation();
-                statistics = statistics.concat("\n Test score: " + exercise.getScore());
-            //}
-            this.results.setText(statistics);
+        // try {
+        /*if (correctCount == question.getCorrectAnswers().size()) {
+        question.SetIsCorrect(true);
+        }
+        // Writes the statistics of the current test in the main windows using the text area givem in the class arguments
+        String statistics = "Test Results:\n Correct Answers: " + correctCount
+        + "\n Wrong Answers: " + failCount;
+        exercise.doEvaluation();
+        statistics = statistics.concat("\n Test score: " + exercise.getScore());
+        this.results.setText(statistics);
 
         } catch (NullPointerException exception) {
-            System.out.println("It is not possible to show the questions");
-            exception.printStackTrace();
+        System.out.println("It is not possible to show the questions");
+        exception.printStackTrace();
         }
 
         // To get the last stats printed before closing the test window
-        if (question.isCorrect) this.createNextQuestion();*/
-
+        if (question.isCorrect()) {
+        this.createNextQuestion();
+        }*/
     }
 }

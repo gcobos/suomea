@@ -30,6 +30,8 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import suomea.exercices.relatedwordstest.CategoryTestDialog;
+import suomea.exercices.relatedwordstest.CategoryTestExercise;
 
 /**
  * The application's main frame.
@@ -37,7 +39,7 @@ import javax.swing.JFrame;
 public class SuomeaView extends FrameView {
 
     private TestExercise exercise;
-    private StatisticsDataModel stats;
+    private CategoryTestExercise categoryExercise;
 
     public SuomeaView(SingleFrameApplication app) {
         super(app);
@@ -131,6 +133,7 @@ public class SuomeaView extends FrameView {
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         exercisesMenu = new javax.swing.JMenu();
         vtestMenuItem = new javax.swing.JMenuItem();
+        categoryTestMenuItem = new javax.swing.JMenuItem();
         statisticsMenu = new javax.swing.JMenu();
         vStatisticsMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
@@ -164,7 +167,7 @@ public class SuomeaView extends FrameView {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
 
         mainPanel.add(jPanel1);
@@ -203,6 +206,15 @@ public class SuomeaView extends FrameView {
             }
         });
         exercisesMenu.add(vtestMenuItem);
+
+        categoryTestMenuItem.setText(resourceMap.getString("categoryTestMenuItem.text")); // NOI18N
+        categoryTestMenuItem.setName("categoryTestMenuItem"); // NOI18N
+        categoryTestMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoryTestMenuItemActionPerformed(evt);
+            }
+        });
+        exercisesMenu.add(categoryTestMenuItem);
 
         menuBar.add(exercisesMenu);
 
@@ -248,7 +260,7 @@ public class SuomeaView extends FrameView {
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 454, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 450, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusAnimationLabel)
@@ -290,7 +302,14 @@ public class SuomeaView extends FrameView {
         dictionaryDialog.setVisible(true);
     }//GEN-LAST:event_vSelectDictionaryMenuItemActionPerformed
 
+    private void categoryTestMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryTestMenuItemActionPerformed
+        categoryExercise = new CategoryTestExercise();
+        this.resultTextArea.setText("");
+        CategoryTestDialog tDialog = new CategoryTestDialog(this.getFrame(), false, categoryExercise, this.resultTextArea);
+        tDialog.setVisible(true);
+    }//GEN-LAST:event_categoryTestMenuItemActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem categoryTestMenuItem;
     private javax.swing.JMenu exercisesMenu;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;

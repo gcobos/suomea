@@ -188,9 +188,6 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
                     // Creates the radio buttons and adds them to the group and to the panel
                     for (String option : question.getOptions()) {
-                        /*if (option.length() > 50) {
-                            option = "<html>" + option.substring(0, 50) + "-<br>" + option.substring(50, option.length()) + "</html>";
-                        }*/
                         JRadioButton opt = new JRadioButton(option);
 
                         opt.addActionListener(this);
@@ -228,10 +225,6 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             // Checks whether the answer is correct or not
             String correctAnswer = question.getOptions().get(question.getCorrectAnswer());
             String givenAnswer = e.getActionCommand();
-            // Changes the radio button string if it has html labels
-            givenAnswer = givenAnswer.replace("<html>", "");
-            givenAnswer = givenAnswer.replace("</html>", "");
-            givenAnswer = givenAnswer.replace("-<br>", "");
 
             if (correctAnswer.equals(givenAnswer)) {
                 question.SetIsCorrect(true);
@@ -243,12 +236,10 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             }
 
             // Writes the statistics of the current test in the main windows using the text area givem in the class arguments
-            String statistics = "Test Results:\n Correct Answers: " + correctCount +
-                    "\n Wrong Answers: " + failCount;
-            //if (questionID == exercise.getNumberOfQuestions()) {
-                exercise.doEvaluation();
-                statistics = statistics.concat("\n Test score: " + exercise.getScore());
-            //}
+            String statistics = "Test Results:\n Correct Answers: " + correctCount
+                    + "\n Wrong Answers: " + failCount;
+            exercise.doEvaluation();
+            statistics = statistics.concat("\n Test score: " + exercise.getScore());
             this.results.setText(statistics);
 
         } catch (NullPointerException exception) {
@@ -257,7 +248,9 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         }
 
         // To get the last stats printed before closing the test window
-        if (question.isCorrect()) this.createNextQuestion();
+        if (question.isCorrect()) {
+            this.createNextQuestion();
+        }
 
     }
 }
