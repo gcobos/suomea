@@ -17,6 +17,8 @@
  */
 package suomea;
 
+import suomea.exercices.vocabularytest.TestExercise;
+import suomea.exercices.vocabularytest.TestDialog;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;

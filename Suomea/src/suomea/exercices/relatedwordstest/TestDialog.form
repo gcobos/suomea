@@ -3,7 +3,6 @@
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" resourceKey="Form.title"/>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[500, 200]"/>
     </Property>
@@ -63,7 +62,6 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="wordLabel">
                   <Properties>
-                    <Property name="text" type="java.lang.String" resourceKey="wordLabel.text"/>
                     <Property name="name" type="java.lang.String" value="wordLabel" noResource="true"/>
                   </Properties>
                   <Constraints>
@@ -74,7 +72,6 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="answerLabel">
                   <Properties>
-                    <Property name="text" type="java.lang.String" resourceKey="answerLabel.text"/>
                     <Property name="name" type="java.lang.String" value="answerLabel" noResource="true"/>
                   </Properties>
                   <Constraints>
@@ -111,7 +108,7 @@
         <Container class="javax.swing.JPanel" name="jPanel3">
           <Properties>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Default Cursor"/>
+              <Color id="Cursor predeterminado"/>
             </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[378, 40]"/>
@@ -134,7 +131,6 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="nextButton">
               <Properties>
-                <Property name="text" type="java.lang.String" resourceKey="nextButton.text"/>
                 <Property name="name" type="java.lang.String" value="nextButton" noResource="true"/>
               </Properties>
               <Events>
@@ -143,7 +139,6 @@
             </Component>
             <Component class="javax.swing.JButton" name="closeButton">
               <Properties>
-                <Property name="text" type="java.lang.String" resourceKey="closeButton.text"/>
                 <Property name="name" type="java.lang.String" value="closeButton" noResource="true"/>
               </Properties>
               <Events>
