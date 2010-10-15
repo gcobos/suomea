@@ -24,7 +24,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import javax.swing.table.AbstractTableModel;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -121,6 +124,17 @@ public class StatisticsDataModel extends AbstractTableModel {
         this.groupBy = groupBy;
     }
 
+    // Create evolution statistic dataset
+    public CategoryDataset createDataset() {
+        // create the dataset...
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        for (int i = 0; i < data.size(); i++) {
+            dataset.addValue((Number)data.get(i)[4], "Diccionario", "ejercicio/fecha");
+            System.out.println("Lalalala "+data.get(i)[4] );
+        }
+        return dataset;
+    }
 
     // Retrieves statistics table grouping by day
     public boolean retrieveStatistics ()
@@ -152,19 +166,19 @@ public class StatisticsDataModel extends AbstractTableModel {
 
         switch (this.groupBy) {
             case EXERCISE:
-                query = query.concat(" GROUP BY s.rowid,s.dictionaryId ORDER BY s.cdate, s.dictionaryId;");
+                query = query.concat(" GROUP BY s.rowid, s.dictionaryId ORDER BY s.cdate, s.dictionaryId;");
                 break;
             case DAY:
-                query = query.concat(" GROUP BY Date(s.cdate),s.dictionaryId ORDER BY Date(s.cdate), s.dictionaryId;");
+                query = query.concat(" GROUP BY Date(s.cdate), s.dictionaryId ORDER BY Date(s.cdate), s.dictionaryId;");
                 break;
             case WEEK:
-                query = query.concat(" GROUP BY strftime('%Y-%W',s.cdate),s.dictionaryId ORDER BY strftime('%Y-%W',s.cdate), s.dictionaryId;");
+                query = query.concat(" GROUP BY strftime('%Y-%W',s.cdate), s.dictionaryId ORDER BY strftime('%Y-%W',s.cdate), s.dictionaryId;");
                 break;
             case MONTH:
-                query = query.concat(" GROUP BY strftime('%Y-%m',s.cdate),s.dictionaryId ORDER BY strftime('%Y-%m',s.cdate), s.dictionaryId;");
+                query = query.concat(" GROUP BY strftime('%Y-%m',s.cdate), s.dictionaryId ORDER BY strftime('%Y-%m',s.cdate), s.dictionaryId;");
                 break;
             default:
-                query = query.concat(" GROUP BY strftime('%Y',s.cdate),s.dictionaryId ORDER BY strftime('%Y',s.cdate), s.dictionaryId;");
+                query = query.concat(" GROUP BY strftime('%Y',s.cdate), s.dictionaryId ORDER BY strftime('%Y',s.cdate), s.dictionaryId;");
         }
 
         //System.out.println("Query: "+query);
