@@ -24,7 +24,6 @@
 package suomea;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -39,9 +38,8 @@ import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -88,7 +86,6 @@ public class StatisticsDialog extends javax.swing.JDialog {
 
         chart = createChart(statistics.createDataset());
         chartPanel = new ChartPanel(chart, false);
-        //chartPanel.setPreferredSize(new Dimension(, 200));
         graphPane.setViewportView(chartPanel);
     }
 
@@ -106,13 +103,13 @@ public class StatisticsDialog extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         dateFrom = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
-        groupBy = new javax.swing.JComboBox();
+        exerciseType = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         dictionaryId = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         dateTo = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
-        exerciseType = new javax.swing.JComboBox();
+        groupBy = new javax.swing.JComboBox();
         RefreshStat = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -157,15 +154,15 @@ public class StatisticsDialog extends javax.swing.JDialog {
         jLabel3.setName("jLabel3"); // NOI18N
         jPanel1.add(jLabel3);
 
-        groupBy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Exercise", "Day", "Week", "Month", "Year" }));
-        groupBy.setName("groupBy"); // NOI18N
-        groupBy.setPreferredSize(null);
-        groupBy.addActionListener(new java.awt.event.ActionListener() {
+        exerciseType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All types", "Vocabulary test" }));
+        exerciseType.setName("exerciseType"); // NOI18N
+        exerciseType.setPreferredSize(null);
+        exerciseType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                groupByActionPerformed(evt);
+                exerciseTypeActionPerformed(evt);
             }
         });
-        jPanel1.add(groupBy);
+        jPanel1.add(exerciseType);
 
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -199,15 +196,15 @@ public class StatisticsDialog extends javax.swing.JDialog {
         jLabel4.setName("jLabel4"); // NOI18N
         jPanel1.add(jLabel4);
 
-        exerciseType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All types", "Vocabulary test" }));
-        exerciseType.setName("exerciseType"); // NOI18N
-        exerciseType.setPreferredSize(null);
-        exerciseType.addActionListener(new java.awt.event.ActionListener() {
+        groupBy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Exercise", "Day", "Week", "Month", "Year" }));
+        groupBy.setName("groupBy"); // NOI18N
+        groupBy.setPreferredSize(null);
+        groupBy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exerciseTypeActionPerformed(evt);
+                groupByActionPerformed(evt);
             }
         });
-        jPanel1.add(exerciseType);
+        jPanel1.add(groupBy);
 
         RefreshStat.setText(resourceMap.getString("RefreshStat.text")); // NOI18N
         RefreshStat.setHideActionText(true);
@@ -307,53 +304,23 @@ public class StatisticsDialog extends javax.swing.JDialog {
         chartPanel = new ChartPanel(chart, false);
         graphPane.setViewportView(chartPanel);
         chartPanel.revalidate();
-
         jTable1.revalidate();
 
 }//GEN-LAST:event_RefreshStatActionPerformed
 
-    private JFreeChart createChart (CategoryDataset dataset) {
+    private JFreeChart createChart (XYSeriesCollection dataset) {
         // create the chart...
-        JFreeChart chart = ChartFactory.createLineChart(
-                "", // chart title
-                "Date", // domain axis label
+        chart = ChartFactory.createXYLineChart(
+                "Evolution chart", // chart title
+                "Date/Exercise", // domain axis label
                 "Score", // range axis label
                 dataset, // data
                 PlotOrientation.VERTICAL, // orientation
-                false, // include legend
-                false, // tooltips?
+                true, // include legend
+                true, // tooltips?
                 false // URLs?
                 );
-        /*
-        // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
-        // set the background color for the chart...
-        chart.setBackgroundPaint(Color.white);
-        // get a reference to the plot for further customisation...
-        CategoryPlot plot = (CategoryPlot) chart.getPlot();
-        plot.setBackgroundPaint(Color.lightGray);
-        plot.setDomainGridlinePaint(Color.white);
-        plot.setDomainGridlinesVisible(true);
-        plot.setRangeGridlinePaint(Color.white);
-        // set the range axis to display integers only...
-        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        // disable bar outlines...
         
-        Renderer renderer = () plot.getRenderer();
-        renderer.setDrawBarOutline(false);
-        // set up gradient paints for series...
-        GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, Color.blue,
-                0.0f, 0.0f, new Color(0, 0, 64));
-        GradientPaint gp1 = new GradientPaint(0.0f, 0.0f, Color.green,
-                0.0f, 0.0f, new Color(0, 64, 0));
-        renderer.setSeriesPaint(0, gp0);
-        renderer.setSeriesPaint(1, gp1);
-        CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setCategoryLabelPositions(
-                CategoryLabelPositions.createUpRotationLabelPositions(
-                Math.PI / 6.0));
-        */
-        // OPTIONAL CUSTOMISATION COMPLETED.
         return chart;
     }
 
