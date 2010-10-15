@@ -47,6 +47,10 @@ public class TestQuestion {
         return this.word;
     }
 
+    public void setWord(String word){
+        this.word = word;
+    }
+
     public List<String> getOptions(){
         return this.options;
     }
@@ -77,5 +81,14 @@ public class TestQuestion {
 
     public boolean isCorrect(){
         return this.isCorrect;
+    }
+
+    public boolean answersContains(int index) {
+        for(Integer i : this.getCorrectAnswers()){
+            if(i == index){
+                return true;
+            }
+        }
+        return false;
     }
 }
