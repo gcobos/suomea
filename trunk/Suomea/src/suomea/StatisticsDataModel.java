@@ -23,11 +23,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
-import java.util.Random;
 import javax.swing.table.AbstractTableModel;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -125,14 +126,49 @@ public class StatisticsDataModel extends AbstractTableModel {
     }
 
     // Create evolution statistic dataset
-    public CategoryDataset createDataset() {
-        // create the dataset...
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    public XYSeriesCollection createDataset() {
 
+        final XYSeriesCollection dataset = new XYSeriesCollection();
+
+        Hashtable<String,XYSeries> series = new Hashtable<String,XYSeries>();
         for (int i = 0; i < data.size(); i++) {
-            dataset.addValue((Number)data.get(i)[4], "Diccionario", "ejercicio/fecha");
-            System.out.println("Lalalala "+data.get(i)[4] );
+            if (!series.containsKey(data.get(i)[5].toString())) {
+                series.put(data.get(i)[5].toString(),new XYSeries(data.get(i)[5].toString()));
+            }
         }
+
+        //DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        for (int i = 0; i < data.size(); i++) {
+            try {
+                //Date d = df.parse(data.get(i)[1].toString());
+                //System.out.println(" Fecha"+ d.getTime());
+                series.get(data.get(i)[5].toString()).add(i /*d.getTime()*/,(Number)data.get(i)[4]);
+            } catch (Exception e) {
+                // Pass
+            }
+        }
+
+        for (Enumeration e = series.keys(); e.hasMoreElements();) {
+            dataset.addSeries(series.get(e.nextElement().toString()));
+        }
+        /*
+            series.get(data.get(i)[5].toString()).add(data.get(i)[1], data.get(i)[1].toString());
+                series.add(1.0, 500.2);
+        series.add(5.0, 694.1);
+        series.add(4.0, 100.0);
+        series.add(12.5, 734.4);
+        series.add(17.3, 453.2);
+        series.add(21.2, 500.2);
+        series.add(21.9, null);
+        series.add(25.6, 734.4);
+        series.add(30.0, 453.2);
+                System.out.println("Dataset ("+data.get(i)[4]+", "+data.get(i)[5]+", "+data.get(i)[1]+")");
+                dataset.addValue((Number)data.get(i)[4],data.get(i)[5].toString(), data.get(i)[1].toString());
+
+            }
+            sCollection.addSeries(series);
+        }
+         */
         return dataset;
     }
 
