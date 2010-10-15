@@ -21,7 +21,7 @@
  *
  * Created on 10-oct-2010, 17:18:44
  */
-package suomea;
+package suomea.exercices.relatedwordstest;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -164,7 +164,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
      * - radio buttons with the possible meanings
      */
     private void createNextQuestion() {
-        if (questionID == exercise.getNumberOfQuestions()) {
+      /*  if (questionID == exercise.getNumberOfQuestions()) {
             this.exercise.finish();
             this.dispose();
             return;
@@ -188,9 +188,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
                     // Creates the radio buttons and adds them to the group and to the panel
                     for (String option : question.options) {
-                        /*if (option.length() > 50) {
-                            option = "<html>" + option.substring(0, 50) + "-<br>" + option.substring(50, option.length()) + "</html>";
-                        }*/
+                       
                         JRadioButton opt = new JRadioButton(option);
 
                         opt.addActionListener(this);
@@ -208,7 +206,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
                     dispose();
                 }
             }
-        }
+        }*/
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel answerLabel;
@@ -224,7 +222,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 
-        try {
+      /*  try {
             // Checks whether the answer is correct or not
             String correctAnswer = question.options.get(question.correct);
             String givenAnswer = e.getActionCommand();
@@ -257,7 +255,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         }
 
         // To get the last stats printed before closing the test window
-        if (question.isCorrect) this.createNextQuestion();
+        if (question.isCorrect) this.createNextQuestion();*/
 
     }
 }

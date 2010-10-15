@@ -15,12 +15,14 @@
  * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
-package suomea;
+package suomea.exercices.relatedwordstest;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 import java.util.Vector;
+import suomea.Database;
+import suomea.Dictionary;
 
 /**
  *
@@ -41,7 +43,7 @@ public class TestExercise {
     // Generates the exercise and return a vector
     public TestExercise() {
         // Reset the previous exercise
-        Random rand = new Random();
+ /*       Random rand = new Random();
         questions = new Vector<TestQuestion>();
         Dictionary dict = Dictionary.getInstance();
 
@@ -66,7 +68,7 @@ public class TestExercise {
             }
 
             questions.addElement(question);
-        }
+        }*/
     }
 
     public TestQuestion getQuestion(int ID) {
@@ -84,7 +86,7 @@ public class TestExercise {
     // Closes the exersize and update statistics
     public void finish() {
         Dictionary dict = Dictionary.getInstance();
-
+/*
         // Mark learnt words as used in database
         Vector<String> learnt = new Vector<String>();
         for (TestQuestion question : questions) {
@@ -136,7 +138,7 @@ public class TestExercise {
         for (int i = 0; i < columns.length; i++) {
             vars.put(columns[i],values[i]);
         }
-        db.insert("statistics",vars);
+        db.insert("statistics",vars);*/
     }
 
 }
