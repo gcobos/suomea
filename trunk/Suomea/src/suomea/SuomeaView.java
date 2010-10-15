@@ -125,6 +125,7 @@ public class SuomeaView extends FrameView {
         resultTextArea = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         exercisesMenu = new javax.swing.JMenu();
         vtestMenuItem = new javax.swing.JMenuItem();
@@ -171,6 +172,16 @@ public class SuomeaView extends FrameView {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(SuomeaView.class);
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
+
+        jMenuItem1.setText(resourceMap.getString("jMenuItem1.text")); // NOI18N
+        jMenuItem1.setActionCommand(resourceMap.getString("jMenuItem1.actionCommand")); // NOI18N
+        jMenuItem1.setName("jMenuItem1"); // NOI18N
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vSelectDictionaryMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem1);
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getActionMap(SuomeaView.class, this);
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
@@ -271,8 +282,15 @@ public class SuomeaView extends FrameView {
         stats.setVisible(true);
 }//GEN-LAST:event_vStatisticsMenuItemActionPerformed
 
+    private void vSelectDictionaryMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vSelectDictionaryMenuItemActionPerformed
+        this.resultTextArea.setText("");
+        SelectDictionaryDialog dictionaryDialog = new SelectDictionaryDialog(this.getFrame(), false);
+        dictionaryDialog.setVisible(true);
+    }//GEN-LAST:event_vSelectDictionaryMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu exercisesMenu;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
