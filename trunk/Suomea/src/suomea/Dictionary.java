@@ -162,11 +162,11 @@ public class Dictionary {
         ResultSet rs;
         String[] result = new String[2];
 
-        String query = "SELECT original,category FROM (SELECT original, category FROM words WHERE dictionaryId=" + this.getId() +
-               " AND category = '" + category + "' ORDER BY used LIMIT "+numWords+" UNION" +
-               " SELECT original, category FROM words WHERE dictionaryId=" + this.getId() +
+        String query = "SELECT original,category, rorder FROM (SELECT original, category, random() as rorder FROM words WHERE dictionaryId=" +this.getId() +
+               " AND category = '" + category + "' ORDER BY used LIMIT "+numWords+") UNION" +
+               " SELECT original,category, rorder FROM (SELECT original, category, random() as rorder FROM words WHERE dictionaryId=" + this.getId() +
                " AND category != '" + category + "' ORDER BY used LIMIT "+(totalQuestions - numWords)+
-               ") ORDER BY random();";
+               ") ORDER BY rorder";
 
         System.out.println("El query "+query);
         try {
