@@ -28,6 +28,7 @@ public class SelectDictionaryDialog extends javax.swing.JDialog {
         super(parent, modal);
 
         dictionary = Dictionary.getInstance();
+
         dictionaryList = dictionary.getDictionaryList();
         String[] dictionaries = new String[dictionaryList.size()];
         for (int i = 0; i < dictionaryList.size(); i++) {

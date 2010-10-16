@@ -175,7 +175,6 @@ public class Dictionary {
             while (rs.next()) {
                 result[0] = rs.getString("original");
                 result[1] = rs.getString("category");
-                System.out.println(result[0]+","+result[1]);
                 list.add(result);
             }
             rs.close();
