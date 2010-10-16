@@ -186,30 +186,4 @@ public class Dictionary {
 
         return list;
     }
-
-    @Deprecated
-    public String getRandomWordFromCategory(String category, boolean isFromCategory) {
-        Database db = Database.getInstance();
-
-        ResultSet rs;
-        String result = "";
-
-        try {
-            if (isFromCategory) {
-                rs = db.query("SELECT rowid, original, category FROM words WHERE dictionaryId=" + this.getId() + " AND category = '" + category + "' ORDER BY used,random() LIMIT 1;");
-            } else {
-                rs = db.query("SELECT rowid, original, category FROM words WHERE dictionaryId=" + this.getId() + " AND NOT category = '" + category + "' ORDER BY used,random() LIMIT 1;");
-            }
-
-            if (rs.next()) {
-                result = rs.getString("original");
-            }
-            rs.close();
-
-        } catch (Exception e) {
-            System.out.println("Error in query " + e.toString());
-        }
-
-        return result;
-    }
 }
