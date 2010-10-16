@@ -159,16 +159,17 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         List<Integer> correctAnswerIndexes = question.getCorrectAnswers();
         for (int j = 0; j < this.checkboxes.size(); j++) {
-            for (Integer i : correctAnswerIndexes) {
-                if (i == j && this.checkboxes.get(j).isSelected()) {
+            if (this.checkboxes.get(j).isSelected()) {
+                if (correctAnswerIndexes.contains(j)) {
                     this.answerLabel.setText("Good!");
                     correctCount++;
-                } else if (this.checkboxes.get(j).isSelected()) {
+                } else {
                     this.answerLabel.setText("Wrong!");
                     question.addFail();
                     failCount++;
                 }
             }
+
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -186,7 +187,7 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
 
         this.answerLabel.setText("");
 
-        if (exercise != null) {for (int j = 0; j < this.checkboxes.size(); j++) {
+        if (exercise != null) {
             question = exercise.getQuestion(questionID);
 
             if (question != null) {
@@ -214,9 +215,10 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
                     System.out.println("It is not possible to show the questions");
                     dispose();
                 }
+
             }
         }
-    }}
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel answerLabel;
     private javax.swing.JButton closeButton;
