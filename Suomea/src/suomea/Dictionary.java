@@ -163,9 +163,9 @@ public class Dictionary {
         String[] result;
 
         String query = "SELECT original,category, rorder FROM (SELECT original, category, random() as rorder FROM words WHERE dictionaryId=" +this.getId() +
-               " AND category = '" + category + "' ORDER BY used LIMIT "+numWords+") UNION" +
+               " AND category = '" + category + "' ORDER BY used, random() LIMIT "+numWords+") UNION" +
                " SELECT original,category, rorder FROM (SELECT original, category, random() as rorder FROM words WHERE dictionaryId=" + this.getId() +
-               " AND category != '" + category + "' ORDER BY used LIMIT "+totalQuestions+  /* Limit cuts the total result, instead of the subquery :S */
+               " AND category != '" + category + "' ORDER BY used, random() LIMIT "+totalQuestions+  /* Limit cuts the total result, instead of the subquery :S */
                ") ORDER BY rorder LIMIT "+totalQuestions;
 
         //System.out.println("El query "+query);
