@@ -164,7 +164,7 @@ public class Dictionary {
 
         String query = "SELECT original,category FROM (SELECT original, category FROM words WHERE dictionaryId=" + this.getId() +
                " AND category = '" + category + "' ORDER BY used LIMIT "+numWords+" UNION" +
-               "SELECT original, category FROM words WHERE dictionaryId=" + this.getId() +
+               " SELECT original, category FROM words WHERE dictionaryId=" + this.getId() +
                " AND category != '" + category + "' ORDER BY used LIMIT "+(totalQuestions - numWords)+
                ") ORDER BY random();";
 
