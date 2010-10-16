@@ -65,7 +65,7 @@ public class CategoryTestExercise {
                     String[] res = new String[2];
                     if (question.answersContains(j)) {
                         if (cont == 0) {
-                            res = dict.getRandomCategory();
+                            //res = dict.getRandomCategory();
                             question.setWord(new String(res[0]));
                             System.out.println(res[0]);
                             cont++;

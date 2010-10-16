@@ -91,19 +91,32 @@ public class StatisticsDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        labelFromPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        inputFromPanel = new javax.swing.JPanel();
         dateFrom = new javax.swing.JFormattedTextField();
+        labelTypePanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        inputTypePanel = new javax.swing.JPanel();
         exerciseType = new javax.swing.JComboBox();
+        labelDictionaryPanel = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        inputDictionaryPanel = new javax.swing.JPanel();
         dictionaryId = new javax.swing.JComboBox();
+        labelToPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        inputToPanel = new javax.swing.JPanel();
         dateTo = new javax.swing.JFormattedTextField();
+        lavelGroupPanel = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        inputGroupPanel = new javax.swing.JPanel();
         groupBy = new javax.swing.JComboBox();
+        spacerRefreshPanel = new javax.swing.JPanel();
+        inputRefreshPanel = new javax.swing.JPanel();
         RefreshStat = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -124,94 +137,199 @@ public class StatisticsDialog extends javax.swing.JDialog {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(StatisticsDialog.class);
         jPanel1.setBackground(resourceMap.getColor("jPanel1.background")); // NOI18N
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        jPanel1.setMaximumSize(new java.awt.Dimension(846, 70));
-        jPanel1.setMinimumSize(null);
         jPanel1.setName("jPanel1"); // NOI18N
-        jPanel1.setPreferredSize(null);
-        jPanel1.setLayout(new java.awt.GridLayout(2, 20, 8, 8));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        labelFromPanel.setName("labelFromPanel"); // NOI18N
+        labelFromPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setMaximumSize(null);
         jLabel1.setMinimumSize(null);
         jLabel1.setName("jLabel1"); // NOI18N
-        jPanel1.add(jLabel1);
+        jLabel1.setPreferredSize(null);
+        labelFromPanel.add(jLabel1);
+
+        jPanel1.add(labelFromPanel, new java.awt.GridBagConstraints());
+
+        inputFromPanel.setName("inputFromPanel"); // NOI18N
 
         dateFrom.setText(resourceMap.getString("dateFrom.text")); // NOI18N
-        dateFrom.setMinimumSize(new java.awt.Dimension(50, 25));
+        dateFrom.setMinimumSize(new java.awt.Dimension(100, 25));
         dateFrom.setName("dateFrom"); // NOI18N
-        dateFrom.setPreferredSize(null);
+        dateFrom.setPreferredSize(new java.awt.Dimension(100, 25));
         dateFrom.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 dateFromPropertyChange(evt);
             }
         });
-        jPanel1.add(dateFrom);
+        inputFromPanel.add(dateFrom);
+
+        jPanel1.add(inputFromPanel, new java.awt.GridBagConstraints());
+
+        labelTypePanel.setName("labelTypePanel"); // NOI18N
+        labelTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jLabel3.setMaximumSize(null);
+        jLabel3.setMinimumSize(null);
         jLabel3.setName("jLabel3"); // NOI18N
-        jPanel1.add(jLabel3);
+        jLabel3.setPreferredSize(null);
+        labelTypePanel.add(jLabel3);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(labelTypePanel, gridBagConstraints);
+
+        inputTypePanel.setName("inputTypePanel"); // NOI18N
+        inputTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         exerciseType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All types", "Vocabulary test" }));
+        exerciseType.setMinimumSize(new java.awt.Dimension(200, 25));
         exerciseType.setName("exerciseType"); // NOI18N
-        exerciseType.setPreferredSize(null);
+        exerciseType.setPreferredSize(new java.awt.Dimension(200, 25));
         exerciseType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exerciseTypeActionPerformed(evt);
             }
         });
-        jPanel1.add(exerciseType);
+        inputTypePanel.add(exerciseType);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(inputTypePanel, gridBagConstraints);
+
+        labelDictionaryPanel.setName("labelDictionaryPanel"); // NOI18N
+        labelDictionaryPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jLabel5.setMaximumSize(null);
+        jLabel5.setMinimumSize(null);
         jLabel5.setName("jLabel5"); // NOI18N
-        jPanel1.add(jLabel5);
+        jLabel5.setPreferredSize(null);
+        labelDictionaryPanel.add(jLabel5);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(labelDictionaryPanel, gridBagConstraints);
+
+        inputDictionaryPanel.setName("inputDictionaryPanel"); // NOI18N
+        inputDictionaryPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        dictionaryId.setMinimumSize(new java.awt.Dimension(200, 25));
         dictionaryId.setName("dictionaryId"); // NOI18N
+        dictionaryId.setPreferredSize(new java.awt.Dimension(200, 25));
         dictionaryId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dictionaryIdActionPerformed(evt);
             }
         });
-        jPanel1.add(dictionaryId);
+        inputDictionaryPanel.add(dictionaryId);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(inputDictionaryPanel, gridBagConstraints);
+
+        labelToPanel.setName("labelToPanel"); // NOI18N
+        labelToPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
+        jLabel2.setMaximumSize(null);
+        jLabel2.setMinimumSize(null);
         jLabel2.setName("jLabel2"); // NOI18N
-        jPanel1.add(jLabel2);
+        jLabel2.setPreferredSize(null);
+        labelToPanel.add(jLabel2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel1.add(labelToPanel, gridBagConstraints);
+
+        inputToPanel.setName("inputToPanel"); // NOI18N
 
         dateTo.setText(resourceMap.getString("dateTo.text")); // NOI18N
-        dateTo.setMinimumSize(new java.awt.Dimension(50, 25));
+        dateTo.setMinimumSize(new java.awt.Dimension(100, 25));
         dateTo.setName("dateTo"); // NOI18N
-        dateTo.setPreferredSize(null);
+        dateTo.setPreferredSize(new java.awt.Dimension(100, 25));
         dateTo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 dateToPropertyChange(evt);
             }
         });
-        jPanel1.add(dateTo);
+        inputToPanel.add(dateTo);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        jPanel1.add(inputToPanel, gridBagConstraints);
+
+        lavelGroupPanel.setName("lavelGroupPanel"); // NOI18N
+        lavelGroupPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
+        jLabel4.setMaximumSize(null);
+        jLabel4.setMinimumSize(null);
         jLabel4.setName("jLabel4"); // NOI18N
-        jPanel1.add(jLabel4);
+        jLabel4.setPreferredSize(null);
+        lavelGroupPanel.add(jLabel4);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(lavelGroupPanel, gridBagConstraints);
+
+        inputGroupPanel.setName("inputGroupPanel"); // NOI18N
+        inputGroupPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         groupBy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Exercise", "Day", "Week", "Month", "Year" }));
         groupBy.setName("groupBy"); // NOI18N
-        groupBy.setPreferredSize(null);
+        groupBy.setPreferredSize(new java.awt.Dimension(120, 25));
         groupBy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 groupByActionPerformed(evt);
             }
         });
-        jPanel1.add(groupBy);
+        inputGroupPanel.add(groupBy);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(inputGroupPanel, gridBagConstraints);
+
+        spacerRefreshPanel.setName("spacerRefreshPanel"); // NOI18N
+        spacerRefreshPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        jPanel1.add(spacerRefreshPanel, gridBagConstraints);
+
+        inputRefreshPanel.setMinimumSize(new java.awt.Dimension(100, 37));
+        inputRefreshPanel.setName("inputRefreshPanel"); // NOI18N
+        inputRefreshPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         RefreshStat.setText(resourceMap.getString("RefreshStat.text")); // NOI18N
+        RefreshStat.setAlignmentX(300.0F);
         RefreshStat.setHideActionText(true);
+        RefreshStat.setMaximumSize(null);
+        RefreshStat.setMinimumSize(new java.awt.Dimension(100, 27));
         RefreshStat.setName("RefreshStat"); // NOI18N
+        RefreshStat.setPreferredSize(new java.awt.Dimension(100, 27));
         RefreshStat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RefreshStatActionPerformed(evt);
             }
         });
-        jPanel1.add(RefreshStat);
+        inputRefreshPanel.add(RefreshStat);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(inputRefreshPanel, gridBagConstraints);
 
         jPanel3.add(jPanel1);
 
@@ -329,6 +447,12 @@ public class StatisticsDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox exerciseType;
     private javax.swing.JScrollPane graphPane;
     private javax.swing.JComboBox groupBy;
+    private javax.swing.JPanel inputDictionaryPanel;
+    private javax.swing.JPanel inputFromPanel;
+    private javax.swing.JPanel inputGroupPanel;
+    private javax.swing.JPanel inputRefreshPanel;
+    private javax.swing.JPanel inputToPanel;
+    private javax.swing.JPanel inputTypePanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -340,5 +464,11 @@ public class StatisticsDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JPanel labelDictionaryPanel;
+    private javax.swing.JPanel labelFromPanel;
+    private javax.swing.JPanel labelToPanel;
+    private javax.swing.JPanel labelTypePanel;
+    private javax.swing.JPanel lavelGroupPanel;
+    private javax.swing.JPanel spacerRefreshPanel;
     // End of variables declaration//GEN-END:variables
 }
