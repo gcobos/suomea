@@ -17,6 +17,7 @@
  */
 package suomea.exercices.relatedwordstest;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 import java.util.Vector;
@@ -47,36 +48,20 @@ public class CategoryTestExercise {
 
         for (int i = 0; i < numQuestions; i++) {
             TestQuestion question = new TestQuestion();
-
             // Fill the question
             int numberOfCorrectAnswers = rand.nextInt(numOptions - 1) + 1;
-            for (int n = 0; n < numberOfCorrectAnswers; n++) {
-                int randomNumber = rand.nextInt(numOptions);
-                if (question.getCorrectAnswers().contains(randomNumber)) {
-                    n--;
-                } else {
-                    question.addCorrectAnswer(randomNumber);
-                }
-            }
+            String category = dict.getRandomCategory();
+            question.setWord(category);
+            ArrayList<String[]> questionFromDict = dict.prepareCategoryTest(category, numberOfCorrectAnswers, numOptions);
 
-            int cont = 0;
-            for (int j = 0; j < numOptions+1; j++) {
+
+            for (int j = 0; j < questionFromDict.size(); j++) {
                 try {
-                    String[] res = new String[2];
-                    if (question.answersContains(j)) {
-                        if (cont == 0) {
-                            //res = dict.getRandomCategory();
-                            question.setWord(new String(res[0]));
-                            System.out.println(res[0]);
-                            cont++;
-                        } else {
-                            question.addOption(dict.getRandomWordFromCategory(question.getWord(), true));
-                        }
-                    } else {
-                        question.addOption(dict.getRandomWordFromCategory(question.getWord(), false));
+                    if (questionFromDict.get(j)[1].equals(category)) {
+                        question.addCorrectAnswer(j);
                     }
-                    //System.out.println("The word "+res[1]);
-
+                    question.addOption(questionFromDict.get(j)[0]);
+                    System.out.println(questionFromDict.get(j)[0]);
                 } catch (Exception e) {
                     System.out.println("Something is wrong with the word " + e.toString());
                     System.exit(0);
