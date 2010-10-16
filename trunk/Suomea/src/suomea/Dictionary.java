@@ -120,17 +120,17 @@ public class Dictionary {
     }
 
     // Retrieves a non-used word from the selected dictionary
-    public String[] getRandomCategory() {
+    public String getRandomCategory() {
         Database db = Database.getInstance();
 
         ResultSet rs;
-        String[] result = new String[3];
+        String result = "";
 
         try {
 
             rs = db.query("SELECT category FROM words WHERE dictionaryId=" + this.getId() + " ORDER BY used,random() LIMIT 1;");
             if (rs.next()) {
-                result[0] = rs.getString("category");
+                result = rs.getString("category");
             }
             rs.close();
 
@@ -153,6 +153,40 @@ public class Dictionary {
         }
     }
 
+    public ArrayList<String[]> prepareCategoryTest (String category, int numWords, int totalQuestions)
+    {
+        Database db = Database.getInstance();
+
+        ArrayList<String[]> list = new ArrayList<String[]>();
+
+        ResultSet rs;
+        String[] result = new String[2];
+
+        String query = "SELECT original,category FROM (SELECT original, category FROM words WHERE dictionaryId=" + this.getId() +
+               " AND category = '" + category + "' ORDER BY used LIMIT "+numWords+" UNION" +
+               "SELECT original, category FROM words WHERE dictionaryId=" + this.getId() +
+               " AND category != '" + category + "' ORDER BY used LIMIT "+(totalQuestions - numWords)+
+               ") ORDER BY random();";
+
+        System.out.println("El query "+query);
+        try {
+            rs = db.query(query);
+
+            while (rs.next()) {
+                result[0] = rs.getString("original");
+                result[1] = rs.getString("original");
+                list.add(result);
+            }
+            rs.close();
+
+        } catch (Exception e) {
+            System.out.println("Error in query " + e.toString());
+        }
+
+        return list;
+    }
+
+    @Deprecated
     public String getRandomWordFromCategory(String category, boolean isFromCategory) {
         Database db = Database.getInstance();
 
