@@ -16,7 +16,7 @@
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-package suomea.exercices.vocabularytest;
+package suomea.modules.exercises.relatedwordstest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +28,10 @@ import java.util.List;
 public class TestQuestion {
 
     private String word;
-
+    
     private List<String> options;
 
-    private int correct;
+    private List<Integer> correct;
 
     private int fails = 0;
 
@@ -40,6 +40,7 @@ public class TestQuestion {
 
     public TestQuestion(){
         this.options = new ArrayList<String>();
+        this.correct = new ArrayList<Integer>();
     }
 
     public String getWord(){
@@ -58,12 +59,12 @@ public class TestQuestion {
         this.options.add(option);
     }
 
-    public int getCorrectAnswer(){
+    public List<Integer> getCorrectAnswers(){
         return this.correct;
     }
 
-    public void setCorrectAnswer(int index){
-        this.correct = index;
+    public void addCorrectAnswer(int index){
+        this.correct.add(index);
     }
 
     public void addFail(){
@@ -80,5 +81,14 @@ public class TestQuestion {
 
     public boolean isCorrect(){
         return this.isCorrect;
+    }
+
+    public boolean answersContains(int index) {
+        for(Integer i : this.getCorrectAnswers()){
+            if(i == index){
+                return true;
+            }
+        }
+        return false;
     }
 }
