@@ -15,10 +15,10 @@
  * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
-package suomea.exercices.relatedwordstest;
+package suomea.modules.exercises.relatedwordstest;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 import suomea.Database;
@@ -52,7 +52,7 @@ public class CategoryTestExercise {
             int numberOfCorrectAnswers = rand.nextInt(numOptions - 1) + 1;
             String category = dict.getRandomCategory();
             question.setWord(category);
-            ArrayList<String[]> questionFromDict = dict.prepareCategoryTest(category, numberOfCorrectAnswers, numOptions);
+            List<String[]> questionFromDict = dict.prepareCategoryTest(category, numberOfCorrectAnswers, numOptions);
 
 
             for (int j = 0; j < questionFromDict.size(); j++) {

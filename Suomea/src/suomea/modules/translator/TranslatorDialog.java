@@ -9,7 +9,11 @@
  * Created on Oct 16, 2010, 1:57:07 PM
  */
 
-package suomea.tools;
+package suomea.modules.translator;
+
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import suomea.Dictionary;
 
 /**
  *
@@ -17,10 +21,26 @@ package suomea.tools;
  */
 public class TranslatorDialog extends javax.swing.JDialog {
 
+    List<String[]> dictionaryList;
+    Dictionary dictionary;
+
     /** Creates new form TranslatorDialog */
     public TranslatorDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+
+        dictionary = Dictionary.getInstance();
+
+        dictionaryList = dictionary.getDictionaryList();
+        String[] dictionaries = new String[dictionaryList.size()];
+        for (int i = 0; i < dictionaryList.size(); i++) {
+            dictionaries[i] = dictionaryList.get(i)[1];
+        }
+
         initComponents();
+
+        dictionaryId.setModel(new DefaultComboBoxModel(dictionaries));
+
+
     }
 
     /** This method is called from within the constructor to
@@ -41,9 +61,7 @@ public class TranslatorDialog extends javax.swing.JDialog {
         jTextField1 = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        dictionaryId = new javax.swing.JComboBox();
         jPanel5 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
@@ -87,7 +105,7 @@ public class TranslatorDialog extends javax.swing.JDialog {
         jTextField1.setText(resourceMap.getString("jTextField1.text")); // NOI18N
         jTextField1.setMinimumSize(new java.awt.Dimension(100, 25));
         jTextField1.setName("jTextField1"); // NOI18N
-        jTextField1.setPreferredSize(new java.awt.Dimension(100, 25));
+        jTextField1.setPreferredSize(new java.awt.Dimension(200, 25));
         jPanel3.add(jTextField1);
 
         jPanel2.add(jPanel3);
@@ -98,17 +116,9 @@ public class TranslatorDialog extends javax.swing.JDialog {
         jLabel2.setName("jLabel2"); // NOI18N
         jPanel4.add(jLabel2);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setName("jComboBox1"); // NOI18N
-        jPanel4.add(jComboBox1);
-
-        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
-        jLabel3.setName("jLabel3"); // NOI18N
-        jPanel4.add(jLabel3);
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.setName("jComboBox2"); // NOI18N
-        jPanel4.add(jComboBox2);
+        dictionaryId.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        dictionaryId.setName("dictionaryId"); // NOI18N
+        jPanel4.add(dictionaryId);
 
         jPanel2.add(jPanel4);
 
@@ -126,12 +136,10 @@ public class TranslatorDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox dictionaryId;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

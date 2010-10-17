@@ -21,7 +21,7 @@
  *
  * Created on 10-oct-2010, 17:18:44
  */
-package suomea.exercices.vocabularytest;
+package suomea.modules.exercises.vocabularytest;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
