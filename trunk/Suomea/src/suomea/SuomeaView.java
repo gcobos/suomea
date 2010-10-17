@@ -30,8 +30,8 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import suomea.modules.exercises.relatedwordstest.CategoryTestDialog;
-import suomea.modules.exercises.relatedwordstest.CategoryTestExercise;
+import suomea.modules.exercises.categorytest.CategoryTestDialog;
+import suomea.modules.exercises.categorytest.CategoryTestExercise;
 
 /**
  * The application's main frame.

@@ -16,7 +16,7 @@
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-package suomea.modules.exercises.relatedwordstest;
+package suomea.modules.exercises.categorytest;
 
 import java.util.ArrayList;
 import java.util.List;

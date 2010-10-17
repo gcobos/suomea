@@ -15,7 +15,7 @@
  * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
-package suomea.modules.exercises.relatedwordstest;
+package suomea.modules.exercises.categorytest;
 
 import java.util.Hashtable;
 import java.util.List;

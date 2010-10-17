@@ -8,7 +8,7 @@
  *
  * Created on 15-oct-2010, 23:03:04
  */
-package suomea.modules.exercises.relatedwordstest;
+package suomea.modules.exercises.categorytest;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
