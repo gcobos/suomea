@@ -32,12 +32,12 @@ public class Database {
 
     private Connection conn;
     private Statement stat;
+    private PreparedStatement prep;
 
     private Database() throws Exception
     {
         Class.forName("org.sqlite.JDBC");
         conn = DriverManager.getConnection("jdbc:sqlite:data/suomea.sqlite");
-        stat = conn.createStatement();
     }
 
     public static Database getInstance ()
@@ -90,7 +90,24 @@ public class Database {
     public ResultSet query (String queryString)
     {
         try {
+            stat = conn.createStatement();
             ResultSet rs = stat.executeQuery(queryString);
+            return rs;
+        } catch (Exception e) {
+            System.out.println("Query says "+e.toString());
+            return null;
+        }
+    }
+
+    /* Returns a ResultSet, same with positional quoted string parameters, instead each sign '?' */
+    public ResultSet query (String queryString, String[] parameters)
+    {
+        try {
+            prep = conn.prepareStatement(queryString);
+            for (int i = 1; i <= parameters.length; i++) {
+                prep.setString(i,parameters[i-1]);
+            }
+            ResultSet rs = prep.executeQuery();
             return rs;
         } catch (Exception e) {
             System.out.println("Query says "+e.toString());
