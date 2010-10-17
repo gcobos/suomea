@@ -187,38 +187,5 @@ public class Dictionary {
         return list;
     }
 
-    /* Search translations for a word */
-    public List<String[]> searchTranslations (String word, int dictionaryId)
-    {
-        Database db = Database.getInstance();
 
-        List list = new ArrayList<String[]>();
-        String[] parameters = { Integer.toString(dictionaryId), "%"+word+"%", "%"+word+"%"};
-
-        ResultSet rs;
-        String[] result;
-
-        String query = "SELECT words.original, words.translation FROM words,dictionary" +
-               " WHERE words.dictionaryId=dictionary.dictionaryId" +
-               " AND dictionary.id=?" +
-               " AND (words.original LIKE ? " +
-               " OR words.translation LIKE ?)";
-
-        //System.out.println("El query "+query);
-        try {
-            rs = db.query(query, parameters);
-            while (rs.next()) {
-                result = new String[2];
-                result[0] = rs.getString("original");
-                result[1] = rs.getString("translation");
-                list.add(result);
-            }
-            rs.close();
-
-        } catch (Exception e) {
-            System.out.println("Error in query " + e.toString());
-        }
-
-        return list;
-    }
 }

@@ -13,6 +13,7 @@ package suomea.modules.translator;
 
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import org.jfree.chart.ChartPanel;
 import suomea.Dictionary;
 
 /**
@@ -23,23 +24,32 @@ public class TranslatorDialog extends javax.swing.JDialog {
 
     List<String[]> dictionaryList;
     Dictionary dictionary;
+    private TranslatorDataModel translator;
 
     /** Creates new form TranslatorDialog */
-    public TranslatorDialog(java.awt.Frame parent, boolean modal) {
+    public TranslatorDialog (java.awt.Frame parent, boolean modal) {
         super(parent, modal);
 
         dictionary = Dictionary.getInstance();
 
         dictionaryList = dictionary.getDictionaryList();
-        String[] dictionaries = new String[dictionaryList.size()];
+        String[] dictionaries = new String[dictionaryList.size()+1];
+        dictionaries[0] = "All dictionaries";
+        String selectedItem = "";
         for (int i = 0; i < dictionaryList.size(); i++) {
-            dictionaries[i] = dictionaryList.get(i)[1];
+            if (Integer.parseInt(dictionaryList.get(i)[0])==dictionary.getId()) {
+                selectedItem = dictionaryList.get(i)[1];
+            }
+            dictionaries[i+1] = dictionaryList.get(i)[1];
         }
+
+        translator = new TranslatorDataModel(dictionary.getId());
 
         initComponents();
 
         dictionaryId.setModel(new DefaultComboBoxModel(dictionaries));
-
+        dictionaryId.setSelectedItem(selectedItem);
+        this.jTable1.setModel(translator);
 
     }
 
@@ -58,21 +68,26 @@ public class TranslatorDialog extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        word = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
         dictionaryId = new javax.swing.JComboBox();
         jPanel5 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        translateButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
+        jPanel1.setMinimumSize(new java.awt.Dimension(500, 350));
         jPanel1.setName("jPanel1"); // NOI18N
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 350));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
+        jScrollPane1.setPreferredSize(null);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -92,41 +107,86 @@ public class TranslatorDialog extends javax.swing.JDialog {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
+        jPanel2.setMinimumSize(new java.awt.Dimension(700, 50));
         jPanel2.setName("jPanel2"); // NOI18N
-        jPanel2.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
+        jPanel2.setPreferredSize(new java.awt.Dimension(720, 50));
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
+        jPanel3.setMinimumSize(new java.awt.Dimension(90, 25));
         jPanel3.setName("jPanel3"); // NOI18N
+        jPanel3.setPreferredSize(new java.awt.Dimension(90, 25));
+        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(TranslatorDialog.class);
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setMaximumSize(new java.awt.Dimension(110, 25));
+        jLabel1.setMinimumSize(new java.awt.Dimension(110, 25));
         jLabel1.setName("jLabel1"); // NOI18N
+        jLabel1.setPreferredSize(new java.awt.Dimension(110, 25));
+        jLabel1.setRequestFocusEnabled(false);
         jPanel3.add(jLabel1);
-
-        jTextField1.setText(resourceMap.getString("jTextField1.text")); // NOI18N
-        jTextField1.setMinimumSize(new java.awt.Dimension(100, 25));
-        jTextField1.setName("jTextField1"); // NOI18N
-        jTextField1.setPreferredSize(new java.awt.Dimension(200, 25));
-        jPanel3.add(jTextField1);
 
         jPanel2.add(jPanel3);
 
-        jPanel4.setName("jPanel4"); // NOI18N
+        jPanel6.setMinimumSize(new java.awt.Dimension(200, 25));
+        jPanel6.setName("jPanel6"); // NOI18N
+        jPanel6.setPreferredSize(new java.awt.Dimension(200, 25));
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        word.setText(resourceMap.getString("word.text")); // NOI18N
+        word.setMinimumSize(new java.awt.Dimension(100, 25));
+        word.setName("word"); // NOI18N
+        word.setPreferredSize(new java.awt.Dimension(200, 25));
+        word.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wordActionPerformed(evt);
+            }
+        });
+        jPanel6.add(word);
+
+        jPanel2.add(jPanel6);
+
+        jPanel7.setMinimumSize(new java.awt.Dimension(42, 25));
+        jPanel7.setName("jPanel7"); // NOI18N
+        jPanel7.setPreferredSize(new java.awt.Dimension(30, 25));
+        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
+        jLabel2.setMaximumSize(new java.awt.Dimension(62, 25));
+        jLabel2.setMinimumSize(new java.awt.Dimension(62, 25));
         jLabel2.setName("jLabel2"); // NOI18N
-        jPanel4.add(jLabel2);
+        jLabel2.setPreferredSize(new java.awt.Dimension(62, 25));
+        jPanel7.add(jLabel2);
+
+        jPanel2.add(jPanel7);
+
+        jPanel4.setName("jPanel4"); // NOI18N
+        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         dictionaryId.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         dictionaryId.setName("dictionaryId"); // NOI18N
+        dictionaryId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dictionaryIdActionPerformed(evt);
+            }
+        });
         jPanel4.add(dictionaryId);
 
         jPanel2.add(jPanel4);
 
         jPanel5.setName("jPanel5"); // NOI18N
+        jPanel5.setPreferredSize(new java.awt.Dimension(41, 37));
+        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
-        jPanel5.add(jButton1);
+        translateButton.setText(resourceMap.getString("translateButton.text")); // NOI18N
+        translateButton.setName(resourceMap.getString("translateButton.name")); // NOI18N
+        translateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                translateButtonActionPerformed(evt);
+            }
+        });
+        jPanel5.add(translateButton);
 
         jPanel2.add(jPanel5);
 
@@ -135,9 +195,29 @@ public class TranslatorDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void translateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_translateButtonActionPerformed
+        translator.retrieveTranslations(word.getText());
+        translator.fireTableDataChanged();
+        jTable1.revalidate();
+    }//GEN-LAST:event_translateButtonActionPerformed
+
+    private void wordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wordActionPerformed
+        translator.retrieveTranslations(word.getText());
+        translator.fireTableDataChanged();
+        jTable1.revalidate();
+    }//GEN-LAST:event_wordActionPerformed
+
+    private void dictionaryIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dictionaryIdActionPerformed
+        int index = this.dictionaryId.getSelectedIndex();
+        String dictionaryID = "0";
+        if (index!=0) {
+             dictionaryID = this.dictionaryList.get(index-1)[0];
+        }
+        translator.setDictionaryId(Integer.parseInt(dictionaryID));
+    }//GEN-LAST:event_dictionaryIdActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox dictionaryId;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -145,9 +225,12 @@ public class TranslatorDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton translateButton;
+    private javax.swing.JTextField word;
     // End of variables declaration//GEN-END:variables
 
 }

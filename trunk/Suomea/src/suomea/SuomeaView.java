@@ -32,6 +32,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import suomea.modules.exercises.categorytest.CategoryTestDialog;
 import suomea.modules.exercises.categorytest.CategoryTestExercise;
+import suomea.modules.translator.TranslatorDialog;
 
 /**
  * The application's main frame.
@@ -136,6 +137,8 @@ public class SuomeaView extends FrameView {
         categoryTestMenuItem = new javax.swing.JMenuItem();
         statisticsMenu = new javax.swing.JMenu();
         vStatisticsMenuItem = new javax.swing.JMenuItem();
+        toolsMenu = new javax.swing.JMenu();
+        translatorMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
         statusPanel = new javax.swing.JPanel();
@@ -232,6 +235,20 @@ public class SuomeaView extends FrameView {
 
         menuBar.add(statisticsMenu);
 
+        toolsMenu.setText(resourceMap.getString("toolsMenu.text")); // NOI18N
+        toolsMenu.setName("toolsMenu"); // NOI18N
+
+        translatorMenuItem.setText(resourceMap.getString("translatorMenuItem.text")); // NOI18N
+        translatorMenuItem.setName("translatorMenuItem"); // NOI18N
+        translatorMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                translatorMenuItemActionPerformed(evt);
+            }
+        });
+        toolsMenu.add(translatorMenuItem);
+
+        menuBar.add(toolsMenu);
+
         helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
         helpMenu.setName("helpMenu"); // NOI18N
 
@@ -308,6 +325,13 @@ public class SuomeaView extends FrameView {
         CategoryTestDialog tDialog = new CategoryTestDialog(this.getFrame(), false, categoryExercise, this.resultTextArea);
         tDialog.setVisible(true);
     }//GEN-LAST:event_categoryTestMenuItemActionPerformed
+
+    private void translatorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_translatorMenuItemActionPerformed
+        this.resultTextArea.setText("");
+        TranslatorDialog translatorDialog = new TranslatorDialog(this.getFrame(), false);
+        translatorDialog.setVisible(true);
+    }//GEN-LAST:event_translatorMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem categoryTestMenuItem;
     private javax.swing.JMenu exercisesMenu;
@@ -322,6 +346,8 @@ public class SuomeaView extends FrameView {
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
+    private javax.swing.JMenu toolsMenu;
+    private javax.swing.JMenuItem translatorMenuItem;
     private javax.swing.JMenuItem vStatisticsMenuItem;
     private javax.swing.JMenuItem vtestMenuItem;
     // End of variables declaration//GEN-END:variables

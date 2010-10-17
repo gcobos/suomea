@@ -106,6 +106,7 @@ public class Database {
             prep = conn.prepareStatement(queryString);
             for (int i = 1; i <= parameters.length; i++) {
                 prep.setString(i,parameters[i-1]);
+                //System.out.println("Param"+parameters[i-1]);
             }
             ResultSet rs = prep.executeQuery();
             return rs;
