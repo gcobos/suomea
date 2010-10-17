@@ -125,13 +125,11 @@ public class StatisticsDialog extends javax.swing.JDialog {
         graphPane = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(null);
         setName("Form"); // NOI18N
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jPanel3.setName("jPanel3"); // NOI18N
-        jPanel3.setPreferredSize(null);
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(StatisticsDialog.class);
@@ -185,7 +183,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
         inputTypePanel.setName("inputTypePanel"); // NOI18N
         inputTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        exerciseType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All types", "Vocabulary test" }));
+        exerciseType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All types", "Vocabulary test", "CategoryTest" }));
         exerciseType.setMinimumSize(new java.awt.Dimension(200, 25));
         exerciseType.setName("exerciseType"); // NOI18N
         exerciseType.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -333,18 +331,15 @@ public class StatisticsDialog extends javax.swing.JDialog {
 
         jPanel3.add(jPanel1);
 
-        jPanel2.setMinimumSize(null);
         jPanel2.setName("jPanel2"); // NOI18N
         jPanel2.setPreferredSize(new java.awt.Dimension(0, 350));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.PAGE_AXIS));
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 1, 1, 1));
         jTabbedPane1.setName("jTabbedPane1"); // NOI18N
-        jTabbedPane1.setPreferredSize(null);
 
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setName("jScrollPane2"); // NOI18N
-        jScrollPane2.setPreferredSize(null);
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
