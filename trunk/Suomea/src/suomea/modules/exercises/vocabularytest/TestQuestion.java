@@ -20,12 +20,13 @@ package suomea.modules.exercises.vocabularytest;
 
 import java.util.ArrayList;
 import java.util.List;
+import suomea.modules.exercises.IQuestion;
 
 /**
  *
  * @author bicha
  */
-public class TestQuestion {
+public class TestQuestion implements IQuestion {
 
     private String word;
 
@@ -58,11 +59,13 @@ public class TestQuestion {
         this.options.add(option);
     }
 
-    public int getCorrectAnswer(){
-        return this.correct;
+    public List<Integer> getCorrectAnswers() {
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(this.correct);
+        return list;
     }
 
-    public void setCorrectAnswer(int index){
+    public void addCorrectAnswer (int index){
         this.correct = index;
     }
 

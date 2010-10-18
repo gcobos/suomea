@@ -19,12 +19,13 @@ package suomea.modules.exercises.categorytest;
 
 import java.util.ArrayList;
 import java.util.List;
+import suomea.modules.exercises.IQuestion;
 
 /**
  *
  * @author bicha
  */
-public class TestQuestion {
+public class TestQuestion implements IQuestion {
 
     private String word;
     private List<String> options;
