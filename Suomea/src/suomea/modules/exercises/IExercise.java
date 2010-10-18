@@ -23,14 +23,32 @@ package suomea.modules.exercises;
  */
 public interface IExercise {
 
+    /**
+     * Fills the question's ArrayList with new questions takin the words from the database.
+     */
     public void prepare();
 
+    /**
+     * Returns one of the questions of exercise which is in the position id in the ArrayList.
+     * @param id position of the question in the ArrayList.
+     * @return IQuestion
+     */
     public IQuestion getQuestion(int id);
 
+    /**
+     * 
+     * @return Number of questions of the exercise
+     */
     public int getNumberOfQuestions();
 
+    /**
+     * Calculates the ratio of right questions to the total number of questions.
+     * @return % of correct answers
+     */
     public double getScore();
 
-    // Closes the exercise and update statistics
+    /**
+     * Closes the exercise and update statistics
+     */
     public void finish();
 }
