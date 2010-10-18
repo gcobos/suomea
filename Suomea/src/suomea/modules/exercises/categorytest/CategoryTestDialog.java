@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
+import suomea.modules.exercises.IQuestion;
 
 /**
  *
@@ -38,7 +39,7 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
 
     private int questionID = 0;
     private CategoryTestExercise exercise;
-    private TestQuestion question;
+    private IQuestion question;
     private JTextArea results;
     private int failCount = 0;
     private int correctCount = 0;

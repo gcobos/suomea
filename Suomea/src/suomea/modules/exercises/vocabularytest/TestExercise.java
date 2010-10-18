@@ -17,18 +17,18 @@
  */
 package suomea.modules.exercises.vocabularytest;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 import java.util.Vector;
 import suomea.Database;
 import suomea.Dictionary;
+import suomea.modules.exercises.IExercise;
 
 /**
  *
  * @author drone
  */
-public class TestExercise {
+public class TestExercise implements IExercise {
 
     private int numQuestions = 20;
     private int numOptions = 4;  // Always greater than 1
@@ -41,6 +41,11 @@ public class TestExercise {
 
     // Generates the exercise and return a vector
     public TestExercise() {
+        this.prepare();
+    }
+
+    public void prepare ()
+    {
         // Reset the previous exercise
         Random rand = new Random();
         questions = new Vector<TestQuestion>();
@@ -50,11 +55,11 @@ public class TestExercise {
             TestQuestion question = new TestQuestion();
 
             // Fill the question
-            question.setCorrectAnswer(rand.nextInt(numOptions));
+            question.addCorrectAnswer(rand.nextInt(numOptions));
             for (int j = 0; j < numOptions; j++) {
                 try {
                     String[] res = dict.getRandomWord();
-                    if (j == question.getCorrectAnswer()) {
+                    if (j == question.getCorrectAnswers().get(0)) {
                         question.setWord(res[0]);
                     }
                     //System.out.println("The word "+res[1]);
@@ -78,31 +83,6 @@ public class TestExercise {
     }
 
     public double getScore() {
-        return score;
-    }
-
-    // Closes the exersize and update statistics
-    public void finish() {
-        Dictionary dict = Dictionary.getInstance();
-
-        // Mark learnt words as used in database
-        Vector<String> learnt = new Vector<String>();
-        for (TestQuestion question : questions) {
-            if (question.isCorrect() && question.getNumberOfFails() == 0) {
-                learnt.add(question.getWord());
-            }
-        }
-        dict.updateUsedWords(learnt);
-
-        // Calcule evaluation results
-        this.doEvaluation();
-
-        // Register those results
-        this.registerResults();
-    }
-
-    // Tools for correcting the exercise
-    public void doEvaluation() {
         numCorrects = 0;
         numFails = 0;
         notAnswered = 0;
@@ -120,6 +100,27 @@ public class TestExercise {
         score = 10.0 * numCorrects / (double) (numQuestions);
         //score = score - 5.0 * notAnswered / (double)numQuestions;
         //if (score<0) score=0;
+        return score;
+    }
+
+    // Closes the exersize and update statistics
+    public void finish() {
+        Dictionary dict = Dictionary.getInstance();
+
+        // Mark learnt words as used in database
+        Vector<String> learnt = new Vector<String>();
+        for (TestQuestion question : questions) {
+            if (question.isCorrect() && question.getNumberOfFails() == 0) {
+                learnt.add(question.getWord());
+            }
+        }
+        dict.updateUsedWords(learnt);
+
+        // Calcule evaluation results
+        this.getScore();
+
+        // Register those results
+        this.registerResults();
     }
 
     // Write evaluation results in the database

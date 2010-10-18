@@ -23,16 +23,18 @@ import java.util.Random;
 import java.util.Vector;
 import suomea.Database;
 import suomea.Dictionary;
+import suomea.modules.exercises.IExercise;
+import suomea.modules.exercises.IQuestion;
 
 /**
  *
  * @author drone
  */
-public class CategoryTestExercise {
+public class CategoryTestExercise implements IExercise {
 
     private int numQuestions = 20;
     private int numOptions = 4;  // Always greater than 1
-    private Vector<TestQuestion> questions = null;
+    private Vector<IQuestion> questions = null;
     // Evaluation
     private int numCorrects = 0;
     private int numFails = 0;
@@ -41,13 +43,18 @@ public class CategoryTestExercise {
 
     // Generates the exercise and return a vector
     public CategoryTestExercise() {
+        this.prepare();
+    }
+
+    public void prepare ()
+    {
         // Reset the previous exercise
         Random rand = new Random();
-        questions = new Vector<TestQuestion>();
+        questions = new Vector<IQuestion>();
         Dictionary dict = Dictionary.getInstance();
 
         for (int i = 0; i < numQuestions; i++) {
-            TestQuestion question = new TestQuestion();
+            IQuestion question = new TestQuestion();
             // Fill the question
             int numberOfCorrectAnswers = rand.nextInt(numOptions - 1) + 1;
             String category = dict.getRandomCategory();
@@ -73,7 +80,7 @@ public class CategoryTestExercise {
 
     }
 
-    public TestQuestion getQuestion(int ID) {
+    public IQuestion getQuestion(int ID) {
         return this.questions.get(ID);
     }
 
@@ -82,25 +89,10 @@ public class CategoryTestExercise {
     }
 
     public double getScore() {
-        return score;
-    }
-
-    // Closes the exersize and update statistics
-    public void finish() {
-
-        // Calcule evaluation results
-        this.doEvaluation();
-
-        // Register those results
-        this.registerResults();
-    }
-
-    // Tools for correcting the exercise
-    public void doEvaluation() {
         numCorrects = 0;
         numFails = 0;
         notAnswered = 0;
-        for (TestQuestion question : questions) {
+        for (IQuestion question : questions) {
             if (question.isCorrect() || question.getNumberOfFails() > 0) {
                 if (question.isCorrect() && question.getNumberOfFails() == 0) {
                     numCorrects++;
@@ -112,6 +104,17 @@ public class CategoryTestExercise {
             }
         }
         score = 10.0 * numCorrects / (double) (numQuestions);
+        return score;
+    }
+
+    // Closes the exersize and update statistics
+    public void finish() {
+
+        // Calcule evaluation results
+        this.getScore();
+
+        // Register those results
+        this.registerResults();
     }
 
     // Write evaluation results in the database

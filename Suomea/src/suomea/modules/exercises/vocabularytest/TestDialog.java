@@ -29,6 +29,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
+import suomea.modules.exercises.IExercise;
 
 /**
  *
@@ -37,7 +38,7 @@ import javax.swing.JTextArea;
 public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
     private int questionID = 0;
-    private TestExercise exercise;
+    private IExercise exercise;
     private TestQuestion question;
     private JTextArea results;
     private int failCount = 0;
@@ -173,7 +174,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
         this.answerLabel.setText("");
 
         if (exercise != null) {
-            question = exercise.getQuestion(questionID);
+            question = (TestQuestion)exercise.getQuestion(questionID);
 
             if (question != null) {
                 try {
@@ -223,7 +224,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
 
         try {
             // Checks whether the answer is correct or not
-            String correctAnswer = question.getOptions().get(question.getCorrectAnswer());
+            String correctAnswer = question.getOptions().get(question.getCorrectAnswers().get(0));
             String givenAnswer = e.getActionCommand();
 
             if (correctAnswer.equals(givenAnswer)) {
@@ -238,7 +239,7 @@ public class TestDialog extends javax.swing.JDialog implements ActionListener {
             // Writes the statistics of the current test in the main windows using the text area givem in the class arguments
             String statistics = "Test Results:\n Correct Answers: " + correctCount
                     + "\n Wrong Answers: " + failCount;
-            exercise.doEvaluation();
+            
             statistics = statistics.concat("\n Test score: " + exercise.getScore());
             this.results.setText(statistics);
 
