@@ -21,6 +21,7 @@ package suomea.modules.exercises.vocabularytest;
 import java.util.ArrayList;
 import java.util.List;
 import suomea.modules.exercises.IQuestion;
+import suomea.modules.exercises.WidgetType;
 
 /**
  *
@@ -77,11 +78,25 @@ public class TestQuestion implements IQuestion {
         return this.fails;
     }
 
-    public void SetIsCorrect(boolean answer){
+    public void setIsCorrect(boolean answer){
         this.isCorrect = answer;
     }
 
     public boolean isCorrect(){
         return this.isCorrect;
+    }
+
+    public boolean checkAnswer(List<Integer> answers) {
+        for(Integer answer : answers){
+            if(answer == correct){
+                setIsCorrect(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public WidgetType getWidgetType() {
+        return WidgetType.RADIOBUTTON;
     }
 }

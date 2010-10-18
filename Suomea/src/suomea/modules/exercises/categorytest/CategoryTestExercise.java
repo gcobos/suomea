@@ -68,7 +68,7 @@ public class CategoryTestExercise implements IExercise {
                         question.addCorrectAnswer(j);
                     }
                     question.addOption(questionFromDict.get(j)[0]);
-                    System.out.println(questionFromDict.get(j)[0]);
+                   
                 } catch (Exception e) {
                     System.out.println("Something is wrong with the word " + e.toString());
                     System.exit(0);

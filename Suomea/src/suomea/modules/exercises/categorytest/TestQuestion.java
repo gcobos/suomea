@@ -20,6 +20,7 @@ package suomea.modules.exercises.categorytest;
 import java.util.ArrayList;
 import java.util.List;
 import suomea.modules.exercises.IQuestion;
+import suomea.modules.exercises.WidgetType;
 
 /**
  *
@@ -87,7 +88,7 @@ public class TestQuestion implements IQuestion {
         return this.fails;
     }
 
-    public void SetIsCorrect(boolean answer) {
+    public void setIsCorrect(boolean answer) {
         this.isCorrect = answer;
     }
 
@@ -102,5 +103,29 @@ public class TestQuestion implements IQuestion {
             }
         }
         return false;
+    }
+
+    public boolean checkAnswer(List<Integer> answers) {
+        int cont = 0;
+
+        for (Integer answer : answers) {
+            for (Integer correctAnswer : correct) {
+                if (answer.equals(correctAnswer)) {
+                    cont++;
+                }
+
+            }
+        }
+        if (cont > 0) {
+            return true;
+        }
+        if (cont == correct.size()) {
+            setIsCorrect(true);
+        }
+        return false;
+    }
+
+    public WidgetType getWidgetType() {
+        return WidgetType.CHECKBOX;
     }
 }

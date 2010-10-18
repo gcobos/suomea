@@ -18,7 +18,6 @@
 package suomea;
 
 import suomea.modules.exercises.vocabularytest.TestExercise;
-import suomea.modules.exercises.vocabularytest.TestDialog;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -31,7 +30,6 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import suomea.modules.exercises.ExerciseDialog;
-import suomea.modules.exercises.categorytest.CategoryTestDialog;
 import suomea.modules.exercises.categorytest.CategoryTestExercise;
 import suomea.modules.translator.TranslatorDialog;
 
@@ -316,7 +314,7 @@ public class SuomeaView extends FrameView {
     private void categoryTestMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryTestMenuItemActionPerformed
         categoryExercise = new CategoryTestExercise();
         this.resultTextArea.setText("");
-        CategoryTestDialog tDialog = new CategoryTestDialog(this.getFrame(), false, categoryExercise, this.resultTextArea);
+        ExerciseDialog tDialog = new ExerciseDialog(this.getFrame(), false, categoryExercise, this.resultTextArea);
         tDialog.setVisible(true);
     }//GEN-LAST:event_categoryTestMenuItemActionPerformed
 
