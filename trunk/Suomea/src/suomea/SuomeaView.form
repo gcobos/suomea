@@ -106,13 +106,13 @@
             <Property name="name" type="java.lang.String" value="exercisesMenu" noResource="true"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="vtestMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="vocabularyTest">
               <Properties>
-                <Property name="text" type="java.lang.String" resourceKey="vtestMenuItem.text"/>
-                <Property name="name" type="java.lang.String" value="vtestMenuItem" noResource="true"/>
+                <Property name="text" type="java.lang.String" resourceKey="vocabularyTest.text"/>
+                <Property name="name" type="java.lang.String" value="vocabularyTest" noResource="true"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="vtestMenuItemActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="vocabularyTestActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="categoryTestMenuItem">

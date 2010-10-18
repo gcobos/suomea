@@ -107,7 +107,7 @@ public class CategoryTestExercise implements IExercise {
         return score;
     }
 
-    // Closes the exersize and update statistics
+    // Closes the exercise and update statistics
     public void finish() {
 
         // Calcule evaluation results
