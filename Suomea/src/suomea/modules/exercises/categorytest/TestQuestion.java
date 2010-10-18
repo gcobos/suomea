@@ -15,7 +15,6 @@
  * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
-
 package suomea.modules.exercises.categorytest;
 
 import java.util.ArrayList;
@@ -28,64 +27,76 @@ import java.util.List;
 public class TestQuestion {
 
     private String word;
-    
     private List<String> options;
-
     private List<Integer> correct;
-
     private int fails = 0;
-
     private boolean isCorrect = false;
+    private int numberOfCorrectAnswer = 0;
 
-
-    public TestQuestion(){
+    public TestQuestion() {
         this.options = new ArrayList<String>();
         this.correct = new ArrayList<Integer>();
     }
 
-    public String getWord(){
+    public String getWord() {
         return this.word;
     }
 
-    public void setWord(String word){
+    public void setWord(String word) {
         this.word = word;
     }
 
-    public List<String> getOptions(){
+    public void addCorrectOption() {
+        this.numberOfCorrectAnswer++;
+    }
+
+    public void resetCorrectOptions() {
+        this.numberOfCorrectAnswer = 0;
+    }
+
+    public boolean isCorrectAllOptions() {
+        if (this.numberOfCorrectAnswer == this.correct.size()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public List<String> getOptions() {
         return this.options;
     }
 
-    public void addOption(String option){
+    public void addOption(String option) {
         this.options.add(option);
     }
 
-    public List<Integer> getCorrectAnswers(){
+    public List<Integer> getCorrectAnswers() {
         return this.correct;
     }
 
-    public void addCorrectAnswer(int index){
-        this.correct.add(index);
+    public void addCorrectAnswer(int index) {
+        this.correct.add(new Integer(index));
     }
 
-    public void addFail(){
+    public void addFail() {
         this.fails++;
     }
 
-    public int getNumberOfFails(){
+    public int getNumberOfFails() {
         return this.fails;
     }
 
-    public void SetIsCorrect(boolean answer){
+    public void SetIsCorrect(boolean answer) {
         this.isCorrect = answer;
     }
 
-    public boolean isCorrect(){
+    public boolean isCorrect() {
         return this.isCorrect;
     }
 
     public boolean answersContains(int index) {
-        for(Integer i : this.getCorrectAnswers()){
-            if(i == index){
+        for (Integer i : this.getCorrectAnswers()) {
+            if (i == index) {
                 return true;
             }
         }

@@ -1,8 +1,20 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2007-2010
+ * This file is part of Suomea.
+ *
+ * Suomea is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * Suomea is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
+ * Fifth Floor, Boston, MA 02110-1301 USA
  */
-
 /*
  * CategoryTestDialog.java
  *
@@ -158,18 +170,24 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         List<Integer> correctAnswerIndexes = question.getCorrectAnswers();
+        this.question.resetCorrectOptions();
+        this.answerLabel.setText("");
         for (int j = 0; j < this.checkboxes.size(); j++) {
             if (this.checkboxes.get(j).isSelected()) {
                 if (correctAnswerIndexes.contains(j)) {
+                    this.question.addCorrectOption();
                     this.answerLabel.setText("Good!");
-                    correctCount++;
                 } else {
                     this.answerLabel.setText("Wrong!");
                     question.addFail();
-                    failCount++;
                 }
             }
 
+        }
+
+        if (this.question.isCorrectAllOptions()) {
+            this.answerLabel.setText("Good!");
+            question.SetIsCorrect(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -233,25 +251,44 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
     // End of variables declaration//GEN-END:variables
 
     public void actionPerformed(ActionEvent e) {
-        // try {
-        /*if (correctCount == question.getCorrectAnswers().size()) {
-        question.SetIsCorrect(true);
-        }
-        // Writes the statistics of the current test in the main windows using the text area givem in the class arguments
-        String statistics = "Test Results:\n Correct Answers: " + correctCount
-        + "\n Wrong Answers: " + failCount;
-        exercise.doEvaluation();
-        statistics = statistics.concat("\n Test score: " + exercise.getScore());
-        this.results.setText(statistics);
+
+        try {
+            List<Integer> correctAnswerIndexes = question.getCorrectAnswers();
+            this.question.resetCorrectOptions();
+            this.answerLabel.setText("");
+            for (int j = 0; j < this.checkboxes.size(); j++) {
+                if (this.checkboxes.get(j).isSelected()) {
+                    if (correctAnswerIndexes.contains(j)) {
+                        this.question.addCorrectOption();
+                        this.answerLabel.setText("Good!");
+                        correctCount++;
+                    } else {
+                        this.answerLabel.setText("Wrong!");
+                        question.addFail();
+                        failCount++;
+                    }
+                }
+
+            }
+
+            if (this.question.isCorrectAllOptions()) {                
+                question.SetIsCorrect(true);
+            }
+            // Writes the statistics of the current test in the main windows using the text area givem in the class arguments
+            String statistics = "Test Results:\n Correct Answers: " + correctCount
+                    + "\n Wrong Answers: " + failCount;
+            exercise.doEvaluation();
+            statistics = statistics.concat("\n Test score: " + exercise.getScore());
+            this.results.setText(statistics);
 
         } catch (NullPointerException exception) {
-        System.out.println("It is not possible to show the questions");
-        exception.printStackTrace();
+            System.out.println("It is not possible to show the questions");
+            exception.printStackTrace();
         }
 
         // To get the last stats printed before closing the test window
         if (question.isCorrect()) {
-        this.createNextQuestion();
-        }*/
+            this.createNextQuestion();
+        }
     }
 }

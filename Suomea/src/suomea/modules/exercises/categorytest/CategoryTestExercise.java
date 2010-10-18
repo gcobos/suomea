@@ -31,7 +31,7 @@ import suomea.Dictionary;
 public class CategoryTestExercise {
 
     private int numQuestions = 20;
-    private int numOptions = 8;  // Always greater than 1
+    private int numOptions = 4;  // Always greater than 1
     private Vector<TestQuestion> questions = null;
     // Evaluation
     private int numCorrects = 0;
@@ -112,8 +112,6 @@ public class CategoryTestExercise {
             }
         }
         score = 10.0 * numCorrects / (double) (numQuestions);
-        //score = score - 5.0 * notAnswered / (double)numQuestions;
-        //if (score<0) score=0;
     }
 
     // Write evaluation results in the database
