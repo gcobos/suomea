@@ -15,44 +15,43 @@
  * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
+
 /*
- * CategoryTestDialog.java
+ * ExerciseDialog.java
  *
- * Created on 15-oct-2010, 23:03:04
+ * Created on 10-oct-2010, 17:18:44
  */
-package suomea.modules.exercises.categorytest;
+package suomea.modules.exercises;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JCheckBox;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
-import suomea.modules.exercises.IQuestion;
 
 /**
  *
  * @author bicha
  */
-public class CategoryTestDialog extends javax.swing.JDialog implements ActionListener {
+public class ExerciseDialog extends javax.swing.JDialog implements ActionListener {
 
     private int questionID = 0;
-    private CategoryTestExercise exercise;
+    private IExercise exercise;
     private IQuestion question;
     private JTextArea results;
     private int failCount = 0;
     private int correctCount = 0;
-    private List<JCheckBox> checkboxes = new ArrayList<JCheckBox>();
 
-    /** Creates new form CategoryTestDialog */
-    public CategoryTestDialog(java.awt.Frame parent, boolean modal, CategoryTestExercise exercise, JTextArea results) {
+    /** Creates new form ExerciseDialog */
+    public ExerciseDialog(java.awt.Frame parent, boolean modal, IExercise exercise, JTextArea results) {
         super(parent, modal);
         this.exercise = exercise;
         initComponents();
         createNextQuestion();
         this.results = results;
-        results.setText("Test Results \n");
+        results.setText("Exercise results \n");
+
     }
 
     /** This method is called from within the constructor to
@@ -71,18 +70,18 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
         answerLabel = new javax.swing.JLabel();
         possibilitiesPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(ExerciseDialog.class);
+        setTitle(resourceMap.getString("Form.title")); // NOI18N
+        setMinimumSize(new java.awt.Dimension(500, 200));
         setName("Form"); // NOI18N
-        getContentPane().setLayout(new java.awt.FlowLayout());
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        jPanel1.setMinimumSize(new java.awt.Dimension(417, 300));
         jPanel1.setName("jPanel1"); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(500, 400));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         textPanel.setName("textPanel"); // NOI18N
@@ -91,28 +90,28 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
         mainWordPanel.setName("mainWordPanel"); // NOI18N
         mainWordPanel.setLayout(new java.awt.BorderLayout());
 
+        wordLabel.setText(resourceMap.getString("wordLabel.text")); // NOI18N
         wordLabel.setName("wordLabel"); // NOI18N
         mainWordPanel.add(wordLabel, java.awt.BorderLayout.PAGE_START);
 
+        answerLabel.setText(resourceMap.getString("answerLabel.text")); // NOI18N
         answerLabel.setName("answerLabel"); // NOI18N
         mainWordPanel.add(answerLabel, java.awt.BorderLayout.PAGE_END);
 
         textPanel.add(mainWordPanel);
 
-        possibilitiesPanel.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        possibilitiesPanel.setMinimumSize(new java.awt.Dimension(390, 62));
+        possibilitiesPanel.setMaximumSize(new java.awt.Dimension(400, 32767));
         possibilitiesPanel.setName("possibilitiesPanel"); // NOI18N
-        possibilitiesPanel.setPreferredSize(new java.awt.Dimension(275, 316));
 
         javax.swing.GroupLayout possibilitiesPanelLayout = new javax.swing.GroupLayout(possibilitiesPanel);
         possibilitiesPanel.setLayout(possibilitiesPanelLayout);
         possibilitiesPanelLayout.setHorizontalGroup(
             possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
+            .addGap(0, 248, Short.MAX_VALUE)
         );
         possibilitiesPanelLayout.setVerticalGroup(
             possibilitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 316, Short.MAX_VALUE)
+            .addGap(0, 244, Short.MAX_VALUE)
         );
 
         textPanel.add(possibilitiesPanel);
@@ -124,16 +123,6 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
         jPanel3.setMinimumSize(new java.awt.Dimension(378, 40));
         jPanel3.setName("jPanel3"); // NOI18N
         jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
-
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(suomea.SuomeaApp.class).getContext().getResourceMap(CategoryTestDialog.class);
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton1);
 
         nextButton.setText(resourceMap.getString("nextButton.text")); // NOI18N
         nextButton.setName("nextButton"); // NOI18N
@@ -162,35 +151,12 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         createNextQuestion();
-}//GEN-LAST:event_nextButtonActionPerformed
+    }//GEN-LAST:event_nextButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         this.exercise.finish();
         this.dispose();
-}//GEN-LAST:event_closeButtonActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        List<Integer> correctAnswerIndexes = question.getCorrectAnswers();
-        ///this.question.resetCorrectOptions();
-        this.answerLabel.setText("");
-        for (int j = 0; j < this.checkboxes.size(); j++) {
-            if (this.checkboxes.get(j).isSelected()) {
-                if (correctAnswerIndexes.contains(j)) {
-                    ///this.question.addCorrectOption();
-                    this.answerLabel.setText("Good!");
-                } else {
-                    this.answerLabel.setText("Wrong!");
-                    question.addFail();
-                }
-            }
-
-        }
-
-        ///if (this.question.isCorrectAllOptions()) {
-        ///    this.answerLabel.setText("Good!");
-        ///    question.SetIsCorrect(true);
-        ///}
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_closeButtonActionPerformed
 
     /**
      * Creates the components for one question:
@@ -217,13 +183,17 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
                     this.possibilitiesPanel.removeAll();
                     this.possibilitiesPanel.setLayout(new GridLayout(0, 1));
 
+                    // Adds a new group of possibilities
+                    ButtonGroup group = new ButtonGroup();
 
                     // Creates the radio buttons and adds them to the group and to the panel
                     for (String option : question.getOptions()) {
-                        JCheckBox opt = new JCheckBox(option);
+                        JRadioButton opt = new JRadioButton(option);
+
                         opt.addActionListener(this);
+                        group.add(opt);
+
                         this.possibilitiesPanel.add(opt);
-                        this.checkboxes.add(opt);
                     }
 
                     // Increments the question ID
@@ -234,14 +204,12 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
                     System.out.println("It is not possible to show the questions");
                     dispose();
                 }
-
             }
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel answerLabel;
     private javax.swing.JButton closeButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel mainWordPanel;
@@ -254,32 +222,24 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
     public void actionPerformed(ActionEvent e) {
 
         try {
-            List<Integer> correctAnswerIndexes = question.getCorrectAnswers();
-            ///this.question.resetCorrectOptions();
-            this.answerLabel.setText("");
-            for (int j = 0; j < this.checkboxes.size(); j++) {
-                if (this.checkboxes.get(j).isSelected()) {
-                    if (correctAnswerIndexes.contains(j)) {
-                        ///this.question.addCorrectOption();
-                        this.answerLabel.setText("Good!");
-                        correctCount++;
-                    } else {
-                        this.answerLabel.setText("Wrong!");
-                        question.addFail();
-                        failCount++;
-                    }
-                }
+            // Checks whether the answer is correct or not
+            String correctAnswer = question.getOptions().get(question.getCorrectAnswers().get(0));
+            String givenAnswer = e.getActionCommand();
 
+            if (correctAnswer.equals(givenAnswer)) {
+                question.SetIsCorrect(true);
+                correctCount++;
+            } else {
+                this.answerLabel.setText("Wrong!");
+                question.addFail();
+                failCount++;
             }
 
-            ///if (this.question.isCorrectAllOptions()) {
-            ///    question.SetIsCorrect(true);
-            ///}
-            // Writes the statistics of the current test in the main windows using the text area givem in the class arguments
-            String statistics = "Test Results:\n Correct Answers: " + correctCount
+            // Writes the statistics of the current exercise in the main windows using the text area givem in the class arguments
+            String statistics = "Exercise results:\n Correct Answers: " + correctCount
                     + "\n Wrong Answers: " + failCount;
-            ///exercise.doEvaluation();
-            statistics = statistics.concat("\n Test score: " + exercise.getScore());
+            
+            statistics = statistics.concat("\n Exercise score: " + exercise.getScore());
             this.results.setText(statistics);
 
         } catch (NullPointerException exception) {
@@ -291,5 +251,6 @@ public class CategoryTestDialog extends javax.swing.JDialog implements ActionLis
         if (question.isCorrect()) {
             this.createNextQuestion();
         }
+
     }
 }

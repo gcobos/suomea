@@ -30,6 +30,7 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import suomea.modules.exercises.ExerciseDialog;
 import suomea.modules.exercises.categorytest.CategoryTestDialog;
 import suomea.modules.exercises.categorytest.CategoryTestExercise;
 import suomea.modules.translator.TranslatorDialog;
@@ -133,7 +134,7 @@ public class SuomeaView extends FrameView {
         jMenuItem1 = new javax.swing.JMenuItem();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         exercisesMenu = new javax.swing.JMenu();
-        vtestMenuItem = new javax.swing.JMenuItem();
+        vocabularyTest = new javax.swing.JMenuItem();
         categoryTestMenuItem = new javax.swing.JMenuItem();
         statisticsMenu = new javax.swing.JMenu();
         vStatisticsMenuItem = new javax.swing.JMenuItem();
@@ -201,14 +202,14 @@ public class SuomeaView extends FrameView {
         exercisesMenu.setText(resourceMap.getString("exercisesMenu.text")); // NOI18N
         exercisesMenu.setName("exercisesMenu"); // NOI18N
 
-        vtestMenuItem.setText(resourceMap.getString("vtestMenuItem.text")); // NOI18N
-        vtestMenuItem.setName("vtestMenuItem"); // NOI18N
-        vtestMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        vocabularyTest.setText(resourceMap.getString("vocabularyTest.text")); // NOI18N
+        vocabularyTest.setName("vocabularyTest"); // NOI18N
+        vocabularyTest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vtestMenuItemActionPerformed(evt);
+                vocabularyTestActionPerformed(evt);
             }
         });
-        exercisesMenu.add(vtestMenuItem);
+        exercisesMenu.add(vocabularyTest);
 
         categoryTestMenuItem.setText(resourceMap.getString("categoryTestMenuItem.text")); // NOI18N
         categoryTestMenuItem.setName("categoryTestMenuItem"); // NOI18N
@@ -300,13 +301,6 @@ public class SuomeaView extends FrameView {
         setStatusBar(statusPanel);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void vtestMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vtestMenuItemActionPerformed
-        exercise = new TestExercise();
-        this.resultTextArea.setText("");
-        TestDialog tDialog = new TestDialog(this.getFrame(), false, exercise, this.resultTextArea);
-        tDialog.setVisible(true);
-    }//GEN-LAST:event_vtestMenuItemActionPerformed
-
     private void vStatisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vStatisticsMenuItemActionPerformed
         this.resultTextArea.setText("");
         StatisticsDialog stats = new StatisticsDialog(this.getFrame(), false);
@@ -332,6 +326,13 @@ public class SuomeaView extends FrameView {
         translatorDialog.setVisible(true);
     }//GEN-LAST:event_translatorMenuItemActionPerformed
 
+    private void vocabularyTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vocabularyTestActionPerformed
+        exercise = new TestExercise();
+        this.resultTextArea.setText("");
+        ExerciseDialog tDialog = new ExerciseDialog(this.getFrame(), false, exercise, this.resultTextArea);
+        tDialog.setVisible(true);
+    }//GEN-LAST:event_vocabularyTestActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem categoryTestMenuItem;
     private javax.swing.JMenu exercisesMenu;
@@ -349,7 +350,7 @@ public class SuomeaView extends FrameView {
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JMenuItem translatorMenuItem;
     private javax.swing.JMenuItem vStatisticsMenuItem;
-    private javax.swing.JMenuItem vtestMenuItem;
+    private javax.swing.JMenuItem vocabularyTest;
     // End of variables declaration//GEN-END:variables
     private final Timer messageTimer;
     private final Timer busyIconTimer;
