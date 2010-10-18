@@ -26,7 +26,10 @@ package suomea.modules.exercises;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
@@ -42,11 +45,13 @@ public class ExerciseDialog extends javax.swing.JDialog implements ActionListene
     private JTextArea results;
     private int failCount = 0;
     private int correctCount = 0;
+    private List<Object> selectionWidget;
 
     /** Creates new form ExerciseDialog */
     public ExerciseDialog(java.awt.Frame parent, boolean modal, IExercise exercise, JTextArea results) {
         super(parent, modal);
         this.exercise = exercise;
+        this.selectionWidget = new ArrayList<Object>();
         initComponents();
         createNextQuestion();
         this.results = results;
@@ -183,17 +188,28 @@ public class ExerciseDialog extends javax.swing.JDialog implements ActionListene
                     this.possibilitiesPanel.removeAll();
                     this.possibilitiesPanel.setLayout(new GridLayout(0, 1));
 
-                    // Adds a new group of possibilities
-                    ButtonGroup group = new ButtonGroup();
 
-                    // Creates the radio buttons and adds them to the group and to the panel
-                    for (String option : question.getOptions()) {
-                        JRadioButton opt = new JRadioButton(option);
+                    switch (this.question.getWidgetType()) {
+                        case RADIOBUTTON:
+                            ButtonGroup group = new ButtonGroup();
+                            // Creates the radio buttons and adds them to the group and to the panel
+                            for (String option : question.getOptions()) {
+                                JRadioButton opt = new JRadioButton(option);
+                                opt.addActionListener(this);
+                                group.add(opt);
+                                this.selectionWidget.add(opt);
+                                this.possibilitiesPanel.add(opt);
+                            }
+                            break;
+                        case CHECKBOX:
+                            // Creates the radio buttons and adds them to the group and to the panel
+                            for (String option : question.getOptions()) {
+                                JCheckBox opt = new JCheckBox(option);
+                                opt.addActionListener(this);
+                                this.possibilitiesPanel.add(opt);
+                                this.selectionWidget.add(opt);
+                            }
 
-                        opt.addActionListener(this);
-                        group.add(opt);
-
-                        this.possibilitiesPanel.add(opt);
                     }
 
                     // Increments the question ID
@@ -222,12 +238,28 @@ public class ExerciseDialog extends javax.swing.JDialog implements ActionListene
     public void actionPerformed(ActionEvent e) {
 
         try {
-            // Checks whether the answer is correct or not
-            String correctAnswer = question.getOptions().get(question.getCorrectAnswers().get(0));
-            String givenAnswer = e.getActionCommand();
+            List<Integer> answers = new ArrayList<Integer>();
 
-            if (correctAnswer.equals(givenAnswer)) {
-                question.SetIsCorrect(true);
+            for (int i = 0; i < this.selectionWidget.size(); i++) {
+                boolean selection = false;
+                switch (this.question.getWidgetType()) {
+                    case RADIOBUTTON:
+                        selection = ((JRadioButton) this.selectionWidget.get(i)).isSelected();
+                        break;
+                    case CHECKBOX:
+                        selection = ((JCheckBox) this.selectionWidget.get(i)).isSelected();
+                        break;
+                }
+                if (selection) {
+                    answers.add(new Integer(i));
+                }
+            }
+            // Checks whether the answer is correct or not
+            Boolean result = question.checkAnswer(answers);
+
+            if (result) {
+                this.answerLabel.setText("Good!");
+
                 correctCount++;
             } else {
                 this.answerLabel.setText("Wrong!");
@@ -238,7 +270,7 @@ public class ExerciseDialog extends javax.swing.JDialog implements ActionListene
             // Writes the statistics of the current exercise in the main windows using the text area givem in the class arguments
             String statistics = "Exercise results:\n Correct Answers: " + correctCount
                     + "\n Wrong Answers: " + failCount;
-            
+
             statistics = statistics.concat("\n Exercise score: " + exercise.getScore());
             this.results.setText(statistics);
 

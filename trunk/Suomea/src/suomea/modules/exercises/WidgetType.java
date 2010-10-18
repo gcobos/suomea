@@ -15,37 +15,13 @@
  * Suomea; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
-package suomea.modules.exercises;
 
-import java.util.List;
+package suomea.modules.exercises;
 
 /**
  *
- * @author drone
+ * @author bicha
  */
-public interface IQuestion {
-
-    public String getWord();
-
-    public void setWord(String word);
-
-    public List<String> getOptions();
-
-    public void addOption(String option);
-
-    public void addCorrectAnswer(int index);
-
-    public void addFail();
-
-    public int getNumberOfFails();
-
-    public void setIsCorrect(boolean answer);
-
-    public boolean isCorrect();
-
-    public boolean checkAnswer(List<Integer> answers);
-
-    public WidgetType getWidgetType();
-
-
+public enum WidgetType {
+    RADIOBUTTON, CHECKBOX;
 }
