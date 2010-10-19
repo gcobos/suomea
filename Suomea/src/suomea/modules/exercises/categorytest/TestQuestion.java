@@ -116,11 +116,12 @@ public class TestQuestion implements IQuestion {
 
             }
         }
-        if (cont > 0) {
-            return true;
-        }
+
         if (cont == correct.size()) {
             setIsCorrect(true);
+        }
+        if (cont > 0) {
+            return true;
         }
         return false;
     }
