@@ -257,8 +257,6 @@ public class ExerciseDialog extends javax.swing.JDialog implements ActionListene
 
             Boolean result = question.checkAnswer(answers);
 
-            System.out.println("Result"+result+", "+answers.toString());
-
             if (result) {
                 this.answerLabel.setText("Good!");
                 correctCount++;
