@@ -105,24 +105,28 @@ public class TestQuestion implements IQuestion {
         return false;
     }
 
-    public boolean checkAnswer(List<Integer> answers) {
+    public boolean checkAnswer (List<Integer> answers) {
         int cont = 0;
 
-        for (Integer answer : answers) {
-            for (Integer correctAnswer : correct) {
-                if (answer.equals(correctAnswer)) {
-                    cont++;
-                }
+        if (answers.size() == 0) {
+            return false;
+        }
 
+        for (Integer answer : answers) {
+            if (correct.contains(answer)) {
+                cont++;
+            } else {
+                return false;
             }
         }
-
-        if (cont == correct.size()) {
+        
+        if (cont == answers.size() && cont == correct.size()) {
             setIsCorrect(true);
-        }
-        if (cont > 0) {
+            return true;
+        } else if (answers.size() < correct.size()) {
             return true;
         }
+        // Never reached
         return false;
     }
 

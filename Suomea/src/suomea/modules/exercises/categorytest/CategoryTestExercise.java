@@ -123,7 +123,7 @@ public class CategoryTestExercise implements IExercise {
         Dictionary dict = Dictionary.getInstance();
         Hashtable<String, String> vars = new Hashtable<String, String>();
         String[] columns = {"type", "questions", "corrects", "fails", "evaluation", "dictionaryId"};
-        String[] values = {"1", new Integer(numQuestions).toString(), new Integer(numCorrects).toString(),
+        String[] values = {"2", new Integer(numQuestions).toString(), new Integer(numCorrects).toString(),
             new Integer(numFails).toString(), new Float(score).toString(),
             new Integer(dict.getId()).toString()};
         for (int i = 0; i < columns.length; i++) {

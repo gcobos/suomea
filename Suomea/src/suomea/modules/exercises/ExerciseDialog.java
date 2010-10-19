@@ -188,7 +188,7 @@ public class ExerciseDialog extends javax.swing.JDialog implements ActionListene
                     this.possibilitiesPanel.removeAll();
                     this.possibilitiesPanel.setLayout(new GridLayout(0, 1));
 
-
+                    this.selectionWidget = new ArrayList<Object>();     // Empty old logic selection
                     switch (this.question.getWidgetType()) {
                         case RADIOBUTTON:
                             ButtonGroup group = new ButtonGroup();
@@ -254,12 +254,13 @@ public class ExerciseDialog extends javax.swing.JDialog implements ActionListene
                     answers.add(new Integer(i));
                 }
             }
-            // Checks whether the answer is correct or not
+
             Boolean result = question.checkAnswer(answers);
+
+            System.out.println("Result"+result+", "+answers.toString());
 
             if (result) {
                 this.answerLabel.setText("Good!");
-
                 correctCount++;
             } else {
                 this.answerLabel.setText("Wrong!");
